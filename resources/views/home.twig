@@ -1,0 +1,12 @@
+{% extends 'layuots/app.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+    <form action="{{ path_for('contact') }}" method="post">
+        <input type="text" name="email">
+        <button type="submit">OK</button>
+    </form>
+
+{% endblock %}
