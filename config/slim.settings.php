@@ -5,8 +5,8 @@ return [
 		'db' => [
 			'host' => 'localhost',
 			'user' => 'root',
-			'pass' => '',
-			'dbname' => 'db_camagru'
+			'pass' => '1234567890',
+			'dbname' => 'db_matcha'
 		]
 	]
 ];
