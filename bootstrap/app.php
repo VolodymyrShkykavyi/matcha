@@ -36,7 +36,7 @@ $container['flash'] = function (){
 };
 
 // Register logger 'Monolog' on container
-$container['logger'] = function($c) {
+$container['logger'] = function() {
 	$logger = new \Monolog\Logger('matcha_logger');
 	$file_handler = new \Monolog\Handler\StreamHandler(__DIR__ . "/../logs/app.log");
 	$logger->pushHandler($file_handler);
