@@ -1,0 +1,20 @@
+body{
+    background-color: #edf2f6;
+}
+
+@media (min-width: 768px) {
+    header{
+        position: fixed;
+        width: 100%;
+        background-color: #0D3349;
+        height: 70px;
+    }
+
+    .header-spacer{
+        height: 100px;
+    }
+
+    .wrapper {
+        padding: 0 70px;
+    }
+}
