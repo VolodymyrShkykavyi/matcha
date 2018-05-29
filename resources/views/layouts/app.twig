@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/fontawesome-all.min.css">
+
+
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/sidebar.css">
+    <title>{% block title %}{% endblock %}</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+{% block header %}
+    {% include 'layouts/header.twig' %}
+{% endblock %}
+{% block leftSidebar %}
+    {% include 'layouts/sidebarLeft.twig' %}
+{% endblock %}
+{% block rightSidebar %}
+    {% include 'layouts/sidebarRight.twig' %}
+{% endblock %}
+<div class="header-spacer"></div>
+
+<div class="wrapper">
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+<script src="js/sidebar.js"></script>
+</body>
+</html>
