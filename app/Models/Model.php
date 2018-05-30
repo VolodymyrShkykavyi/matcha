@@ -2,7 +2,14 @@
 
 namespace App\Models;
 
+use PDO;
+
 abstract class Model
 {
-	public $cat = 1;
+	protected $db;
+
+	public function __construct(PDO $db)
+	{
+		$this->db = $db;
+	}
 }
