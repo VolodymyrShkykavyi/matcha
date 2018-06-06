@@ -1,12 +1,19 @@
 {% extends 'layouts/app.twig' %}
 
-{% block title %}Home{% endblock %}
-
 {% block content %}
 
     <form action="{{ path_for('login', {id: 1}) }}" method="post">
         <input type="text" name="email">
         <button type="submit">OK</button>
     </form>
+    args:<br>
+    <pre>
+        {% for user in users %}
+            {{ user.id }}: {{ user.login }}
+        {% endfor %}
+    </pre>
+
+    {{ dump() }}
+
 
 {% endblock %}

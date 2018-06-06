@@ -27,8 +27,11 @@ abstract class Controller
 	 * @param ResponseInterface $response
 	 * @param string $name - path to view from Twig view's directory
 	 */
-	protected function render(ResponseInterface $response, $name)
+	protected function render(ResponseInterface $response, $name, $title='')
 	{
+		if (!isset($this->ViewData['title'])){
+			$this->ViewData['title'] = $title;
+		}
 		$this->c->view->render($response, $name, $this->ViewData);
 	}
 

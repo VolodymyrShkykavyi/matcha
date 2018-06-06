@@ -2,13 +2,124 @@ body{
     background-color: #edf2f6;
 }
 
+.btn:focus, .btn:active{
+    outline: none;
+    box-shadow: none;
+}
+
+
 @media (min-width: 768px) {
     header{
         position: fixed;
         width: 100%;
-        background-color: #0D3349;
+        background-color: #3f4257;
         height: 70px;
+        padding: 0 70px;
+        top: 0;
+        right: 0;
+        z-index: 20;
     }
+
+    header .page-title{
+        height: 100%;
+        text-transform: uppercase;
+        float: left;
+        min-width: 150px;
+        padding: 25px 50px 25px 30px;
+        color: white;
+    }
+
+    .search-bar{
+        height: 70px;
+        float: left;
+        min-width: 270px;
+        max-width: 400px;
+    }
+    .search-bar .form-control{
+        height: 70px;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        color: #9a9fbf;
+        background-color: #494c62;
+    }
+
+    .search-bar button{
+        background-color: #494c62;
+        border: 0;
+        padding-right: 15px;
+        cursor: pointer;
+        box-shadow: none;
+    }
+
+    .link-find-pair{
+        color: white;
+        padding: 23px 20px;
+        font-size: 15px;
+        font-weight: 500;
+        display: inline-block;
+    }
+
+    .control-block{
+        float: right;
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .control-icon{
+        color: #f6f6f6;
+        height: 35px;
+        width: 35px;
+    }
+
+    .control-profile{
+        display: inline-flex;
+        margin-left: 20px;
+    }
+
+    .control-profile img{
+        margin: 0 5px;
+        border-radius: 100%;
+    }
+
+    .more{
+        position: relative;
+    }
+
+    .link-find-pair:hover{
+        color: orangered;
+    }
+
+    .more-dropdown{
+        visibility: hidden;
+    }
+
+    .profile-info div{
+        margin-left: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 150px;
+    }
+
+    .profile-info i{
+        margin-top: 8px;
+        margin-left: 10px;
+        margin-right: -10px;
+        color: white;
+    }
+
+    .profile-info .profile-title{
+        color: white;
+        font-size: 12px;
+    }
+
+    .profile-info .profile-subtitle{
+        color: #9a9fbf;
+        font-size: 8px;
+    }
+
 
     .header-spacer{
         height: 100px;
