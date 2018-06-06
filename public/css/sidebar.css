@@ -19,11 +19,25 @@ ul{
     min-height: 100%;
 }
 
+.fixed-sidebar.right{
+    top: 70px;
+    z-index: 30;
+    right: 0;
+    min-height: 100%;
+}
+
 .fixed-sidebar-left{
     position: absolute;
     height: 100%;
     background-color: #fff;
     transition: transform 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+    box-shadow: 0 0 34px 0 rgba(63, 66, 87, 0.1);
+}
+
+.fixed-sidebar-right{
+    position: absolute;
+    height: 100%;
+    background-color: #fff;
     box-shadow: 0 0 34px 0 rgba(63, 66, 87, 0.1);
 }
 
@@ -54,7 +68,7 @@ ul{
 }
 
 .left-menu a{
-    color: black;
+    color: grey;
     display: flex;
     align-items: center;
     -webkit-box-align: center;
@@ -64,9 +78,6 @@ ul{
     color: orangered;
 }
 
-.left-menu a span{
-    color: grey;
-}
 
 .sidebar--large a:hover span{
     font-weight: bolder;
@@ -76,13 +87,13 @@ ul{
 .sidebar--small .left-menu li:first-child{
     height: 70px;
     width: 70px;
-    background-color: orangered;
+    background-color: #ff5e3a;
 }
 
 .sidebar--large .left-menu li:first-child{
     height: 70px;
     width: 270px;
-    background-color: orangered;
+    background-color: #ff5e3a;
 }
 
 .fixed-sidebar.open .fixed-sidebar-left {
@@ -99,4 +110,12 @@ ul{
     transition-delay: .3s;
 }
 
+.chat-users li {
+    padding: 13px 20px;
+    cursor: pointer;
+}
 
+.chat-users img{
+    border-radius: 100%;
+    max-width: unset;
+}
