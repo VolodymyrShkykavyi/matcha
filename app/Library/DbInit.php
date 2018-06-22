@@ -47,6 +47,7 @@ class DbInit
 			`gender` ENUM(\'man\', \'woman\') NOT NULL,
 			`birthDate` DATE NOT NULL,
 			`registerDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			`lastAction` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			PRIMARY KEY (id)
 		);';
 		//TODO: fields: isOnline, verified, sexuality, fame(rating), blocked(isActive), location
