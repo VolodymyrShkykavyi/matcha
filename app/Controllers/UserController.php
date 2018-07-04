@@ -16,6 +16,10 @@ class UserController extends Controller
 	{
 		//$this->c->logger->addInfo('Something interesting happened');
 		//$this->ViewData['args'] = $args;
+		echo "<div class=\"container\">";
+		var_dump($_SESSION);
+		echo "</div>";
+
 		$this->render($response, 'home.twig');
 	}
 
@@ -40,7 +44,7 @@ class UserController extends Controller
 				];
 			}
 		}
-		
+
 		return $response->withRedirect('/');
 	}
 }

@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <form action="{{ path_for('login', {id: 1}) }}" method="post">
+    <form action="{{ path_for('user.login', {id: 1}) }}" method="post">
         <input type="text" name="email">
         <button type="submit">OK</button>
     </form>
