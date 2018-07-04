@@ -18,7 +18,7 @@ class RedirectIfUnauthorized
 	public function __invoke(Request $request, Response $response, callable $next)
 	{
 		if (!isset($_SESSION['auth']) || !isset($_SESSION['auth']['id'])){
-			return $response->withRedirect($this->router->pathFor('login'));
+			return $response->withRedirect($this->router->pathFor('user.login'));
 		}
 		return $next($request, $response);
 	}
