@@ -55,4 +55,9 @@ class UserController extends Controller
 
         return $response->withRedirect('/');
     }
+
+    public function accountSettings($request, $response, $args)
+    {
+        $this->render($response, 'settings.twig', 'Account settings');
+    }
 }
