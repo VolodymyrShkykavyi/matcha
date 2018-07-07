@@ -29,7 +29,7 @@ class UserController extends Controller
     public function home($request, $response, $args)
 	{
 		$this->ViewData['args'] = $args;
-		$this->ViewData['users'] = $this->model->getUsers();
+		$this->ViewData['users'] = print_r($this->model->getUsers(), true);
 		$this->render($response, 'home.twig', 'Home Page');
 	}
 
