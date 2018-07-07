@@ -3,6 +3,7 @@
 use App\Controllers\UserController;
 use App\Middleware\RedirectIfAuthorized;
 use App\Middleware\RedirectIfUnauthorized;
+use App\Middleware\UpdateLastUserAction;
 use App\Library\DbInit;
 
 $app->get('/install', DbInit::class);
@@ -27,4 +28,5 @@ $app->group('', function (){
 	$this->get('/secret', UserController::class.':secret')->setName('user.home');
     $this->get('/logout', UserController::class.':logout');
     $this->get('/settings', UserController::class.':accountSettings')->setName('user.settings');
-})->add(new RedirectIfUnauthorized($container['router']));
+})  ->add(new RedirectIfUnauthorized($container['router']))
+    ->add(new UpdateLastUserAction($container['db']));
