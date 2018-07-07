@@ -1,36 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-
-    <title>Landing Page</title>
-
-    <!-- Required meta tags always come first -->
+    <title>Matcha</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
-    <!-- Main Font -->
-    <script src="js/webfontloader.min.js"></script>
-
-    <script>
-        WebFont.load({
-            google: {
-                families: ['Roboto:300,400,500,700:latin']
-            }
-        });
-    </script>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" type="text/css" href="Bootstrap/dist/css/bootstrap-reboot.css">
-    <link rel="stylesheet" type="text/css" href="Bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="Bootstrap/dist/css/bootstrap-grid.css">
-
-    <!-- Main Styles CSS -->
-    <link rel="stylesheet" type="text/css" href="css/main.min.css">
-    <link rel="stylesheet" type="text/css" href="css/fonts.min.css">
-
-
-
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body class="landing-page">
@@ -40,159 +19,134 @@
 </div>
 
 
-<!-- Header Standard Landing  -->
-
-<div class="header--standard header--standard-landing" id="header--standard">
-    <div class="container">
-        <div class="header--standard-wrap">
-
-            <a href="#" class="logo">
-                <div class="img-wrap">
-                    <img src="img/logo.png" alt="Olympus">
-                    <img src="img/logo-colored-small.png" alt="Olympus" class="logo-colored">
-                </div>
-                <div class="title-block">
-                    <h6 class="logo-title">olympus</h6>
-                    <div class="sub-title">SOCIAL NETWORK</div>
-                </div>
-            </a>
-
-            <a href="#" class="open-responsive-menu js-open-responsive-menu">
-                <svg class="olymp-menu-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-menu-icon"></use></svg>
-            </a>
-
-        </div>
-    </div>
-</div>
-
-<!-- ... end Header Standard Landing  -->
-<div class="header-spacer--standard"></div>
-
-<div class="container">
+<div class="container pt-4">
     <div class="row display-flex">
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
-            <div class="landing-content">
+        <div class="col-12 col-lg-6">
+            <div class="landing-content text-light">
                 <h1>Welcome to the Biggest Social Network in the World</h1>
                 <p>We are the best and biggest social network with 5 billion active users all around the world. Share you
                     thoughts, write blog posts, show your favourite music via Stopify, earn badges and much more!
                 </p>
-                <a href="#" class="btn btn-md btn-border c-white">Register Now!</a>
+                <a href="#register" class="btn btn-md btn-outline-light">Register Now! (del?)</a>
             </div>
         </div>
 
         <div class="col-xl-5 col-lg-6 col-md-12 col-sm-12 col-xs-12">
             
             <!-- Login-Registration Form  -->
-            {##}
-            {#<div class="registration-login-form">#}
-                {#<!-- Nav tabs -->#}
-                {#<ul class="nav nav-tabs" role="tablist">#}
-                    {#<li class="nav-item">#}
-                        {#<a class="nav-link active" data-toggle="tab" href="#home" role="tab">#}
-                            {#<svg class="olymp-login-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-login-icon"></use></svg>#}
-                        {#</a>#}
-                    {#</li>#}
-                    {#<li class="nav-item">#}
-                        {#<a class="nav-link" data-toggle="tab" href="#profile" role="tab">#}
-                            {#<svg class="olymp-register-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-register-icon"></use></svg>#}
-                        {#</a>#}
-                    {#</li>#}
-                {#</ul>#}
-            {##}
-                {#<!-- Tab panes -->#}
-                {#<div class="tab-content">#}
-                    {#<div class="tab-pane active" id="home" role="tabpanel" data-mh="log-tab">#}
-                        {#<div class="title h6">Register to Olympus</div>#}
-                        {#<form class="content">#}
-                            {#<div class="row">#}
-                                {#<div class="col-lg-6 col-md-6">#}
-                                    {#<div class="form-group label-floating is-empty">#}
-                                        {#<label class="control-label">First Name</label>#}
-                                        {#<input class="form-control" placeholder="" type="text">#}
-                                    {#</div>#}
-                                {#</div>#}
-                                {#<div class="col-lg-6 col-md-6">#}
-                                    {#<div class="form-group label-floating is-empty">#}
-                                        {#<label class="control-label">Last Name</label>#}
-                                        {#<input class="form-control" placeholder="" type="text">#}
-                                    {#</div>#}
-                                {#</div>#}
-                                {#<div class="col-xl-12 col-lg-12 col-md-12">#}
-                                    {#<div class="form-group label-floating is-empty">#}
-                                        {#<label class="control-label">Your Email</label>#}
-                                        {#<input class="form-control" placeholder="" type="email">#}
-                                    {#</div>#}
-                                    {#<div class="form-group label-floating is-empty">#}
-                                        {#<label class="control-label">Your Password</label>#}
-                                        {#<input class="form-control" placeholder="" type="password">#}
-                                    {#</div>#}
-            {##}
-                                    {#<div class="form-group date-time-picker label-floating">#}
-                                        {#<label class="control-label">Your Birthday</label>#}
-                                        {#<input name="datetimepicker" value="10/24/1984" />#}
-                                        {#<span class="input-group-addon">#}
-                                                        {#<svg class="olymp-calendar-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-calendar-icon"></use></svg>#}
-                                                    {#</span>#}
-                                    {#</div>#}
-            {##}
-                                    {#<div class="form-group label-floating is-select">#}
-                                        {#<label class="control-label">Your Gender</label>#}
-                                        {#<select class="selectpicker form-control">#}
-                                            {#<option value="MA">Male</option>#}
-                                            {#<option value="FE">Female</option>#}
-                                        {#</select>#}
-                                    {#</div>#}
-            {##}
-                                    {#<div class="remember">#}
-                                        {#<div class="checkbox">#}
-                                            {#<label>#}
-                                                {#<input name="optionsCheckboxes" type="checkbox">#}
-                                                {#I accept the <a href="#">Terms and Conditions</a> of the website#}
-                                            {#</label>#}
-                                        {#</div>#}
-                                    {#</div>#}
-            {##}
-                                    {#<a href="#" class="btn btn-purple btn-lg full-width">Complete Registration!</a>#}
-                                {#</div>#}
-                            {#</div>#}
-                        {#</form>#}
-                    {#</div>#}
-            
-                    <div class="tab-pane" id="profile" role="tabpanel" data-mh="log-tab">
+
+            <div class="registration-login-form">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#profile" role="tab">
+                            <i class="fa fa-power-off"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#register" role="tab">
+                            <i class="fa fa-user-plus"></i>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+
+                    <div class="tab-pane active" id="profile" role="tabpanel" data-mh="log-tab">
                         <div class="title h6">Login to your Account</div>
                         <form class="content" action="/login" method="POST">
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-md-12">
-                                    <div class="form-group label-floating is-empty">
-                                        <label class="control-label">Your Login</label>
-                                        <input name="login" class="form-control" placeholder="" type="text">
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                        </div>
+                                        <input name="login" class="form-control shadow-none" placeholder="Your Login" type="text">
                                     </div>
-                                    <div class="form-group label-floating is-empty">
-                                        <label class="control-label">Your Password</label>
-                                        <input name="password" class="form-control" placeholder="" type="password">
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                        </div>
+                                        <input name="password" class="form-control shadow-none" placeholder="Your Password" type="password">
                                     </div>
-            
-                                    <div class="remember">
-            
+
+                                    <div class="remember align-middle">
+
                                         <div class="checkbox">
                                             <label>
-                                                <input name="optionsCheckboxes" type="checkbox">
+                                                <input name="remember" type="checkbox">
                                                 Remember Me
                                             </label>
                                         </div>
                                         <a href="#" class="forgot">Forgot my Password</a>
                                     </div>
-            
+
                                     <button type="submit" class="btn btn-lg btn-primary full-width">Login</button>
-            
+
                                     <div class="or"></div>
-            
+
                                     <a href="#" class="btn btn-lg bg-facebook full-width btn-icon-left"><i class="fa fa-facebook" aria-hidden="true"></i>Login with Facebook</a>
-            
+
                                     <a href="#" class="btn btn-lg bg-twitter full-width btn-icon-left"><i class="fa fa-twitter" aria-hidden="true"></i>Login with Twitter</a>
-            
-            
-                                    <p>Don’t you have an account? <a href="#">Register Now!</a> it’s really simple and you can start enjoing all the benefits!</p>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane" id="register" role="tabpanel" data-mh="log-tab">
+                        <div class="title h6">Register to Olympus</div>
+                        <form class="content">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label">First Name</label>
+                                        <input class="form-control" placeholder="" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label">Last Name</label>
+                                        <input class="form-control" placeholder="" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12">
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label">Your Email</label>
+                                        <input class="form-control" placeholder="" type="email">
+                                    </div>
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label">Your Password</label>
+                                        <input class="form-control" placeholder="" type="password">
+                                    </div>
+
+                                    <div class="form-group date-time-picker label-floating">
+                                        <label class="control-label">Your Birthday</label>
+                                        <input name="datetimepicker" value="10/24/1984" />
+                                        <span class="input-group-addon">
+                                                        <svg class="olymp-calendar-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-calendar-icon"></use></svg>
+                                                    </span>
+                                    </div>
+
+                                    <div class="form-group label-floating is-select">
+                                        <label class="control-label">Your Gender</label>
+                                        <select class="selectpicker form-control">
+                                            <option value="MA">Male</option>
+                                            <option value="FE">Female</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="remember">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input name="optionsCheckboxes" type="checkbox">
+                                                I accept the <a href="#">Terms and Conditions</a> of the website
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <a href="#" class="btn btn-purple btn-lg full-width">Complete Registration!</a>
                                 </div>
                             </div>
                         </form>
@@ -204,45 +158,8 @@
     </div>
 </div>
 
+<script src="js/bootstrap.js"></script>
+<script src="js/bootstrap.bundle.js"></script>
 
-<!-- JS Scripts
-<script src="js/jquery-3.2.1.js"></script>
-<script src="js/jquery.appear.js"></script>
-<script src="js/jquery.mousewheel.js"></script>
-<script src="js/perfect-scrollbar.js"></script>
-<script src="js/jquery.matchHeight.js"></script>
-<script src="js/svgxuse.js"></script>
-<script src="js/imagesloaded.pkgd.js"></script>
-<script src="js/Headroom.js"></script>
-<script src="js/velocity.js"></script>
-<script src="js/ScrollMagic.js"></script>
-<script src="js/jquery.waypoints.js"></script>
-<script src="js/jquery.countTo.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/material.min.js"></script>
-<script src="js/bootstrap-select.js"></script>
-<script src="js/smooth-scroll.js"></script>
-<script src="js/selectize.js"></script>
-<script src="js/swiper.jquery.js"></script>
-<script src="js/moment.js"></script>
-<script src="js/daterangepicker.js"></script>
-<script src="js/simplecalendar.js"></script>
-<script src="js/fullcalendar.js"></script>
-<script src="js/isotope.pkgd.js"></script>
-<script src="js/ajax-pagination.js"></script>
-<script src="js/Chart.js"></script>
-<script src="js/chartjs-plugin-deferred.js"></script>
-<script src="js/circle-progress.js"></script>
-<script src="js/loader.js"></script>
-<script src="js/run-chart.js"></script>
-<script src="js/jquery.magnific-popup.js"></script>
-<script src="js/jquery.gifplayer.js"></script>
-<script src="js/mediaelement-and-player.js"></script>
-<script src="js/mediaelement-playlist-plugin.min.js"></script>
-
-<script src="js/base-init.js"></script>
-
-<script src="Bootstrap/dist/js/bootstrap.bundle.js"></script>
--->
 </body>
 </html>

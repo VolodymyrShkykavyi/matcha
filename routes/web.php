@@ -25,7 +25,7 @@ $app->group('', function(){
 
 //pages only for authorized users
 $app->group('', function (){
-	$this->get('/secret', UserController::class.':secret')->setName('user.home');
+	$this->get('/secret', UserController::class.':home')->setName('user.home');
     $this->get('/logout', UserController::class.':logout');
     $this->get('/settings', UserController::class.':accountSettings')->setName('user.settings');
 })  ->add(new RedirectIfUnauthorized($container['router']))

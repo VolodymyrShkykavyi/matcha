@@ -2,18 +2,32 @@
 
 {% block content %}
 
+    <div class="row">
+        <div class="col-12">
+            <div class="top-header mb-2">
+                <div class="top-header-thumb">
+                    <img src="img/top-header1.jpg" alt="nature">
+                </div>
+                <div class="profile-section bg-white p-3">
+                    <div class="row">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <form action="{{ path_for('user.login', {id: 1}) }}" method="post">
         <input type="text" name="email">
         <button type="submit">OK</button>
     </form>
     args:<br>
     <pre>
-        {% for user in users %}
-            {{ user.id }}: {{ user.login }}
-        {% endfor %}
+        {{ users }}
     </pre>
 
-    {{ dump() }}
-
+    <h3>dump:</h3><br>
+    <pre>
+{{ dump() }}
+    </pre>
 
 {% endblock %}

@@ -473,9 +473,12 @@
             </div>
             <a href="02-ProfilePage.html" class="author-name fn">
                 <div class="author-title">
-                    James Spiegel bot <svg class="olymp-dropdown-arrow-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
+                    {{ user.login }}
+                    <i class="fa fa-sm fa-angle-down text-light ml-2"></i>
                 </div>
-                <span class="author-subtitle">SPACE COWBOY dfsd</span>
+                <span class="author-subtitle">
+                    {{ user.status }}
+                </span>
             </a>
         </div>
 
