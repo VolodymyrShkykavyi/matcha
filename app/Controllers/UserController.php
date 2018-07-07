@@ -3,9 +3,30 @@
 namespace App\Controllers;
 
 
+use Interop\Container\ContainerInterface;
+
 class UserController extends Controller
 {
-	public function home($request, $response, $args)
+    private $_user = null;
+
+    public function __construct(ContainerInterface $container)
+    {
+        parent::__construct($container);
+
+        if (!empty($_SESSION['auth'])) {
+            $user = $this->model->getUser($_SESSION['auth']['id']);
+            if (!empty($user)) {
+                $this->_user = $user;
+
+                //send to view
+                $this->ViewData['user']['login'] = $this->_user['login'];
+                $this->ViewData['user']['status'] = $this->_user['status'];
+                $this->ViewData['user']['lastAction'] = $this->_user['lastAction'];
+            }
+        }
+    }
+
+    public function home($request, $response, $args)
 	{
 		$this->ViewData['args'] = $args;
 		$this->ViewData['users'] = $this->model->getUsers();
@@ -16,11 +37,11 @@ class UserController extends Controller
 	{
 		//$this->c->logger->addInfo('Something interesting happened');
 		//$this->ViewData['args'] = $args;
-		echo "<div class=\"container\">";
-		var_dump($_SESSION);
-		echo "</div>";
+		echo "<div class=\"container\"><pre>";
+		var_dump($this->_user);
+		echo "</pre></div>";
 
-		$this->render($response, 'home.twig');
+		$this->render($response, 'home.twig', 'secret');
 	}
 
 	public function login($request, $response, $args)
@@ -60,4 +81,5 @@ class UserController extends Controller
     {
         $this->render($response, 'settings.twig', 'Account settings');
     }
+
 }
