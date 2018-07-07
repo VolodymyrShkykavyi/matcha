@@ -47,4 +47,12 @@ class UserController extends Controller
 
 		return $response->withRedirect('/');
 	}
+
+	public function logout($request, $response, $args)
+    {
+        unset($_SERVER['auth']);
+        session_destroy();
+
+        return $response->withRedirect('/');
+    }
 }
