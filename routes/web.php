@@ -18,7 +18,7 @@ $app->map(['GET', 'POST'],'/{id:[0-9]+}', UserController::class.':home')
 //pages only for unauthorized users
 $app->group('', function(){
 	$this->get('/login', UserController::class.':login')->setName('user.login');
-	$this->post('/login', UserController::class.':authorized');
+	$this->post('/login', UserController::class.':authorize');
 })->add(new RedirectIfAuthorized($container['router']));
 
 
