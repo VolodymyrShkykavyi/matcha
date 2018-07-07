@@ -26,4 +26,5 @@ $app->group('', function(){
 $app->group('', function (){
 	$this->get('/secret', UserController::class.':secret')->setName('user.home');
     $this->get('/logout', UserController::class.':logout');
+    $this->get('/settings', UserController::class.':accountSettings')->setName('user.settings');
 })->add(new RedirectIfUnauthorized($container['router']));
