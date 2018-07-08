@@ -5,11 +5,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="css/login.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/main.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+    {#<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>#}
 </head>
 
 <body class="landing-page">
@@ -21,18 +22,18 @@
 
 <div class="container pt-4">
     <div class="row display-flex">
-        <div class="col-12 col-lg-6">
-            <div class="landing-content text-light">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+            <div class="landing-content">
                 <h1>Welcome to the Biggest Social Network in the World</h1>
                 <p>We are the best and biggest social network with 5 billion active users all around the world. Share you
                     thoughts, write blog posts, show your favourite music via Stopify, earn badges and much more!
                 </p>
-                <a href="#register" class="btn btn-md btn-outline-light">Register Now! (del?)</a>
+                <a href="#" class="btn btn-md btn-border c-white">Register Now!</a>
             </div>
         </div>
 
         <div class="col-xl-5 col-lg-6 col-md-12 col-sm-12 col-xs-12">
-            
+
             <!-- Login-Registration Form  -->
 
             <div class="registration-login-form">
@@ -40,100 +41,63 @@
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#profile" role="tab">
-                            <i class="fa fa-power-off"></i>
+                            <svg class="olymp-login-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-login-icon"></use></svg>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#register" role="tab">
-                            <i class="fa fa-user-plus"></i>
+                        <a class="nav-link" data-toggle="tab" href="#home" role="tab">
+                            <svg class="olymp-register-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-register-icon"></use></svg>
                         </a>
                     </li>
                 </ul>
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-
-                    <div class="tab-pane active" id="profile" role="tabpanel" data-mh="log-tab">
-                        <div class="title h6">Login to your Account</div>
-                        <form class="content" action="/login" method="POST">
+                    <div class="tab-pane " id="home" role="tabpanel" data-mh="log-tab">
+                        <div class="title h6">Registration</div>
+                        <form class="content" action="\register" method="post">
                             <div class="row">
-                                <div class="col-xl-12 col-lg-12 col-md-12">
-                                    <div class="form-group input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fa fa-user"></i></span>
-                                        </div>
-                                        <input name="login" class="form-control shadow-none" placeholder="Your Login" type="text">
+                                <div class="col-12">
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label">Login</label>
+                                        <input name="login" class="form-control" placeholder="" type="text">
                                     </div>
-                                    <div class="form-group input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fa fa-key"></i></span>
-                                        </div>
-                                        <input name="password" class="form-control shadow-none" placeholder="Your Password" type="password">
-                                    </div>
-
-                                    <div class="remember align-middle">
-
-                                        <div class="checkbox">
-                                            <label>
-                                                <input name="remember" type="checkbox">
-                                                Remember Me
-                                            </label>
-                                        </div>
-                                        <a href="#" class="forgot">Forgot my Password</a>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-lg btn-primary full-width">Login</button>
-
-                                    <div class="or"></div>
-
-                                    <a href="#" class="btn btn-lg bg-facebook full-width btn-icon-left"><i class="fa fa-facebook" aria-hidden="true"></i>Login with Facebook</a>
-
-                                    <a href="#" class="btn btn-lg bg-twitter full-width btn-icon-left"><i class="fa fa-twitter" aria-hidden="true"></i>Login with Twitter</a>
-
                                 </div>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="tab-pane" id="register" role="tabpanel" data-mh="log-tab">
-                        <div class="title h6">Register to Olympus</div>
-                        <form class="content">
-                            <div class="row">
                                 <div class="col-lg-6 col-md-6">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label">First Name</label>
-                                        <input class="form-control" placeholder="" type="text">
+                                        <input name="fname" class="form-control" placeholder="" type="text">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label">Last Name</label>
-                                        <input class="form-control" placeholder="" type="text">
+                                        <input name="lname" class="form-control" placeholder="" type="text">
                                     </div>
                                 </div>
                                 <div class="col-xl-12 col-lg-12 col-md-12">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label">Your Email</label>
-                                        <input class="form-control" placeholder="" type="email">
+                                        <input name="email" class="form-control" placeholder="" type="email">
                                     </div>
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label">Your Password</label>
-                                        <input class="form-control" placeholder="" type="password">
+                                        <input name="password" class="form-control" placeholder="" type="password">
                                     </div>
 
                                     <div class="form-group date-time-picker label-floating">
-                                        <label class="control-label">Your Birthday</label>
-                                        <input name="datetimepicker" value="10/24/1984" />
+                                        <label class="control-label" for="birthday">Your Birthday</label>
+                                        <input name="datetimepicker" value="" id="birthday" type="text" required />
                                         <span class="input-group-addon">
-                                                        <svg class="olymp-calendar-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-calendar-icon"></use></svg>
-                                                    </span>
+														<svg class="olymp-calendar-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-calendar-icon"></use></svg>
+										</span>
                                     </div>
 
                                     <div class="form-group label-floating is-select">
                                         <label class="control-label">Your Gender</label>
-                                        <select class="selectpicker form-control">
-                                            <option value="MA">Male</option>
-                                            <option value="FE">Female</option>
+                                        <select name="gender" class="selectpicker form-control">
+                                            <option value="man">Male</option>
+                                            <option value="woman">Female</option>
                                         </select>
                                     </div>
 
@@ -146,20 +110,94 @@
                                         </div>
                                     </div>
 
-                                    <a href="#" class="btn btn-purple btn-lg full-width">Complete Registration!</a>
+                                    <button type="submit" class="btn btn-purple btn-lg full-width">Complete Registration!</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane active" id="profile" role="tabpanel" data-mh="log-tab">
+                        <div class="title h6">Login to your Account</div>
+                        <form class="content" action="/login" method="post">
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12 col-md-12">
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label">Your Login</label>
+                                        <input name="login" class="form-control" placeholder="" type="text">
+                                    </div>
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label">Your Password</label>
+                                        <input name="password" class="form-control" placeholder="" type="password">
+                                    </div>
+
+                                    <div class="remember">
+
+                                        <div class="checkbox">
+                                            <label>
+                                                <input name="optionsCheckboxes" type="checkbox">
+                                                Remember Me
+                                            </label>
+                                        </div>
+                                        <a href="#" class="forgot">Forgot my Password</a>
+                                    </div>
+
+                                    <button  type="submit" class="btn btn-lg btn-primary full-width">Login</button>
+
+                                    <div class="or"></div>
+
+                                    <a href="#" class="btn btn-lg bg-facebook full-width btn-icon-left"><i class="fa fa-facebook" aria-hidden="true"></i>Login with Facebook</a>
+
+                                    <a href="#" class="btn btn-lg bg-twitter full-width btn-icon-left"><i class="fa fa-twitter" aria-hidden="true"></i>Login with Twitter</a>
+
+
+                                    <p>Don’t you have an account? <a href="#">Register Now!</a> it’s really simple and you can start enjoing all the benefits!</p>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-            
-            <!-- ... end Login-Registration Form  -->       </div>
+
+            <!-- ... end Login-Registration Form  -->		</div>
     </div>
 </div>
 
-<script src="js/bootstrap.js"></script>
+<script src="js/jquery-3.2.1.js"></script>
+<script src="js/perfect-scrollbar.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/material.min.js"></script>
+<script src="js/bootstrap-select.js"></script>
+<script src="js/selectize.js"></script>
+<script src="js/moment.js"></script>
+<script src="js/daterangepicker.js"></script>
+<script src="js/simplecalendar.js"></script>
+<script src="js/fullcalendar.js"></script>
+<script src="js/base-init.js"></script>
 <script src="js/bootstrap.bundle.js"></script>
+
+
+
+
+{#<!-- jQuery first, then Other JS. -->#}
+{#<script src="/js/jquery-3.2.1.js"></script>#}
+{#<script src="js/popper.min.js"></script>#}
+
+{#<!-- Js effects for material design. + Tooltips -->#}
+{#<script src="/js/material.min.js"></script>#}
+{#<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->#}
+{#<script src="js/perfect-scrollbar.js"></script>#}
+{#<script src="/js/theme-plugins.js"></script>#}
+{#<!-- Init functions -->#}
+{#<script src="/js/main.js"></script>#}
+{#<!-- Select / Sorting script -->#}
+{#<script src="/js/selectize.js"></script>#}
+{#<!-- Swiper / Sliders -->#}
+{#<script src="/js/swiper.jquery.js"></script>#}
+{#<!-- Datepicker input field script-->#}
+{#<script src="/js/moment.js"></script>#}
+{#<script src="/js/daterangepicker.js"></script>#}
+
+{#<script src="js/bootstrap.bundle.js"></script>#}
 
 </body>
 </html>

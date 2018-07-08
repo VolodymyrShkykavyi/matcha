@@ -20,6 +20,7 @@ $app->map(['GET', 'POST'],'/{id:[0-9]+}', UserController::class.':home')
 $app->group('', function(){
 	$this->get('/login', UserController::class.':login')->setName('user.login');
 	$this->post('/login', UserController::class.':authorize');
+	$this->post('/register', UserController::class.':register')->setName('user.register');
 })->add(new RedirectIfAuthorized($container['router']));
 
 
