@@ -28,6 +28,22 @@ class UserController extends Controller
 
     public function home($request, $response, $args)
 	{
+
+        echo "<div class=\"container\"><pre>";
+        $data = [
+            'login' => 'admin3',
+            'email' => 'mail3',
+            'password' => '1234567890',
+            'fname' => 'fn',
+            'lname' => 'ln',
+            'gender' => 'man',
+            'birthDate' => '2018-07-10'
+        ];
+        var_dump($_SESSION);
+        //var_dump($this->model->getUserByLogin('admin'));
+        echo "</pre></div>";
+
+
 		$this->ViewData['args'] = $args;
 		$this->ViewData['users'] = print_r($this->model->getUsers(), true);
 		$this->render($response, 'home.twig', 'Home Page');
@@ -38,7 +54,9 @@ class UserController extends Controller
 		//$this->c->logger->addInfo('Something interesting happened');
 		//$this->ViewData['args'] = $args;
 		echo "<div class=\"container\"><pre>";
-		var_dump($this->_user);
+		var_dump($this->model->getUserByLogin('admin'));
+        var_dump($this->model->getUserByEmail('admin'));
+        //var_dump($this->model->getUserByLogin('admin'));
 		echo "</pre></div>";
 
 		$this->render($response, 'home.twig', 'secret');
@@ -48,6 +66,29 @@ class UserController extends Controller
 	{
 		$this->render($response, 'login.twig', 'Login Page');
 	}
+
+	public function register($request, $response, $args)
+    {
+        $data = $request->getParsedBody();
+        $birthday = \DateTime::createFromFormat('d/m/Y', $data['datetimepicker']);
+
+        //get date in good format for Mysql
+        if ($birthday)
+            $data['birthday'] = $birthday->format('Y-m-d');
+
+        $id = $this->model->addUser($data);
+        if ($id){
+            $this->_user = $this->model->getUser($id);
+            $_SESSION['auth'] = [
+                'login' => $this->_user['login'],
+                'id' => $this->_user['id'],
+                'email' => $this->_user['email']
+            ];
+        }
+        //TODO: send mail and redirect(in data user id)
+
+        $this->render($response, 'home.twig', 'after register');
+    }
 
 	public function authorize($request, $response, $args)
 	{
