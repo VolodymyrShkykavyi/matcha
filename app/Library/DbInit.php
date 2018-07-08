@@ -38,18 +38,19 @@ class DbInit
 	protected function createTables()
 	{
 		$sql = 'CREATE TABLE IF NOT EXISTS `users` (
-			`id` INT NOT NULL AUTO_INCREMENT,
-			`login` VARCHAR(30) NOT NULL,
-			`password` TEXT NOT NULL,
-			`email` VARCHAR(255) NOT NULL,
-			`firstName` VARCHAR(50) NOT NULL,
-			`lastName` VARCHAR(50) NOT NULL,
-			`gender` ENUM(\'man\', \'woman\') NOT NULL,
-			`birthDate` DATE NOT NULL,
-			`registerDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			`lastAction` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			PRIMARY KEY (id)
-		);';
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`login` varchar(30) NOT NULL,
+				`password` text NOT NULL,
+				`email` varchar(255) NOT NULL,
+				`firstName` varchar(50) NOT NULL,
+				`lastName` varchar(50) NOT NULL,
+				`gender` enum('man','woman') NOT NULL,
+				`birthDate` date NOT NULL,
+				`registerDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				`lastAction` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				`active` tinyint(1) NOT NULL DEFAULT '0',
+				PRIMARY KEY (`id`)
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8;';
 		//TODO: fields: isOnline, verified, sexuality, fame(rating), blocked(isActive), location
 		$this->pdo->query($sql);
 	}
