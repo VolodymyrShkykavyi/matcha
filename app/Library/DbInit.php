@@ -42,6 +42,7 @@ class DbInit
 				`login` varchar(30) NOT NULL,
 				`password` text NOT NULL,
 				`email` varchar(255) NOT NULL,
+				`status` VARCHAR(50) NULL DEFAULT NULL,
 				`firstName` varchar(50) NOT NULL,
 				`lastName` varchar(50) NOT NULL,
 				`gender` enum('man','woman') NOT NULL,
