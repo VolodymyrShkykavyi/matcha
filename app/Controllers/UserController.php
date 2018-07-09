@@ -82,7 +82,8 @@ class UserController extends Controller
             $_SESSION['auth'] = [
                 'login' => $this->_user['login'],
                 'id' => $this->_user['id'],
-                'email' => $this->_user['email']
+                'email' => $this->_user['email'],
+                'verify' => $this->_user['active']
             ];
         }
         //TODO: send mail and redirect(in data user id)
@@ -102,6 +103,7 @@ class UserController extends Controller
 					'id' => $data['id'],
 					'login' => $data['login'],
 					'email' => $data['email'],
+                    'verify' => $data['active']
 					//TODO: token, check session array
 				];
 			}
@@ -109,6 +111,22 @@ class UserController extends Controller
 
 		return $response->withRedirect('/');
 	}
+
+    public function verify($request, $response, $args)
+    {
+        if (!empty($args) && !empty($args['token'])){
+            $this->ViewData['args'] = $args;
+            if ($this->model->updateUserActive($this->_user['id'], true)){
+                $_SESSION['auth']['verify'] = 1;
+                return $response->withRedirect('/');
+            } else {
+                $this->ViewData['errors'] = 'error in changing verify status';
+            }
+        }
+
+        $this->ViewData['session'] = $_SESSION;
+        return $this->render($response, 'verify.twig', 'Verify account');
+    }
 
 	public function logout($request, $response, $args)
     {
