@@ -88,6 +88,17 @@ class UserModel extends Model
         return false;
     }
 
+    public function updateUserActive($id, $status)
+    {
+        if (empty($id) || !is_numeric($id) || !is_bool($status)){
+            return false;
+        }
+
+        $stmt = $this->db->prepare('UPDATE users SET `active` = ? WHERE id=?');
+
+        return $stmt->execute([$status, $id]);
+    }
+
 	private function _getHashPassword($password)
     {
         return hash('whirlpool', $password);

@@ -3,6 +3,7 @@
 use App\Controllers\UserController;
 use App\Middleware\RedirectIfAuthorized;
 use App\Middleware\RedirectIfUnauthorized;
+use App\Middleware\RedirectIfUnverified;
 use App\Middleware\UpdateLastUserAction;
 use App\Library\DbInit;
 
@@ -26,8 +27,14 @@ $app->group('', function(){
 
 //pages only for authorized users
 $app->group('', function (){
-	$this->get('/secret', UserController::class.':home')->setName('user.home');
-    $this->get('/logout', UserController::class.':logout');
-    $this->get('/settings', UserController::class.':accountSettings')->setName('user.settings');
+	//only for verified users
+	$this->group('', function(){
+		$this->get('/profile', UserController::class.':home')->setName('user.home');
+		$this->get('/settings', UserController::class.':accountSettings')->setName('user.settings');
+	})->add(new RedirectIfUnverified($this->getContainer()['router']));
+	
+	$this->get('/logout', UserController::class.':logout');
+	$this->get('/verify[/token={token}]', UserController::class.':verify')->setName('user.verify');
+
 })  ->add(new RedirectIfUnauthorized($container['router']))
     ->add(new UpdateLastUserAction($container['db']));
