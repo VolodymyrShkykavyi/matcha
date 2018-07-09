@@ -82,7 +82,10 @@ class UserModel extends Model
         try {
             if ($stmt->execute([$data['login'], $data['password'], $data['email'], $data['fname'],
                 $data['lname'], $data['gender'], $data['birthday']])) {
-                return $this->db->lastInsertId();
+                $id =  $this->db->lastInsertId();
+
+                $this->db->query('INSER INTO `settings`');
+                return $id;
             }
         } catch (\PDOException $ex) {}
         return false;
@@ -98,6 +101,14 @@ class UserModel extends Model
 
         return $stmt->execute([$status, $id]);
     }
+
+    public function updateStatus($userId, $text)
+	{
+//		$text = htmlspecialchars($text);
+		$stmt = $this->db->prepare('UPDATE users SET `status` = ? WHERE id = ?');
+
+		return $stmt->execute([$text, $userId]);
+	}
 
 	private function _getHashPassword($password)
     {

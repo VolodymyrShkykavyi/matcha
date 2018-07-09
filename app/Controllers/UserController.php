@@ -28,22 +28,6 @@ class UserController extends Controller
 
     public function home($request, $response, $args)
 	{
-
-        echo "<div class=\"container\"><pre>";
-        $data = [
-            'login' => 'admin3',
-            'email' => 'mail3',
-            'password' => '1234567890',
-            'fname' => 'fn',
-            'lname' => 'ln',
-            'gender' => 'man',
-            'birthDate' => '2018-07-10'
-        ];
-        var_dump($_SESSION);
-        //var_dump($this->model->getUserByLogin('admin'));
-        echo "</pre></div>";
-
-
 		$this->ViewData['args'] = $args;
 		$this->ViewData['users'] = print_r($this->model->getUsers(), true);
 		$this->render($response, 'home.twig', 'Home Page');
@@ -140,5 +124,13 @@ class UserController extends Controller
     {
         $this->render($response, 'settings.twig', 'Account settings');
     }
+
+    public function changeStatus($request, $response, $args)
+	{
+		$data = $request->getParsedBody();
+
+		$res = $this->model->updateStatus($this->_user['id'], $data['status']);
+		return json_encode($res);
+	}
 
 }

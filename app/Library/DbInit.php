@@ -45,14 +45,23 @@ class DbInit
 				`status` VARCHAR(50) NULL DEFAULT NULL,
 				`firstName` varchar(50) NOT NULL,
 				`lastName` varchar(50) NOT NULL,
-				`gender` enum('man','woman') NOT NULL,
+				`gender` enum(\'man\',\'woman\') NOT NULL,
 				`birthDate` date NOT NULL,
 				`registerDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`lastAction` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				`active` tinyint(1) NOT NULL DEFAULT '0',
+				`active` tinyint(1) NOT NULL DEFAULT 0,
 				PRIMARY KEY (`id`)
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8;';
 		//TODO: fields: isOnline, verified, sexuality, fame(rating), blocked(isActive), location
+		$this->pdo->query($sql);
+
+		$sql = 'CREATE TABLE  IF NOT EXISTS `settings` (
+		 `id` INT UNSIGNED NOT NULL ,
+		 `notification_sound` TINYINT(1) NOT NULL DEFAULT 1 ,
+		 `notification_email` TINYINT(1) NOT NULL DEFAULT 1 ,
+		 `messege_sound` TINYINT(1) NOT NULL DEFAULT 1 ,
+		 `id_user` INT UNSIGNED NOT NULL 
+		) ENGINE = MyISAM;';
 		$this->pdo->query($sql);
 	}
 }
