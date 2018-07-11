@@ -15,6 +15,8 @@ class UserController extends Controller
 
         if (!empty($_SESSION['auth'])) {
             $user = $this->model->getUser($_SESSION['auth']['id']);
+            $location = $this->model->getUserLocation($_SESSION['auth']['id']);
+
             if (!empty($user)) {
                 $this->_user = $user;
 
@@ -22,6 +24,9 @@ class UserController extends Controller
                 $this->ViewData['user']['login'] = $this->_user['login'];
                 $this->ViewData['user']['status'] = $this->_user['status'];
                 $this->ViewData['user']['lastAction'] = $this->_user['lastAction'];
+            }
+            if (!empty($location)){
+                $this->ViewData['user']['location'] = $this->_formatted_location($location['lat'], $location['lng']);
             }
         }
     }
@@ -98,6 +103,7 @@ class UserController extends Controller
 
     public function verify($request, $response, $args)
     {
+        var_dump($_SERVER);
         if (!empty($args) && !empty($args['token'])){
             $this->ViewData['args'] = $args;
             if ($this->model->updateUserActive($this->_user['id'], true)){
@@ -133,4 +139,40 @@ class UserController extends Controller
 		return json_encode($res);
 	}
 
+    public function changeLocation($request, $response, $args)
+    {
+        $data = $request->getParsedBody();
+
+        if (!empty($data) && $data['lat'] && $data['lng']){
+            return json_encode($this->model->updateLocation($this->_user['id'], $data['lat'], $data['lng']));
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+            $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
+            //TODO: change
+            return print_r('need find user by ip, finded ip = ' . $ip, true);
+        }
+
+        return json_encode(false);
+    }
+
+
+    private function _formatted_location($lat, $lng)
+    {
+             $url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='.trim($lat).','.trim($lng).'&sensor=false';
+            $json = @file_get_contents($url);
+            $data = json_decode($json);
+            $status = @$data->status;
+            $addr = "";
+
+            if($status=="OK"){
+                $address_components = $data->results[0]->address_components;
+                if (!empty($address_components)){
+                    $addr = $address_components[2]->long_name;
+                    $addr .= ", ".$address_components[3]->long_name;
+                    $addr .= ", ".$address_components[6]->long_name;
+                }
+            }
+
+            return $addr;
+    }
 }

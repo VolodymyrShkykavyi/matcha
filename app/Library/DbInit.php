@@ -37,31 +37,42 @@ class DbInit
 
 	protected function createTables()
 	{
-		$sql = 'CREATE TABLE IF NOT EXISTS `users` (
-				`id` int(11) NOT NULL AUTO_INCREMENT,
-				`login` varchar(30) NOT NULL,
-				`password` text NOT NULL,
-				`email` varchar(255) NOT NULL,
-				`status` VARCHAR(50) NULL DEFAULT NULL,
-				`firstName` varchar(50) NOT NULL,
-				`lastName` varchar(50) NOT NULL,
-				`gender` enum(\'man\',\'woman\') NOT NULL,
-				`birthDate` date NOT NULL,
-				`registerDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				`lastAction` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				`active` tinyint(1) NOT NULL DEFAULT 0,
-				PRIMARY KEY (`id`)
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8;';
+		$sql = "CREATE TABLE IF NOT EXISTS `users` (
+				  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+				  `login` varchar(30) NOT NULL,
+				  `password` text NOT NULL,
+				  `email` varchar(255) NOT NULL,
+				  `status` varchar(50) DEFAULT NULL,
+				  `firstName` varchar(50) NOT NULL,
+				  `lastName` varchar(50) NOT NULL,
+				  `gender` enum('man','woman') NOT NULL,
+				  `birthDate` date NOT NULL,
+				  `registerDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				  `lastAction` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				  `active` tinyint(1) NOT NULL DEFAULT '0',
+				  PRIMARY KEY (`id`)
+			) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;";
 		//TODO: fields: isOnline, verified, sexuality, fame(rating), blocked(isActive), location
 		$this->pdo->query($sql);
 
-		$sql = 'CREATE TABLE  IF NOT EXISTS `settings` (
-		 `id` INT UNSIGNED NOT NULL ,
-		 `notification_sound` TINYINT(1) NOT NULL DEFAULT 1 ,
-		 `notification_email` TINYINT(1) NOT NULL DEFAULT 1 ,
-		 `messege_sound` TINYINT(1) NOT NULL DEFAULT 1 ,
-		 `id_user` INT UNSIGNED NOT NULL 
-		) ENGINE = MyISAM;';
+		$sql = "CREATE TABLE IF NOT EXISTS `settings` (
+				  `id` int(10) UNSIGNED NOT NULL,
+				  `notification_sound` tinyint(1) NOT NULL DEFAULT '1',
+				  `notification_email` tinyint(1) NOT NULL DEFAULT '1',
+				  `messege_sound` tinyint(1) NOT NULL DEFAULT '1',
+				  `id_user` int(10) UNSIGNED NOT NULL,
+				  KEY `id_user` (`id_user`)
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+		$this->pdo->query($sql);
+
+		$sql = "CREATE TABLE IF NOT EXISTS `location` (
+				  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+				  `lat` varchar(25) NOT NULL,
+				  `lng` varchar(25) NOT NULL,
+				  `id_user` int(10) UNSIGNED NOT NULL,
+				  PRIMARY KEY (`id`),
+				  KEY `fk_location_id_user` (`id_user`)
+				) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;";
 		$this->pdo->query($sql);
 	}
 }
