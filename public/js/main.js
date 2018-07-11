@@ -15,3 +15,11 @@ function change_status($el) {
 		}
 	});
 }
+
+$('#accordion a.clickable').click(function(e){
+	e.preventDefault();
+	let id = $(this).prop('id');
+
+	$(".settings .ui-block").hide();
+	$(".settings .ui-block." + id).show();
+});
