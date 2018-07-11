@@ -7,15 +7,23 @@ $app = new \Slim\App($settings);
 // Get container
 $container = $app->getContainer();
 
+
 // Register database on container
 $container['db'] = function ($container){
 	$db = $container['settings']['db'];
-	$pdo = new PDO('mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'],
-		$db['user'], $db['pass']);
-	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+	try{
+		$pdo = new PDO('mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'],
+			$db['user'], $db['pass']);
+		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+	} catch (\Exception $ex){
+	header("Location: /install");
+	echo $ex->getMessage();;
+	die();
+}
 	return $pdo;
 };
+
 
 // Register Twig view on container
 $container['view'] = function ($container) {
@@ -46,4 +54,5 @@ $container['logger'] = function() {
 };
 
 require_once __DIR__ . '/../routes/web.php';
+
 require_once __DIR__ . '/../routes/api.php';
