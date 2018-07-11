@@ -13,7 +13,7 @@ class DbInit
 	public function __construct(ContainerInterface $container)
 	{
 		$this->dbSettings = $container['settings']['db'];
-		$this->pdo = new PDO('mysql:host=' . $this->dbSettings['host'],
+		$this->pdo = new PDO('mysql:host='.$this->dbSettings['host'].';',
 			$this->dbSettings['user'], $this->dbSettings['pass']);
 		$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
