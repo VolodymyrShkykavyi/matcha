@@ -6,4 +6,5 @@ use App\Middleware\RedirectIfUnauthorized;
 $app->group('', function (){
 	$this->post('/status/change', UserController::class.':changeStatus');
 	$this->post('/location/change', UserController::class.':changeLocation');
+	$this->post('/password/change', UserController::class.':changePassword');
 })->add(new RedirectIfUnauthorized($container['router']));

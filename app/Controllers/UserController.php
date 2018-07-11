@@ -139,6 +139,21 @@ class UserController extends Controller
 		return json_encode($res);
 	}
 
+    public function changePassword($request, $response, $args)
+    {
+        $data = $request->getParsedBody();
+        $res = false;
+
+        if (!empty($data) && $data['current'] && $data['new_psw'] && $data['confirm'] &&
+            $data['new_psw'] == $data['confirm']){
+            if (preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $data['new_psw']) &&
+                strlen($data['new_psw']) >= 6){
+                $res = $this->model->updatePassword($this->_user['id'], $data['current'], $data['new_psw']);
+            }
+        }
+        return json_encode($res);
+    }
+
     public function changeLocation($request, $response, $args)
     {
         $data = $request->getParsedBody();
