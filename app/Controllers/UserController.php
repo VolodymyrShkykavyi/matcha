@@ -77,7 +77,7 @@ class UserController extends Controller
         }
         //TODO: send mail and redirect(in data user id)
 
-        $this->render($response, 'home.twig', 'after register');
+        return $response->withRedirect('/');
     }
 
 	public function authorize($request, $response, $args)
