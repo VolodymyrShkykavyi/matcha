@@ -24,6 +24,18 @@ class UserModel extends Model
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getUserLocation($userId)
+    {
+        if (!is_numeric($userId) || $userId <= 0) {
+            return false;
+        }
+
+        $stmt = $this->db->prepare('SELECT * FROM `location` WHERE id_user=?');
+        $stmt->execute([$userId]);
+
+         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function getUserByLogin($login)
     {
         if (empty($login)) {
@@ -84,7 +96,7 @@ class UserModel extends Model
                 $data['lname'], $data['gender'], $data['birthday']])) {
                 $id =  $this->db->lastInsertId();
 
-                $this->db->query('INSER INTO `settings`');
+                //$this->db->query('INSER INTO `settings`');
                 return $id;
             }
         } catch (\PDOException $ex) {}
@@ -100,6 +112,21 @@ class UserModel extends Model
         $stmt = $this->db->prepare('UPDATE users SET `active` = ? WHERE id=?');
 
         return $stmt->execute([$status, $id]);
+    }
+
+    public function updateLocation($userId, $lat, $lng)
+    {
+        if (!is_numeric($lat) || !is_numeric($lng) || !is_numeric($userId)){
+            return false;
+        }
+        if (!empty($this->getUserLocation($userId))){
+            $stmt = $this->db->prepare('UPDATE `location` SET `lat` = ?, `lng` = ? WHERE id_user=?');
+
+            return $stmt->execute([$lat, $lng, $userId]);
+        } else {
+            $stmt = $this->db->prepare('INSERT INTO `location` (`lat`, `lng`, `id_user`) VALUES (?,?,?)');
+             return $stmt->execute([$lat, $lng, $userId]);
+        }  
     }
 
     public function updateStatus($userId, $text)
