@@ -9,7 +9,7 @@ class UserModel extends Model
 
 	public function getUsers()
 	{
-		return $this->db->query('SELECT * FROM `users`')->fetchAll(PDO::FETCH_ASSOC);
+		return $this->execute('SELECT * FROM `users`');
 	}
 
 	public function getUser($id)
@@ -18,10 +18,9 @@ class UserModel extends Model
             return false;
         }
 
-        $stmt = $this->db->prepare('SELECT * FROM users WHERE id=?');
-        $stmt->execute([$id]);
-
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $res = $this->execute('SELECT * FROM users WHERE id=?i', [$id]);
+       
+        return $res[0];
     }
 
     public function getUserLocation($userId)
@@ -30,10 +29,9 @@ class UserModel extends Model
             return false;
         }
 
-        $stmt = $this->db->prepare('SELECT * FROM `location` WHERE id_user=?');
-        $stmt->execute([$userId]);
-
-         return $stmt->fetch(PDO::FETCH_ASSOC);
+        $res = $this->db->query('SELECT * FROM `location` WHERE id_user=?i', $userId);
+        
+         return $res->fetch_assoc();
     }
 
     public function getUserByLogin($login)
@@ -42,11 +40,11 @@ class UserModel extends Model
             return false;
         }
 
-        $stmt = $this->db->prepare('SELECT * FROM users WHERE login=?');
-        $stmt->execute([$login]);
+        $res = $this->execute('SELECT * FROM users WHERE login="?s"', [$login]);
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+        if (!empty($res))
+            return $res[0];
+        return $res;    }
 
     public function getUserByEmail($email)
     {
@@ -54,18 +52,18 @@ class UserModel extends Model
             return false;
         }
 
-        $stmt = $this->db->prepare('SELECT * FROM users WHERE email=?');
-        $stmt->execute([$email]);
-
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $res = $this->execute('SELECT * FROM users WHERE email="?s"', [$email]);
+        if (!empty($res))
+            return $res[0];
+        return $res;
     }
 
 	public function auth($login, $password)
 	{
-		$stmt = $this->db->prepare('SELECT * FROM `users` WHERE `login` = ? AND `password` = ?');
-		$stmt->execute([$login, $this->_getHashPassword($password)]);
+		$res = $this->execute('SELECT * FROM `users` WHERE `login` = "?s" AND `password` = "?s"',
+		    [$login, $this->_getHashPassword($password)]);
 
-		return $stmt->fetch(PDO::FETCH_ASSOC);
+		return $res;
 	}
 
 	public function addUser($data)
@@ -85,21 +83,16 @@ class UserModel extends Model
             return false;
         }
 
-        $stmt = $this->db->prepare('INSERT INTO `users` 
-        (`login`, `password`, `email`, `firstName`, `lastName`, `gender`, `birthDate`)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-        ');
+        $res = $this->db->query('INSERT INTO `users` 
+            (`login`, `password`, `email`, `firstName`, `lastName`, `gender`, `birthDate`)
+            VALUES ("?s", "?s", "?s", "?s", "?s", "?s", "?s")', 
+            $data['login'], $data['password'], $data['email'], $data['fname'],
+            $data['lname'], $data['gender'], $data['birthday']);
 
-        //if wrong values - catch PDO exception
-        try {
-            if ($stmt->execute([$data['login'], $data['password'], $data['email'], $data['fname'],
-                $data['lname'], $data['gender'], $data['birthday']])) {
-                $id =  $this->db->lastInsertId();
+        if ($res){
+            return $this->db->getLastInsertId();
+        }
 
-                //$this->db->query('INSER INTO `settings`');
-                return $id;
-            }
-        } catch (\PDOException $ex) {}
         return false;
     }
 
@@ -109,9 +102,9 @@ class UserModel extends Model
             return false;
         }
 
-        $stmt = $this->db->prepare('UPDATE users SET `active` = ? WHERE id=?');
+        $res = $this->db->query('UPDATE users SET `active` = ?i WHERE id=?i', $status, $id);
 
-        return $stmt->execute([$status, $id]);
+        return $res;
     }
 
     public function updateLocation($userId, $lat, $lng)
@@ -120,21 +113,21 @@ class UserModel extends Model
             return false;
         }
         if (!empty($this->getUserLocation($userId))){
-            $stmt = $this->db->prepare('UPDATE `location` SET `lat` = ?, `lng` = ? WHERE id_user=?');
-
-            return $stmt->execute([$lat, $lng, $userId]);
+            $res = $this->db->query('UPDATE `location` SET `lat` = "?s", `lng` = "?s" WHERE id_user=?i',
+                $lat, $lng, $userId);
         } else {
-            $stmt = $this->db->prepare('INSERT INTO `location` (`lat`, `lng`, `id_user`) VALUES (?,?,?)');
-             return $stmt->execute([$lat, $lng, $userId]);
-        }  
+            $res = $this->db->query('INSERT INTO `location` (`lat`, `lng`, `id_user`) VALUES ("?s","?s",?i)',
+                $lat, $lng, $userId);
+        }
+
+        return $res;
     }
 
     public function updateStatus($userId, $text)
 	{
-//		$text = htmlspecialchars($text);
-		$stmt = $this->db->prepare('UPDATE users SET `status` = ? WHERE id = ?');
+		$res = $this->db->query('UPDATE users SET `status` = "?s" WHERE id = ?i', $text, $userId);
 
-		return $stmt->execute([$text, $userId]);
+        return $res;
 	}
 
     public function updatePassword($userId, $current, $psw)

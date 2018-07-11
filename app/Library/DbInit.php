@@ -2,37 +2,36 @@
 
 namespace App\Library;
 
-use PDO;
+use Krugozor\Database\Mysql\Mysql as Mysql;
 use Interop\Container\ContainerInterface;
 
 class DbInit
 {
 	protected $dbSettings;
-	protected $pdo;
+	protected $db;
 
 	public function __construct(ContainerInterface $container)
 	{
 		$this->dbSettings = $container['settings']['db'];
-		$this->pdo = new PDO('mysql:host='.$this->dbSettings['host'].';',
-			$this->dbSettings['user'], $this->dbSettings['pass']);
-		$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$this->db = $container['db'];
 	}
 
 	public function __invoke()
 	{
 		$this->createDb();
 		$this->createTables();
+		echo "Database installed!";
 	}
 
 	protected function createDb()
 	{
 		try {
-			$this->pdo->query('CREATE DATABASE IF NOT EXISTS `' . $this->dbSettings['dbname'] . '` 
-			DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;;');
-		} catch (\PDOException $e){
+			$this->db->query('CREATE DATABASE IF NOT EXISTS `' . $this->dbSettings['dbname'] . '` 
+			DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;');
+		} catch (\dbException $e){
 			die("Can't create database : " . $e->getMessage());
 		}
-		$this->pdo->query('USE ' . $this->dbSettings['dbname']);
+		$this->db->query('USE ' . $this->dbSettings['dbname']);
 	}
 
 	protected function createTables()
@@ -53,7 +52,7 @@ class DbInit
 				  PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;";
 		//TODO: fields: isOnline, verified, sexuality, fame(rating), blocked(isActive), location
-		$this->pdo->query($sql);
+		$this->db->query($sql);
 
 		$sql = "CREATE TABLE IF NOT EXISTS `settings` (
 				  `id` int(10) UNSIGNED NOT NULL,
@@ -63,7 +62,7 @@ class DbInit
 				  `id_user` int(10) UNSIGNED NOT NULL,
 				  KEY `id_user` (`id_user`)
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-		$this->pdo->query($sql);
+		$this->db->query($sql);
 
 		$sql = "CREATE TABLE IF NOT EXISTS `location` (
 				  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -73,6 +72,6 @@ class DbInit
 				  PRIMARY KEY (`id`),
 				  KEY `fk_location_id_user` (`id_user`)
 				) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;";
-		$this->pdo->query($sql);
+		$this->db->query($sql);
 	}
 }

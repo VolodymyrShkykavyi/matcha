@@ -47,7 +47,7 @@ abstract class Controller
 			$name = 'App\Models\\' . ucfirst($name);
 		}
 		if (class_exists($name)) {
-			$this->model = new $name($this->c['db']);
+			$this->model = new $name($this->c);
 		}
 		else{
 			$this->model = null;
