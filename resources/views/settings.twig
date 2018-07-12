@@ -117,7 +117,7 @@
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group label-floating">
                                     <label class="control-label">Confirm Current Password</label>
-                                    <input name="current" class="form-control" placeholder="" type="password" value="Olympus-2017">
+                                    <input name="current" class="form-control" placeholder="" type="password" value="">
                                 </div>
                             </div>
                     
@@ -346,7 +346,13 @@
                         </div>
                         <div class="ui-block-title">
                             <a  href="35-YourAccount-FriendsRequests.html" class="h6 title clickable">Friend Requests</a>
-                            <a href="#" class="items-round-little bg-blue">4</a>
+                            <a href="#" class="items-round-little bg-blue"
+                                {% if not num_requests %}
+                                    style="display: none;"
+                                {% endif %}
+                            >
+                                {{ num_requests }}
+                            </a>
                         </div>
                     </div>
 

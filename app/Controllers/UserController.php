@@ -19,9 +19,14 @@ class UserController extends Controller
 
             if (!empty($user)) {
                 $this->_user = $user;
+                $friendRequests = $this->model->getFriendRequests($this->_user['id']);
 
                 //send to view
-                 $this->ViewData['user']['id'] = $this->_user['id'];
+                $this->ViewData['num_requests'] = count($friendRequests);
+
+
+
+                $this->ViewData['user']['id'] = $this->_user['id'];
                 $this->ViewData['user']['login'] = $this->_user['login'];
                 $this->ViewData['user']['status'] = $this->_user['status'];
                 if (empty($this->_user['img'])) {
