@@ -134,13 +134,14 @@ class UserModel extends Model
 
     public function updatePassword($userId, $current, $psw)
     {
-        $stmt = $this->db->prepare('SELECT * FROM `users` WHERE `id` = ? AND `password` = ?');
-        $stmt->execute([$userId, $this->_getHashPassword($current)]);
+        $res = $this->execute('SELECT * FROM `users` WHERE `id` = ?i AND `password` = "?s"',
+            [$userId, $this->_getHashPassword($current)]);
 
-        if (!empty($stmt->fetch(PDO::FETCH_ASSOC))){
-            $stmt = $this->db->prepare('UPDATE users SET password = ? WHERE id = ?');
+        if (!empty($res)){
+            $res = $this->db->query('UPDATE users SET password = "?s" WHERE id = ?i', 
+                $this->_getHashPassword($psw), $userId);
 
-            return $stmt->execute([$this->_getHashPassword($psw), $userId]);
+            return $res;
         }
         return false;
     }

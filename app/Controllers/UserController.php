@@ -128,6 +128,15 @@ class UserController extends Controller
 
     public function accountSettings($request, $response, $args)
     {
+        $this->ViewData['user']['firstName'] = $this->_user['firstName'];
+        $this->ViewData['user']['lastName'] = $this->_user['lastName'];
+        $birthday = \DateTime::createFromFormat('Y-m-d', $this->_user['birthDate']);
+
+        if ($birthday)
+            $birthday = $birthday->format('d/m/Y');
+        $this->ViewData['user']['birthDate'] = $birthday;
+        $this->ViewData['user']['email'] = $this->_user['email'];
+
         $this->render($response, 'settings.twig', 'Account settings');
     }
 
