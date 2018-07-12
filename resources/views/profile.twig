@@ -54,18 +54,49 @@
 
                         <div class="control-block-button" >
                             {% if friends and friends.status %}
-                                <a title="Remove friend" href="#" class="btn btn-control bg-red">
-                            {% elseif friends and not friends.status and from_request == user.id %}
-                                <a title="Remove friend request" href="#" class="btn btn-control bg-orange">
-                            {% else %}
-                                <a title="Add to friend" href="#" class="btn btn-control bg-green">
+                                <a data-type="remove_friend" data-id="{{ profile.id }}" title="Remove friend" href="#" class="friend btn btn-control bg-red">
+                                    <svg title="" class="olymp-happy-face-icon">
+                                        <use xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use>
+                                    </svg>
+                                </a>
+                                <a title="Send message" href="#" class="btn btn-control bg-purple">
+                                    <svg title="Send message" class="olymp-chat---messages-icon">
+                                        <use xlink:href="/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use>
+                                    </svg>
+                                </a>
                             {% endif %}
-                                <svg title="" class="olymp-happy-face-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
-                            </a>
 
-                            <a title="Send message" href="#" class="btn btn-control bg-purple">
-                                <svg title="Send message" class="olymp-chat---messages-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg>
-                            </a>
+                            {% if friends and friends.status == 0 and friends.from_request == user.id %}
+                                <a data-type="remove_request" data-id="{{ profile.id }}" title="Remove friend request" href="#" class="friend btn btn-control bg-orange">
+                                    <svg title="" class="olymp-happy-face-icon">
+                                        <use xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use>
+                                    </svg>
+                                </a>
+                            {% endif %}
+
+                            {% if friends and friends.status == 0 and friends.to_request == user.id %}
+                                <a data-type="accept" data-id="{{ profile.id }}" title="Accept friend request" href="#" class="friend btn btn-control bg-blue">
+                                    <svg title="" class="olymp-happy-face-icon">
+                                        <use xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use>
+                                    </svg>
+                                </a>
+                                 <a data-type="remove_request" data-id="{{ profile.id }}" title="Delete friend request" href="#" class="friend btn btn-control request-del">
+                                    <svg title="" class="olymp-happy-face-icon">
+                                        <use xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use>
+                                    </svg>
+                                </a>
+                            {% endif %}
+
+                            {% if not friends %}
+                                <a data-type="add" data-id="{{ profile.id }}" title="Add to friend" href="#" class="friend btn btn-control bg-green">
+                                    <svg title="" class="olymp-happy-face-icon">
+                                        <use xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use>
+                                    </svg>
+                                </a>
+                            {% endif %}
+                                
+
+                            
 
                         </div>
                     </div>
@@ -97,4 +128,5 @@
         {{ dump() }}
     </pre>
 </div>
+<script src="/js/friend.js"></script>
 {% endblock %}

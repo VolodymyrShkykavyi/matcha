@@ -115,6 +115,9 @@ class UserModel extends Model
 
     public function addFriend($fromId, $toId)
     {
+        if (empty($this->getUser($toId))){
+            return false;
+        }
         $res = $this->execute('SELECT * FROM `friends` WHERE (`from_request` = ?i AND `to_request` = ?i)
             OR (`from_request` = ?i AND `to_request` = ?i)', [$fromId, $toId, $toId, $fromId]);
 
@@ -174,6 +177,28 @@ class UserModel extends Model
             return $res;
         }
         return false;
+    }
+
+    public function removeFriend($userId, $friendId)
+    {
+        if (!is_numeric($userId) || !is_numeric($friendId)){
+            return false;
+        }
+        $res = $this->db->query('DELETE FROM `friends` WHERE (`from_request` = ?i AND `to_request` = ?i)
+            OR (`from_request` = ?i AND `to_request` = ?i)', $userId, $friendId, $friendId, $userId);
+        
+        return $res;
+    }
+
+    public function acceptFriend($userId, $friendId)
+    {
+        if (!is_numeric($userId) || !is_numeric($friendId)){
+            return false;
+        }
+        $res = $this->db->query('UPDATE `friends` SET `status` = 1 WHERE `from_request` = ?i AND `to_request` = ?i',
+            $friendId, $userId);
+
+        return $res;
     }
 
 	private function _getHashPassword($password)

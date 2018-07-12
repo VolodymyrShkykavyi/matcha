@@ -53,6 +53,7 @@ class UserController extends Controller
              if (empty($profile['img'])) {
                 $profile['img'] = '/author-main1.jpg';
             }
+            $this->ViewData['profile']['id'] = $profile['id'];
             $this->ViewData['profile']['login'] = $profile['login'];
             $this->ViewData['profile']['status'] = $profile['status'];
             $this->ViewData['profile']['img'] = $profile['img'];
@@ -210,6 +211,23 @@ class UserController extends Controller
         return json_encode(false);
     }
 
+    public function changeFriendRequest($request, $response, $args)
+    {
+        $data = $request->getParsedBody();
+        $res = false;
+
+        if (!empty($data) && $data['type'] && $data['targetId']){
+            if ($data['type'] == 'add'){
+                $res = $this->model->addFriend($this->_user['id'], $data['targetId']);
+            } elseif($data['type'] == 'remove_friend' || $data['type'] == 'remove_request') {
+                $res = $this->model->removeFriend($this->_user['id'], $data['targetId']);
+            } elseif($data['type'] == 'accept'){
+                $res = $this->model->acceptFriend($this->_user['id'], $data['targetId']);
+            }
+        }
+
+        return json_encode($res);
+    }
 
     private function _formatted_location($lat, $lng)
     {
