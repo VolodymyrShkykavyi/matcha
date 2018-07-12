@@ -160,17 +160,17 @@
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <div class="form-group label-floating">
                                     <label class="control-label">First Name</label>
-                                    <input class="form-control" placeholder="" type="text" value="James">
+                                    <input class="form-control" placeholder="" type="text" value="{{ user.firstName }}">
                                 </div>
                     
                                 <div class="form-group label-floating">
                                     <label class="control-label">Your Email</label>
-                                    <input class="form-control" placeholder="" type="email" value="jspiegel@yourmail.com">
+                                    <input class="form-control" placeholder="" type="email" value="{{ user.email }}">
                                 </div>
                     
                                 <div class="form-group date-time-picker label-floating">
                                     <label class="control-label">Your Birthday</label>
-                                    <input name="datetimepicker" value="10/24/1984" />
+                                    <input name="datetimepicker" value="{{ user.birthDate }}" />
                                     <span class="input-group-addon">
                                                             <svg class="olymp-month-calendar-icon icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-month-calendar-icon"></use></svg>
                                                         </span>
@@ -180,12 +180,12 @@
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <div class="form-group label-floating">
                                     <label class="control-label">Last Name</label>
-                                    <input class="form-control" placeholder="" type="text" value="Spiegel">
+                                    <input class="form-control" placeholder="" type="text" value="{{ user.lastName }}">
                                 </div>
                     
                                 <div class="form-group label-floating">
-                                    <label class="control-label">Your Website</label>
-                                    <input class="form-control" placeholder="" type="email" value="daydreamzagency.com">
+                                    <label class="control-label">Custom status</label>
+                                    <input class="form-control" placeholder="" type="email" value="{{ user.status }}">
                                 </div>
                     
                     
@@ -197,7 +197,7 @@
                     
                             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group label-floating is-select">
-                                    <label class="control-label">Your Country</label>
+                                    <label class="control-label">Your Country(GMaps API?)</label>
                                     <select class="selectpicker form-control">
                                         <option value="US">United States</option>
                                         <option value="AU">Australia</option>
@@ -275,21 +275,6 @@
                                     <label class="control-label">Your Twitter Account</label>
                                     <input class="form-control" type="text" value="www.twitter.com/james_spiegelOK">
                                     <i class="fa fa-twitter c-twitter" aria-hidden="true"></i>
-                                </div>
-                                <div class="form-group with-icon label-floating is-empty">
-                                    <label class="control-label">Your RSS Feed Account</label>
-                                    <input class="form-control" type="text">
-                                    <i class="fa fa-rss c-rss" aria-hidden="true"></i>
-                                </div>
-                                <div class="form-group with-icon label-floating">
-                                    <label class="control-label">Your Dribbble Account</label>
-                                    <input class="form-control" type="text" value="www.dribbble.com/thecowboydesigner">
-                                    <i class="fa fa-dribbble c-dribbble" aria-hidden="true"></i>
-                                </div>
-                                <div class="form-group with-icon label-floating is-empty">
-                                    <label class="control-label">Your Spotify Account</label>
-                                    <input class="form-control" type="text">
-                                    <i class="fa fa-spotify c-spotify" aria-hidden="true"></i>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
