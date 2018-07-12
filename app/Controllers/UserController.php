@@ -42,6 +42,13 @@ class UserController extends Controller
 		$this->render($response, 'home.twig', 'Home Page');
 	}
 
+    public function getProfile($request, $response, $args)
+    {
+        $this->ViewData['args'] = $args;
+        $this->ViewData['users'] = print_r($this->model->getUsers(), true);
+        $this->render($response, 'home.twig', 'Home Page');
+    }
+
 	public function secret($request, $response, $args)
 	{
 		//$this->c->logger->addInfo('Something interesting happened');

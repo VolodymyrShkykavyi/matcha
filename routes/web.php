@@ -31,6 +31,7 @@ $app->group('', function (){
 	//only for verified users
 	$this->group('', function(){
 		$this->get('/profile', UserController::class.':home')->setName('user.home');
+		$this->get('/profile/{id:[0-9]+}', UserController::class.':getProfile')->setName('user.profile');
 		$this->get('/settings', UserController::class.':accountSettings')->setName('user.settings');
 	})->add(new RedirectIfUnverified($this->getContainer()['router']));
 
