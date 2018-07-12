@@ -1,0 +1,100 @@
+{% extends 'layouts/app.twig' %}
+
+{% block content %}
+
+<!-- Top Header-Profile -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="ui-block">
+                <div class="top-header">
+                    <div class="top-header-thumb">
+                        <img src="/img/background_{{ random(1) + 1 }}.jpg" alt="nature">
+                    </div>
+                    <div class="profile-section">
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 ">
+                                <ul class="profile-menu">
+                                    <li>
+                                        <a href="02-ProfilePage.html" class="active">Timeline</a>
+                                    </li>
+                                    <li>
+                                        <a href="05-ProfilePage-About.html">About</a>
+                                    </li>
+                                    <li>
+                                        <a href="06-ProfilePage.html">Friends</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-5 ml-auto col-md-5">
+                                <ul class="profile-menu">
+                                    <li>
+                                        <a href="07-ProfilePage-Photos.html">Photos</a>
+                                    </li>
+                                    <li>
+                                        <a href="09-ProfilePage-Videos.html">Videos</a>
+                                    </li>
+                                    <li>
+                                        <div class="more">
+                                            <svg class="olymp-three-dots-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
+                                            <ul class="more-dropdown more-with-triangle">
+                                                <li>
+                                                    <a href="#">Report Profile</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Block Profile</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="control-block-button" >
+                            {% if friends and friends.status %}
+                                <a title="Remove friend" href="#" class="btn btn-control bg-red">
+                            {% elseif friends and not friends.status and from_request == user.id %}
+                                <a title="Remove friend request" href="#" class="btn btn-control bg-orange">
+                            {% else %}
+                                <a title="Add to friend" href="#" class="btn btn-control bg-green">
+                            {% endif %}
+                                <svg title="" class="olymp-happy-face-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
+                            </a>
+
+                            <a title="Send message" href="#" class="btn btn-control bg-purple">
+                                <svg title="Send message" class="olymp-chat---messages-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg>
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="top-header-author">
+                        <a href="02-ProfilePage.html" class="author-thumb">
+                            <img src="/img{{ profile.img }}">
+                        </a>
+                        <div class="author-content">
+                            <a href="/" class="h4 author-name">{{profile.login}}</a>
+                            <div class="country">{{ profile.location }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ... end Top Header-Profile -->
+
+<div class="container">
+    args:<br>
+    <pre>
+        {#{{ users }}#}
+    </pre>
+
+    <h3>dump:</h3><br>
+    <pre>
+        {{ dump() }}
+    </pre>
+</div>
+{% endblock %}

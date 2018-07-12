@@ -20,7 +20,19 @@ class UserModel extends Model
 
         $res = $this->execute('SELECT * FROM users WHERE id=?i', [$id]);
        
-        return $res[0];
+        if (!empty($res))
+            return $res[0];
+        return $res;
+    }
+
+    public function getFriend($userId, $friendId)
+    {
+        $res = $this->execute('SELECT * FROM `friends` WHERE (`from_request` = ?i AND `to_request` = ?i)
+            OR (`from_request` = ?i AND `to_request` = ?i)', [$userId, $friendId, $friendId, $userId]);
+
+        if (!empty($res))
+            return $res[0];
+        return false;
     }
 
     public function getUserLocation($userId)
@@ -44,7 +56,8 @@ class UserModel extends Model
 
         if (!empty($res))
             return $res[0];
-        return $res;    }
+        return $res;
+     }
 
     public function getUserByEmail($email)
     {
@@ -57,6 +70,8 @@ class UserModel extends Model
             return $res[0];
         return $res;
     }
+
+
 
 	public function auth($login, $password)
 	{
@@ -95,6 +110,21 @@ class UserModel extends Model
             return $this->db->getLastInsertId();
         }
 
+        return false;
+    }
+
+    public function addFriend($fromId, $toId)
+    {
+        $res = $this->execute('SELECT * FROM `friends` WHERE (`from_request` = ?i AND `to_request` = ?i)
+            OR (`from_request` = ?i AND `to_request` = ?i)', [$fromId, $toId, $toId, $fromId]);
+
+        if(empty($res)){
+            if ($this->db->query('INSERT INTO `friends` (`from_request`, `to_request`)
+                VALUES (?i, ?i)', $fromId, $toId)){
+
+                return true;
+            }
+        }
         return false;
     }
 
