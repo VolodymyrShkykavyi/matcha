@@ -37,56 +37,10 @@ send mail ...
 
     <h3>dump:</h3><br>
     <pre>
-{{ dump() }}
+		{{ dump() }}
     </pre>
 
 
 <script src="js/jquery-3.2.1.js"></script>
-<!-- <script src="js/gmaps.js"></script> -->
 
-<script>
-	function geo_error(){
-		let data = {};
-		$.ajax({
-			type: 'POST',
-			url: '/location/change',
-			data: (data),
-			success: function (result) {
-				console.log((result));
-				//TODO:del
-			}
-		});
-	}
-
-	// Check if the browser has support for the Geolocation API
-	if (!navigator.geolocation) {
-		geo_error();
-	}
-
-
-
-	navigator.geolocation.getCurrentPosition(function(position) {
-
-		// Get the coordinates of the current possition.
-		var lat = position.coords.latitude;
-		var lng = position.coords.longitude;
-
-		$('.latitude').text(lat.toFixed(3));
-		$('.longitude').text(lng.toFixed(3));
-		$('.coordinates').addClass('visible');
-
-
-		console.log(position);
-		let data = {lat: lat.toFixed(3), lng: lng.toFixed(3)};
-		$.ajax({
-			type: 'POST',
-			url: '/location/change',
-			data: (data),
-			success: function (result) {
-				console.log((result));
-				//TODO:del
-			}
-		});
-
-	}, geo_error);
-</script>
+<script src="js/get_location.js"></script>

@@ -63,7 +63,9 @@ class UserModel extends Model
 		$res = $this->execute('SELECT * FROM `users` WHERE `login` = "?s" AND `password` = "?s"',
 		    [$login, $this->_getHashPassword($password)]);
 
-		return $res;
+		 if (!empty($res))
+            return $res[0];
+        return $res;
 	}
 
 	public function addUser($data)
