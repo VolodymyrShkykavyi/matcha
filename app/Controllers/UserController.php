@@ -21,6 +21,7 @@ class UserController extends Controller
                 $this->_user = $user;
 
                 //send to view
+                 $this->ViewData['user']['id'] = $this->_user['id'];
                 $this->ViewData['user']['login'] = $this->_user['login'];
                 $this->ViewData['user']['status'] = $this->_user['status'];
                 if (empty($this->_user['img'])) {
@@ -45,8 +46,32 @@ class UserController extends Controller
     public function getProfile($request, $response, $args)
     {
         $this->ViewData['args'] = $args;
-        $this->ViewData['users'] = print_r($this->model->getUsers(), true);
-        $this->render($response, 'home.twig', 'Home Page');
+        $profile = $this->model->getUser($args['id']);
+        $location = $this->model->getUserLocation($args['id']);
+        
+        if (!empty($profile) && $profile['active']){
+             if (empty($profile['img'])) {
+                $profile['img'] = '/author-main1.jpg';
+            }
+            $this->ViewData['profile']['login'] = $profile['login'];
+            $this->ViewData['profile']['status'] = $profile['status'];
+            $this->ViewData['profile']['img'] = $profile['img'];
+
+            $this->ViewData['profile']['firstName'] = $profile['firstName'];
+            $this->ViewData['profile']['lastName'] = $profile['lastName'];
+            $this->ViewData['profile']['gender'] = $profile['gender'];
+            $this->ViewData['profile']['birthDate'] = $profile['birthDate'];
+            $this->ViewData['profile']['lastAction'] = $profile['lastAction'];
+            if (!empty($location)){
+                $this->ViewData['profile']['location'] = $this->_formatted_location($location['lat'], $location['lng']);
+            }
+
+            $this->ViewData['friends'] = $this->model->getFriend($this->_user['id'], $args['id']);
+
+        }
+
+
+        $this->render($response, 'profile.twig', 'Home Page');
     }
 
 	public function secret($request, $response, $args)
