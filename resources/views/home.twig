@@ -10,7 +10,7 @@
             <div class="ui-block">
                 <div class="top-header">
                     <div class="top-header-thumb">
-                        <img src="img/background_{{ random(2) }}.jpg" alt="nature">
+                        <img src="img/background_{{ random(1) + 1 }}.jpg" alt="nature">
                     </div>
                     <div class="profile-section">
                         <div class="row">
@@ -77,7 +77,7 @@
                     </div>
                     <div class="top-header-author">
                         <a href="02-ProfilePage.html" class="author-thumb">
-                            <img src="img/author-main1.jpg" alt="author">
+                            <img src="img{{ user.img }}" alt="author">
                         </a>
                         <div class="author-content">
                             <a href="/" class="h4 author-name">{{user.login}}</a>

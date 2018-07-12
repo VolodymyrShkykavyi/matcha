@@ -23,6 +23,10 @@ class UserController extends Controller
                 //send to view
                 $this->ViewData['user']['login'] = $this->_user['login'];
                 $this->ViewData['user']['status'] = $this->_user['status'];
+                if (empty($this->_user['img'])) {
+                     $this->_user['img'] = '/author-main1.jpg';
+                }
+                $this->ViewData['user']['img'] = $this->_user['img'];
                 $this->ViewData['user']['lastAction'] = $this->_user['lastAction'];
             }
             if (!empty($location)){
