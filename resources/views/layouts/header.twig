@@ -23,7 +23,15 @@
 
             <div class="control-icon more has-items">
                 <svg class="olymp-happy-face-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
-                <div class="label-avatar bg-blue">6</div>
+                
+                    <div class="label-avatar bg-blue"
+                        {% if not num_requests %}
+                            style="display: none;"
+                        {% endif %}
+                    >
+                        {{ num_requests }}
+                    </div>
+                
 
                 <div class="more-dropdown more-with-triangle triangle-top-center">
                     <div class="ui-block-title ui-block-title-small">

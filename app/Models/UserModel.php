@@ -35,6 +35,13 @@ class UserModel extends Model
         return false;
     }
 
+    public function getFriendRequests($userId)
+    {
+        $res = $this->execute('SELECT * FROM `friends` WHERE `to_request` = ?i AND `status` = 0', [$userId]);
+
+        return $res;
+    }
+
     public function getUserLocation($userId)
     {
         if (!is_numeric($userId) || $userId <= 0) {
