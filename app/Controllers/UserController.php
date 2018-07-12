@@ -160,11 +160,6 @@ class UserController extends Controller
 
         if (!empty($data) && $data['lat'] && $data['lng']){
             return json_encode($this->model->updateLocation($this->_user['id'], $data['lat'], $data['lng']));
-        } else {
-            $ip = $_SERVER['REMOTE_ADDR'];
-            $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
-            //TODO: change
-            return print_r('need find user by ip, finded ip = ' . $ip, true);
         }
 
         return json_encode(false);
