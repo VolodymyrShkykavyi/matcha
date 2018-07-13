@@ -15,16 +15,21 @@ class UserController extends Controller
 
         if (!empty($_SESSION['auth'])) {
             $user = $this->model->getUser($_SESSION['auth']['id']);
-            $location = $this->model->getUserLocation($_SESSION['auth']['id']);
 
             if (!empty($user)) {
                 $this->_user = $user;
+                $location = $this->model->getUserLocation($_SESSION['auth']['id']);
                 $friendRequests = $this->model->getFriendRequests($this->_user['id']);
+                $friends = $this->model->getFriends($this->_user['id']);
 
                 //send to view
                 $this->ViewData['num_requests'] = count($friendRequests);
+                foreach ($friends as &$friend){
+                    $id = ($friend['from_request'] == $this->_user['id']) ? $friend['to_request'] : $friend['from_request'];
+                    $friend['profile'] = $this->model->getUser($id);
+                }
 
-
+                $this->ViewData['friends'] = $friends;
 
                 $this->ViewData['user']['id'] = $this->_user['id'];
                 $this->ViewData['user']['login'] = $this->_user['login'];
@@ -43,8 +48,6 @@ class UserController extends Controller
 
     public function home($request, $response, $args)
 	{
-		$this->ViewData['args'] = $args;
-		$this->ViewData['users'] = print_r($this->model->getUsers(), true);
 
 		$this->render($response, 'home.twig', 'Home Page');
 	}
@@ -72,8 +75,6 @@ class UserController extends Controller
             if (!empty($location)){
                 $this->ViewData['profile']['location'] = $this->_formatted_location($location['lat'], $location['lng']);
             }
-
-            $this->ViewData['friends'] = $this->model->getFriend($this->_user['id'], $args['id']);
 
         } else {
             return $response->withRedirect('/');
@@ -206,6 +207,11 @@ class UserController extends Controller
             }
         }
         return json_encode($res);
+    }
+
+    public function friends($request, $response, $args)
+    {
+       $this->render($response, 'friends.twig', 'Friends');
     }
 
     public function friendRequests($request, $response, $args)

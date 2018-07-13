@@ -23,19 +23,21 @@
         <div class="control-block">
 
             <div title="Friend requests">
-                <a href="/friends/requests" title="Friend requests" class="control-icon more has-items">
-                    <svg title="Friend requests" class="olymp-happy-face-icon">
-                        <use xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use>
-                    </svg>
+                <div title="Friend requests" class="control-icon more has-items">
+                    <a href="/friends/requests" class="control-icon" style="fill: #fff; margin: 0;">
+                        <svg title="Friend requests" class="olymp-happy-face-icon">
+                            <use xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use>
+                        </svg>
 
-                    <a class="label-avatar bg-blue"
-                            {% if not num_requests %}
-                                style="display: none;"
-                            {% endif %}
-                    >
-                        {{ num_requests }}
+                        <div class="label-avatar bg-blue"
+                                {% if not num_requests %}
+                                    style="display: none;"
+                                {% endif %}
+                        >
+                            {{ num_requests }}
+                        </div>
                     </a>
-                </a>
+                </div>
             </div>
 
 

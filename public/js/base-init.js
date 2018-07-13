@@ -239,10 +239,6 @@ var CRUMINA = {};
 		return false
 	});
 
-	$(".js-chat-open").on('click', function () {
-		$('.popup-chat-responsive').toggleClass('open-chat');
-		return false
-	});
     $(".js-chat-close").on('click', function () {
         $('.popup-chat-responsive').removeClass('open-chat');
         return false
