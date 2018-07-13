@@ -45,6 +45,7 @@ class UserController extends Controller
 	{
 		$this->ViewData['args'] = $args;
 		$this->ViewData['users'] = print_r($this->model->getUsers(), true);
+
 		$this->render($response, 'home.twig', 'Home Page');
 	}
 
@@ -54,7 +55,7 @@ class UserController extends Controller
         $profile = $this->model->getUser($args['id']);
         $location = $this->model->getUserLocation($args['id']);
         
-        if (!empty($profile) && $profile['active']){
+        if (!empty($profile) && $profile['active'] && $profile['id'] != $this->_user['id']){
              if (empty($profile['img'])) {
                 $profile['img'] = '/author-main1.jpg';
             }
@@ -74,6 +75,8 @@ class UserController extends Controller
 
             $this->ViewData['friends'] = $this->model->getFriend($this->_user['id'], $args['id']);
 
+        } else {
+            return $response->withRedirect('/');
         }
 
 
@@ -205,6 +208,21 @@ class UserController extends Controller
         return json_encode($res);
     }
 
+    public function friendRequests($request, $response, $args)
+    {
+        $this->ViewData['requests'] = $this->model->getFriendRequests($this->_user['id']);
+        foreach ($this->ViewData['requests'] as &$request){
+            if (isset($request['from_request'])) {
+                $request['profile'] = $this->model->getUser($request['from_request']);
+                if (empty($request['profile']['img'])) {
+                    $request['profile']['img'] = '/author-main1.jpg';
+                }
+            }
+        }
+
+        $this->render($response, 'friendRequests.twig', 'Friend requests');
+    }
+
     public function changeLocation($request, $response, $args)
     {
         $data = $request->getParsedBody();
@@ -221,7 +239,7 @@ class UserController extends Controller
         $data = $request->getParsedBody();
         $res = false;
 
-        if (!empty($data) && $data['type'] && $data['targetId']){
+        if (!empty($data) && $data['type'] && $data['targetId'] && $data['targetId'] != $this->_user['id']) {
             if ($data['type'] == 'add'){
                 $res = $this->model->addFriend($this->_user['id'], $data['targetId']);
             } elseif($data['type'] == 'remove_friend' || $data['type'] == 'remove_request') {

@@ -1,0 +1,83 @@
+{% extends 'layouts/app.twig' %}
+
+{% block content %}
+    <div class="container"><pre>
+        {{ dump() }}
+    </pre>
+    </div>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="ui-block">
+                    <div class="ui-block-title">
+                        <h6 class="title">Friend Requests</h6>
+                        <a href="#" class="more">
+                            <svg class="olymp-three-dots-icon">
+                                <use xlink:href="/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+                            </svg>
+                        </a>
+                    </div>
+
+
+                    <!-- Notification List Frien Requests -->
+
+                    <ul class="notification-list friend-requests">
+                        {% for request in requests %}
+                            <li>
+                                <div class="author-thumb">
+                                    <img src="/img{{ request.profile.img }}" alt="author">
+                                </div>
+                                <div class="notification-event">
+                                    <a href="#" class="h6 notification-friend">{{ request.profile.login }}</a>
+                                    <span class="chat-message-item">{{ request.profile.status }}</span>
+                                </div>
+                                <span class="notification-icon">
+											<a href="#" class="accept-request">
+												<span class="icon-add">
+													<svg class="olymp-happy-face-icon"><use
+                                                                xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
+												</span>
+												Accept Friend Request
+											</a>
+
+											<a href="#" class="accept-request request-del">
+												<span class="icon-minus">
+													<svg class="olymp-happy-face-icon"><use
+                                                                xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
+												</span>
+											</a>
+
+										</span>
+
+                                <div class="more">
+                                    <svg class="olymp-three-dots-icon">
+                                        <use xlink:href="/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+                                    </svg>
+                                    <svg class="olymp-little-delete">
+                                        <use xlink:href="/svg-icons/sprites/icons.svg#olymp-little-delete"></use>
+                                    </svg>
+                                </div>
+                            </li>
+                        {% endfor %}
+
+                        {% if not num_requests %}
+                            <li class="align-center">
+                                <span>No friend requests</span>
+                            </li>
+                        {% endif %}
+
+                    </ul>
+
+
+                    <!-- ... end Notification List Frien Requests -->
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}
