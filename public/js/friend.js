@@ -1,5 +1,5 @@
 
-$(".control-block-button a.friend, ul.friend-requests a").click(function(ev){
+$(".control-block-button a.friend, ul.friend-requests span a").click(function(ev){
 	ev.preventDefault();
 
 	let data = $(this).data();

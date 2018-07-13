@@ -62,16 +62,8 @@ class UserController extends Controller
              if (empty($profile['img'])) {
                 $profile['img'] = '/author-main1.jpg';
             }
-            $this->ViewData['profile']['id'] = $profile['id'];
-            $this->ViewData['profile']['login'] = $profile['login'];
-            $this->ViewData['profile']['status'] = $profile['status'];
-            $this->ViewData['profile']['img'] = $profile['img'];
-
-            $this->ViewData['profile']['firstName'] = $profile['firstName'];
-            $this->ViewData['profile']['lastName'] = $profile['lastName'];
-            $this->ViewData['profile']['gender'] = $profile['gender'];
-            $this->ViewData['profile']['birthDate'] = $profile['birthDate'];
-            $this->ViewData['profile']['lastAction'] = $profile['lastAction'];
+            $this->ViewData['profile'] = $profile;
+            $this->ViewData['profile']['friendship'] = $this->model->getFriend($this->_user['id'], $args['id']);
             if (!empty($location)){
                 $this->ViewData['profile']['location'] = $this->_formatted_location($location['lat'], $location['lng']);
             }

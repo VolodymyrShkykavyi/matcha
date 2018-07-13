@@ -53,7 +53,7 @@
                         </div>
 
                         <div class="control-block-button" >
-                            {% if friends and friends.status %}
+                            {% if profile.friendship and profile.friendship.status %}
                                 <a data-type="remove_friend" data-id="{{ profile.id }}" title="Remove friend" href="#" class="friend btn btn-control bg-red">
                                     <svg title="" class="olymp-happy-face-icon">
                                         <use xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use>
@@ -66,7 +66,7 @@
                                 </a>
                             {% endif %}
 
-                            {% if friends and friends.status == 0 and friends.from_request == user.id %}
+                            {% if profile.friendship and profile.friendship.status == 0 and profile.friendship.from_request == user.id %}
                                 <a data-type="remove_request" data-id="{{ profile.id }}" title="Remove friend request" href="#" class="friend btn btn-control bg-orange">
                                     <svg title="" class="olymp-happy-face-icon">
                                         <use xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use>
@@ -74,7 +74,7 @@
                                 </a>
                             {% endif %}
 
-                            {% if friends and friends.status == 0 and friends.to_request == user.id %}
+                            {% if profile.friendship and profile.friendship.status == 0 and profile.friendship.to_request == user.id %}
                                 <a data-type="accept" data-id="{{ profile.id }}" title="Accept friend request" href="#" class="friend btn btn-control bg-blue">
                                     <svg title="" class="olymp-happy-face-icon">
                                         <use xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use>
@@ -87,7 +87,7 @@
                                 </a>
                             {% endif %}
 
-                            {% if not friends %}
+                            {% if not profile.friendship %}
                                 <a data-type="add" data-id="{{ profile.id }}" title="Add to friend" href="#" class="friend btn btn-control bg-green">
                                     <svg title="" class="olymp-happy-face-icon">
                                         <use xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use>

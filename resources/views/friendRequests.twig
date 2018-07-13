@@ -24,7 +24,7 @@
                                     <img src="/img{{ request.profile.img }}" alt="author">
                                 </div>
                                 <div class="notification-event">
-                                    <a href="#" class="h6 notification-friend">{{ request.profile.login }}</a>
+                                    <a href="/profile/{{ request.profile.id }}" class="h6 notification-friend">{{ request.profile.login }}</a>
                                     <span class="chat-message-item">{{ request.profile.status }}</span>
                                 </div>
                                 <span class="notification-icon">
