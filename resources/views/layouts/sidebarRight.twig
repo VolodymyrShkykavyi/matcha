@@ -8,7 +8,7 @@
                 {% for friend in friends %}
                     <li class="inline-items js-chat-open">
 
-                        <div class="author-thumb">
+                        <div class="author-thumb" title="{{ friend.profile.login }}">
                             <a href="/profile/{{ friend.profile.id }}" >
                                 <img alt="author" src="/img{{ friend.profile.img }}" class="avatar">
                                 <span class="icon-status online" data-last_action="{{ friend.profile.lastAction }}"></span>
