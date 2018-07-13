@@ -33,11 +33,11 @@ $app->group('', function (){
 		$this->get('/profile', UserController::class.':home')->setName('user.home');
 		$this->get('/profile/{id:[0-9]+}', UserController::class.':getProfile')->setName('user.profile');
 		$this->get('/settings', UserController::class.':accountSettings')->setName('user.settings');
+		$this->get('/friends/requsts', UserController::class.':friendRequests');
 	})->add(new RedirectIfUnverified($this->getContainer()['router']));
 
 	
 	$this->get('/logout', UserController::class.':logout');
 	$this->get('/verify[/token={token}]', UserController::class.':verify')->setName('user.verify');
-
 }) ->add(new RedirectIfUnauthorized($container['router']));
     
