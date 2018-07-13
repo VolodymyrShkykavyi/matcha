@@ -1,12 +1,6 @@
 {% extends 'layouts/app.twig' %}
 
 {% block content %}
-    <div class="container"><pre>
-        {{ dump() }}
-    </pre>
-    </div>
-
-
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -34,7 +28,8 @@
                                     <span class="chat-message-item">{{ request.profile.status }}</span>
                                 </div>
                                 <span class="notification-icon">
-											<a href="#" class="accept-request">
+											<a data-type="accept" data-id="{{ request.profile.id }}"
+                                               data-action="remove" class="accept-request">
 												<span class="icon-add">
 													<svg class="olymp-happy-face-icon"><use
                                                                 xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
@@ -42,7 +37,8 @@
 												Accept Friend Request
 											</a>
 
-											<a href="#" class="accept-request request-del">
+											<a data-type="remove_request" data-id="{{ request.profile.id }}"
+                                               data-action="remove" class="accept-request request-del">
 												<span class="icon-minus">
 													<svg class="olymp-happy-face-icon"><use
                                                                 xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
@@ -62,11 +58,12 @@
                             </li>
                         {% endfor %}
 
-                        {% if not num_requests %}
-                            <li class="align-center">
-                                <span>No friend requests</span>
-                            </li>
-                        {% endif %}
+                        <li class="align-center no-requests"
+                                {% if num_requests %}
+                            style="display: none;">
+                            {% endif %}
+                            <span>No friend requests</span>
+                        </li>
 
                     </ul>
 
@@ -79,5 +76,6 @@
         </div>
     </div>
 
+    <script src="/js/friend.js"></script>
 
 {% endblock %}
