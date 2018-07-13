@@ -5116,9 +5116,6 @@ fieldset[disabled] .form-group.is-focused .checkbox label {
     cursor: pointer
 }
 
-.chat-users .author-thumb {
-    margin-right: 8px
-}
 
 .chat-users .author-thumb .icon-status {
     border-color: #fff

@@ -33,6 +33,7 @@ $app->group('', function (){
 		$this->get('/profile', UserController::class.':home')->setName('user.home');
 		$this->get('/profile/{id:[0-9]+}', UserController::class.':getProfile')->setName('user.profile');
 		$this->get('/settings', UserController::class.':accountSettings')->setName('user.settings');
+		$this->get('/friends', UserController::class.':friends');
 		$this->get('/friends/requests', UserController::class.':friendRequests');
 	})->add(new RedirectIfUnverified($this->getContainer()['router']));
 

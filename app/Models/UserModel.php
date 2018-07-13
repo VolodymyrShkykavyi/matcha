@@ -35,6 +35,14 @@ class UserModel extends Model
         return false;
     }
 
+    public function getFriends($userId)
+    {
+        $res = $this->execute('SELECT * FROM `friends` WHERE (`from_request` = ?i OR `to_request` = ?i)
+            AND `status` = 1', [$userId, $userId]);
+
+        return $res;
+    }
+
     public function getFriendRequests($userId)
     {
         $res = $this->execute('SELECT * FROM `friends` WHERE `to_request` = ?i AND `status` = 0', [$userId]);

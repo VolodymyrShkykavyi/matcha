@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 13, 2018 at 02:07 AM
+-- Generation Time: Jul 13, 2018 at 03:33 AM
 -- Server version: 5.7.21
 -- PHP Version: 7.1.15
 
@@ -35,7 +35,8 @@ CREATE TABLE `friends` (
 --
 
 INSERT INTO `friends` (`id`, `from_request`, `to_request`, `status`, `date`) VALUES
-(1, 6, 5, 0, '2018-07-13 08:47:29');
+(4, 7, 5, 1, '2018-07-13 09:52:37'),
+(5, 6, 5, 1, '2018-07-13 09:52:37');
 
 -- --------------------------------------------------------
 
@@ -89,17 +90,18 @@ CREATE TABLE `users` (
   `birthDate` date NOT NULL,
   `registerDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `lastAction` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `active` tinyint(1) NOT NULL DEFAULT '0'
+  `active` tinyint(1) NOT NULL DEFAULT '0',
+  `img` varchar(255) DEFAULT '/author-main1.jpg'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `login`, `password`, `email`, `status`, `firstName`, `lastName`, `gender`, `birthDate`, `registerDate`, `lastAction`, `active`) VALUES
-(5, 'admin', '6a4e012bd9583858a5a6fa15f58bd86a25af266d3a4344f1ec2018b778f29ba83be86eb45e6dc204e11276f4a99eff4e2144fbe15e756c2c88e999649aae7d94', '123123@qwe', '123', '123', 'qwe', 'man', '2018-06-21', '2018-07-11 17:35:02', '2018-07-11 17:35:02', 1),
-(6, 'admin34', '6a4e012bd9583858a5a6fa15f58bd86a25af266d3a4344f1ec2018b778f29ba83be86eb45e6dc204e11276f4a99eff4e2144fbe15e756c2c88e999649aae7d94', 'qwe12312322@asd1', NULL, '123', 'lname', 'man', '2018-06-21', '2018-07-11 17:38:25', '2018-07-11 17:38:25', 0),
-(7, 'admin11', '6a4e012bd9583858a5a6fa15f58bd86a25af266d3a4344f1ec2018b778f29ba83be86eb45e6dc204e11276f4a99eff4e2144fbe15e756c2c88e999649aae7d94', 'qwe@asd12', NULL, 'fname', 'lname', 'man', '2018-06-10', '2018-07-11 17:39:07', '2018-07-11 17:39:07', 1);
+INSERT INTO `users` (`id`, `login`, `password`, `email`, `status`, `firstName`, `lastName`, `gender`, `birthDate`, `registerDate`, `lastAction`, `active`, `img`) VALUES
+(5, 'admin', '6a4e012bd9583858a5a6fa15f58bd86a25af266d3a4344f1ec2018b778f29ba83be86eb45e6dc204e11276f4a99eff4e2144fbe15e756c2c88e999649aae7d94', '123123@qwe', '123', '123', 'qwe', 'man', '2018-06-21', '2018-07-11 17:35:02', '2018-07-11 17:35:02', 1, '/author-main1.jpg'),
+(6, 'admin34', '6a4e012bd9583858a5a6fa15f58bd86a25af266d3a4344f1ec2018b778f29ba83be86eb45e6dc204e11276f4a99eff4e2144fbe15e756c2c88e999649aae7d94', 'qwe12312322@asd1', NULL, '123', 'lname', 'man', '2018-06-21', '2018-07-11 17:38:25', '2018-07-11 17:38:25', 0, '/author-main1.jpg'),
+(7, 'admin11', '6a4e012bd9583858a5a6fa15f58bd86a25af266d3a4344f1ec2018b778f29ba83be86eb45e6dc204e11276f4a99eff4e2144fbe15e756c2c88e999649aae7d94', 'qwe@asd12', NULL, 'fname', 'lname', 'man', '2018-06-10', '2018-07-11 17:39:07', '2018-07-11 17:39:07', 1, '/author-main1.jpg');
 
 --
 -- Indexes for dumped tables
@@ -138,7 +140,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `friends`
 --
 ALTER TABLE `friends`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `location`

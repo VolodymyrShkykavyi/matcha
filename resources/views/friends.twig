@@ -1,0 +1,23 @@
+{% extends 'layouts/app.twig' %}
+
+{% block content %}
+
+
+    <div class="container">
+        <ul>
+            {% for friend in friends %}
+                <li>
+                    <br>login: {{ friend.profile.login }}
+                    <br>name: {{ friend.profile.firstName }} {{ friend.profile.lastName }}
+                    <br>lastAction: {{ friend.profile.lastAction }}
+                    <hr>
+                </li>
+            {% endfor %}
+
+        </ul>
+        <pre>
+    {{ dump() }}
+        </pre>
+    </div>
+
+{% endblock %}
