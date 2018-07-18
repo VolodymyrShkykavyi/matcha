@@ -21,7 +21,9 @@ class UserController extends Controller
                 $location = $this->model->getUserLocation($_SESSION['auth']['id']);
                 $friendRequests = $this->model->getFriendRequests($this->_user['id']);
                 $friends = $this->model->getFriends($this->_user['id']);
-
+                if (!empty($location)){
+                    $this->ViewData['user']['location'] = $this->_formatted_location($location['lat'], $location['lng']);
+               }
                 //send to view
                 $this->ViewData['num_requests'] = count($friendRequests);
                 foreach ($friends as &$friend){
@@ -40,9 +42,7 @@ class UserController extends Controller
                 $this->ViewData['user']['img'] = $this->_user['img'];
                 $this->ViewData['user']['lastAction'] = $this->_user['lastAction'];
             }
-            if (!empty($location)){
-                $this->ViewData['user']['location'] = $this->_formatted_location($location['lat'], $location['lng']);
-            }
+
         }
     }
 
@@ -58,8 +58,10 @@ class UserController extends Controller
         $profile = $this->model->getUser($args['id']);
         $location = $this->model->getUserLocation($args['id']);
         
-        if (!empty($profile) && $profile['active'] && $profile['id'] != $this->_user['id']){
-             if (empty($profile['img'])) {
+        if (!empty($profile) && $profile['active'] && $profile['id'] != $this->_user['id'])
+        {
+             if (empty($profile['img'])) 
+             {
                 $profile['img'] = '/author-main1.jpg';
             }
             $this->ViewData['profile'] = $profile;
@@ -252,7 +254,7 @@ class UserController extends Controller
 
     private function _formatted_location($lat, $lng)
     {
-             $url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='.trim($lat).','.trim($lng).'&sensor=false';
+            $url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='.trim($lat).','.trim($lng).'&sensor=false';
             $json = @file_get_contents($url);
             $data = json_decode($json);
             $status = @$data->status;
