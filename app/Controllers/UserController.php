@@ -271,4 +271,9 @@ class UserController extends Controller
 
             return $addr;
     }
+    public function chat($requests, $response, $args)
+    {
+        $this->ViewData['mydata'] = ['dr'=> 1];
+        $this->render($response, "chat.twig", "chat");
+    }
 }
