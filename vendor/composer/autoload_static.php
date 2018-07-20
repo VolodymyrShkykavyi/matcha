@@ -54,7 +54,6 @@ class ComposerStaticInit8e7bb978fbea146653b97ed076c324bb
         ),
         'M' => 
         array (
-            'MyApp\\' => 6,
             'Monolog\\' => 8,
         ),
         'K' => 
@@ -163,10 +162,6 @@ class ComposerStaticInit8e7bb978fbea146653b97ed076c324bb
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
-        ),
-        'MyApp\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src',
         ),
         'Monolog\\' => 
         array (
