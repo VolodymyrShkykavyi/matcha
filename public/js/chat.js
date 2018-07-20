@@ -1,8 +1,11 @@
+
 window.onload = function(){
   // var socket = new WebSocket("ws://echo.websocket.org");
-  var socket = new WebSocket("ws://localhost:8080/");
+  var id_el = document.getElementById("user_id");
+  var url = "ws://localhost:8080/?id=" + id_el.innerHTML;
+  var socket = new WebSocket(url);
   var status = document.getElementById("status");
-  console.log(socket)
+  console.log(socket);
 
   socket.onopen = function() {
     status.innerHTML = "cоединение установлено<br>";
@@ -19,6 +22,7 @@ window.onload = function(){
   };
 
   socket.onmessage = function(event) {
+    alert("Получены данные " + event.data);
     let message = JSON.parse(event.data);
     status.innerHTML += `пришли данные: <b>${message.name}</b>: ${message.msg}<br>`;
   };
@@ -29,8 +33,8 @@ window.onload = function(){
 
   document.forms["messages"].onsubmit = function(){
     let message = {
-      name:this.fname.value,
-      msg: this.msg.value
+      name:this.name.value,
+      msg: this.msg.value,
     }
     socket.send(JSON.stringify(message));
     return false;
