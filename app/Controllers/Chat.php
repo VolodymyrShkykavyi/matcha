@@ -1,5 +1,6 @@
 <?php
-namespace MyApp;
+namespace App\Controllers;
+
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
@@ -25,7 +26,7 @@ class Chat implements MessageComponentInterface {
 
         foreach ($this->clients as $client) {
            
-                // The sender is not the receiver, send to each client connected
+            
                 $client->send($msg);
         }
     }
