@@ -6,11 +6,12 @@
 <div class="container">
 	<h1>Пример работы с WebSocket</h1>
 	<form action="" name="messages">
-  		<div class="row">Имя: <input type="text" name="fname"></div>
+  		<div class="row">Имя: <input type="text" name="name"></div>
   		<div class="row">Текст: <input type="text" name="msg"></div>
   		<div class="row"><input type="submit" value="Поехали"></div>
 	</form>
 <div id="status"></div>
+<div id="user_id" style="display: none">{{ user.id }}</div>
 	<pre>
 		{{ dump() }}
 	</pre>
@@ -23,11 +24,7 @@
 				</div>
 
 				<div class="row">
-					<div class="col-xl-5 col-lg-6 col-md-12 col-sm-12 col-xs-12 padding-r-0">
-
-						
-						<!-- Notification List Chat Messages -->
-						
+					<div class="col-xl-5 col-lg-6 col-md-12 col-sm-12 col-xs-12 padding-r-0">	
 						<ul class="notification-list chat-message">
 							<li>
 								<div class="author-thumb">
@@ -538,5 +535,4 @@
 	<img src="svg-icons/back-to-top.svg" alt="arrow" class="back-icon">
 </a>
 
-<script src="/js/chat.js"></script>
 {% endblock %}
