@@ -157,6 +157,18 @@ class UserModel extends Model
         return $res;
     }
 
+    public function updateUserIsOnline($id, $status)
+    {
+        if (empty($id) || !is_numeric($id) || !is_bool($status)){
+            return false;
+        }
+
+        $res = $this->db->query('UPDATE users SET `IsOnline` = ?i WHERE id=?i', $status, $id);
+
+        return $res;
+    }
+
+
     public function updateLocation($userId, $lat, $lng)
     {
         if (!is_numeric($lat) || !is_numeric($lng) || !is_numeric($userId)){

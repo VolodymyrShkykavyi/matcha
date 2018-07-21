@@ -48,10 +48,11 @@ class DbInit
 				  `birthDate` date NOT NULL,
 				  `registerDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				  `lastAction` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				  `IsOnline` tinyint(1) NOT NULL DEFAULT '0',
 				  `active` tinyint(1) NOT NULL DEFAULT '0',
 				  PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;";
-		//TODO: fields: isOnline, verified, sexuality, fame(rating), blocked(isActive), location
+		//TODO: fields: !isOnline!, verified, sexuality, fame(rating), blocked(isActive), location
 		$this->db->query($sql);
 
 		$sql = "CREATE TABLE IF NOT EXISTS `settings` (
