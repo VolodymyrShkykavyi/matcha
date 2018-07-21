@@ -24,6 +24,7 @@ class Client
 
 class Chat extends Controller implements MessageComponentInterface {
 	protected $clients;
+	protected $db;
 
 	public function __construct(){
 		$this->clients = new \SplObjectStorage;
@@ -34,7 +35,8 @@ class Chat extends Controller implements MessageComponentInterface {
 		$querystring = $conn->httpRequest->getUri()->getQuery();
 		parse_str($querystring,$queryarray);
 		$client = new Client($queryarray["id"], $conn);
-		// $this->model->updateIsOnline($client->getId(), true);
+		// var_dump($this->model);
+		$this->model->updateUserIsOnline($client->getId(), true);
 		$this->clients->attach($client);
 		echo "New connection! ({$conn->resourceId})\n";
 	}
@@ -54,12 +56,23 @@ class Chat extends Controller implements MessageComponentInterface {
 	public function onClose(ConnectionInterface $conn)
 	{
 		// The connection is closed, remove it, as we can no longer send it messages
+		$clientConnNum = 0;
+		$clientId = 0;
 		foreach ($this->clients as $client) {
 			if ($client->getConn() === $conn){
-				// $this->model->updateIsOnline($this->clients->getId(), false);
+				$clientId = $client->getId();
+				// $this->model->updateUserIsOnline($clientId, false);
 				echo "Connection {$conn->resourceId} has disconnected\n";
 				$this->clients->detach($client);
 			}
+		}
+		foreach ($this->clients as $client) {
+			if ($client->getId() == $clientId){
+				$clientConnNum++;
+			}
+		}
+		if (!$clientConnNum){
+			$this->model->updateUserIsOnline($clientId, false);
 		}
 	}
 
