@@ -5002,7 +5002,7 @@ fieldset[disabled] .form-group.is-focused .checkbox label {
     transition: -webkit-transform .5s cubic-bezier(.55, 0, .1, 1);
     transition: transform .5s cubic-bezier(.55, 0, .1, 1);
     transition: transform .5s cubic-bezier(.55, 0, .1, 1), -webkit-transform .5s cubic-bezier(.55, 0, .1, 1);
-    padding-bottom: 140px
+    padding-bottom: 70px
 }
 
 .fixed-sidebar-right.sidebar--small {

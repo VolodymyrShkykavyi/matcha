@@ -74,5 +74,14 @@ class DbInit
 				  KEY `fk_location_id_user` (`id_user`)
 				) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;";
 		$this->db->query($sql);
+
+		$sql = "CREATE TABLE IF NOT EXISTS `chats` (
+				  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+				  `id_user` int(10) UNSIGNED NOT NULL,
+				  `id_sob` int(10) UNSIGNED NOT NULL,
+				  PRIMARY KEY (`id`),
+				  KEY `fk_location_id_user` (`id_user`)
+				) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;";
+		$this->db->query($sql);
 	}
 }

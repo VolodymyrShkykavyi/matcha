@@ -1,5 +1,4 @@
 
-
 window.onload = function(){
   var id_el = $($("#site-header a div.author-title")[0]).data().id;
 
