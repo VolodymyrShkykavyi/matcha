@@ -4,6 +4,7 @@ namespace App\Controllers;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
+
 class Client
 {
 	private $_id = 0;
@@ -26,13 +27,14 @@ class Chat extends Controller implements MessageComponentInterface {
 
 	public function __construct(){
 		$this->clients = new \SplObjectStorage;
+		$this->loadModel("chat");
 	}
 	public function onOpen(ConnectionInterface $conn) {
 		// Store the new connection to send messages to later
 		$querystring = $conn->httpRequest->getUri()->getQuery();
 		parse_str($querystring,$queryarray);
 		$client = new Client($queryarray["id"], $conn);
-		$this->model->updateIsOnline($this->$queryarray["id"], true);
+		// $this->model->updateIsOnline($client->getId(), true);
 		$this->clients->attach($client);
 		echo "New connection! ({$conn->resourceId})\n";
 	}
@@ -52,9 +54,9 @@ class Chat extends Controller implements MessageComponentInterface {
 	public function onClose(ConnectionInterface $conn)
 	{
 		// The connection is closed, remove it, as we can no longer send it messages
-		foreach ($this->clients as &$client) {
+		foreach ($this->clients as $client) {
 			if ($client->getConn() === $conn){
-				$this->model->updateIsOnline($this->clients->getId(), false);
+				// $this->model->updateIsOnline($this->clients->getId(), false);
 				echo "Connection {$conn->resourceId} has disconnected\n";
 				$this->clients->detach($client);
 			}
