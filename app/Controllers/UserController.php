@@ -252,6 +252,12 @@ class UserController extends Controller
         return json_encode($res);
     }
 
+    public function getMyInfo($request, $response, $args)
+    {
+        echo json_encode($_SESSION['auth']);
+    }
+
+
     private function _formatted_location($lat, $lng)
     {
             $url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='.trim($lat).','.trim($lng).'&sensor=false';
@@ -271,9 +277,15 @@ class UserController extends Controller
 
             return $addr;
     }
+
     public function chat($requests, $response, $args)
     {
+         // if (empty($_SESSION['auth'])) {
+         //         return json_encode(NULL);
+         //    }
         $this->ViewData['mydata'] = ['dr'=> 1];
         $this->render($response, "chat.twig", "chat");
+        // $res['user_id'] = $_SESSION['auth']['id']
+        // return json_encode($res);
     }
 }

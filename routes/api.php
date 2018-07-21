@@ -8,4 +8,5 @@ $app->group('', function (){
 	$this->post('/location/change', UserController::class.':changeLocation');
 	$this->post('/password/change', UserController::class.':changePassword');
 	$this->post('/friend/change', UserController::class.':changeFriendRequest');
+	$this->post('/info/get', UserController::class.':getMyInfo');
 })->add(new RedirectIfUnauthorized($container['router']));
