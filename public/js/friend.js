@@ -5,11 +5,15 @@ $(".control-block-button a.friend, ul.friend-requests span a").click(function(ev
 	let el = this;
 
 	if (data.type && data.id){
+		if (data.type == 'remove_friend'){
+			if (!confirm('You shoore?')){
+				return;
+			}
+		}
+
 		let send = {type: data.type, targetId: data.id};
 		data.type = '';
 		this.setAttribute('data-type', '');
-
-
 
 		$.ajax({
 			type: 'POST',

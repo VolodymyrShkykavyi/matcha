@@ -36,6 +36,11 @@
     height: 100%
 }
 
+.control-icon a{
+	fill: #fff;
+	margin: 0;
+}
+
 .header-spacer {
     display: block;
     height: 110px
