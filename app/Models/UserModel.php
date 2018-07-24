@@ -51,6 +51,24 @@ class UserModel extends Model
 		return $res;
 	}
 
+	public function getNotifications($userId)
+	{
+		$res = $this->execute('SELECT * FROM `notifications` WHERE `id_user` = ?i', [$userId]);
+
+		return $res;
+	}
+
+	public function countNotifications($userId)
+	{
+		$res = $this->db->query("SELECT COUNT(*) FROM `notifications` WHERE `id_user` = ?i AND `viewed` = 0", $userId);
+
+		$res = $res->fetch_row();
+
+		if (!empty($res))
+			return $res[0];
+		return $res;
+	}
+
 	public function getUserLocation($userId)
 	{
 		if (!is_numeric($userId) || $userId <= 0) {
@@ -183,6 +201,29 @@ class UserModel extends Model
 			}
 	}
 
+	public function addNotificationViewProfile($userId, $targetId)
+	{
+		$res = $this->db->query("INSERT INTO `notifications` (`id_user_from`, `id_user`, `type`)
+			VALUES (?i, ?i, 'view_profile') ON DUPLICATE KEY UPDATE `time` = CURRENT_TIMESTAMP, `viewed` = 0 ", $userId, $targetId);
+
+		return $res;
+	}
+
+	public function addNotificationAcceptFriendRequest($userId, $targetId)
+	{
+		$res = $this->db->query("INSERT INTO `notifications` (`id_user_from`, `id_user`, `type`)
+			VALUES (?i, ?i, 'accept_friend_request') ON DUPLICATE KEY UPDATE `time` = CURRENT_TIMESTAMP, `viewed` = 0 ", $userId, $targetId);
+
+		return $res;
+	}
+
+	public function addNotificationRemoveFriend($userId, $targetId)
+	{
+		$res = $this->db->query("INSERT INTO `notifications` (`id_user_from`, `id_user`, `type`)
+			VALUES (?i, ?i, 'remove_from_friend') ON DUPLICATE KEY UPDATE `time` = CURRENT_TIMESTAMP, `viewed` = 0 ", $userId, $targetId);
+
+		return $res;
+	}
 
 
 	/////////////////////////////
@@ -239,6 +280,13 @@ class UserModel extends Model
 			return $res;
 		}
 		return false;
+	}
+
+	public function updateNotificationsViewed($userId)
+	{
+		$res = $this->db->query("UPDATE `notifications` SET `viewed` = 1 WHERE `id_user` = ?i", $userId);
+
+		return $res;
 	}
 
 

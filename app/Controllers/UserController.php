@@ -20,6 +20,7 @@ class UserController extends Controller
 				$this->_user = $user;
 				$location = $this->model->getUserLocation($_SESSION['auth']['id']);
 				$friendRequests = $this->model->getFriendRequests($this->_user['id']);
+				$notification_num = $this->model->countNotifications($this->_user['id']);
 				$friends = $this->model->getFriends($this->_user['id']);
 				$chats = $this->model->getChatRooms($this->_user['id']);
 				$i = 0;
@@ -40,6 +41,7 @@ class UserController extends Controller
 			   }
 				//send to view
 				$this->ViewData['num_requests'] = count($friendRequests);
+				$this->ViewData['num_notifications'] = $notification_num;
 				foreach ($friends as &$friend){
 					$id = ($friend['from_request'] == $this->_user['id']) ? $friend['to_request'] : $friend['from_request'];
 					$friend['profile'] = $this->model->getUser($id);
@@ -88,9 +90,22 @@ class UserController extends Controller
 		} else {
 			return $response->withRedirect('/');
 		}
-
+		if (!empty($this->_user))
+			$this->model->addNotificationViewProfile($this->_user['id'], $profile['id']);
 
 		$this->render($response, 'profile.twig', 'Home Page');
+	}
+
+	public function getNotifications($request, $response, $args)
+	{
+		$this->ViewData['num_notifications'] = 0;
+		$this->ViewData['notifications'] = $this->model->getNotifications($this->_user['id']);
+		foreach ($this->ViewData['notifications'] as &$notification){
+			$notification['profile'] = $this->model->getUser($notification['id_user_from']);
+		}
+
+		$this->model->updateNotificationsViewed($this->_user['id']);
+		$this->render($response, 'notifications.twig', "Notifications");
 	}
 
 	public function secret($request, $response, $args)
@@ -133,6 +148,12 @@ class UserController extends Controller
 		//TODO: send mail and redirect(in data user id)
 
 		return $response->withRedirect('/');
+	}
+
+	public function showPhotoPage($request, $response, $args)
+	{
+
+		$this->render($response, 'uploadPhoto.twig','Photos');
 	}
 
 	public function authorize($request, $response, $args)
@@ -259,8 +280,10 @@ class UserController extends Controller
 				$res = $this->model->addFriend($this->_user['id'], $data['targetId']);
 			} elseif($data['type'] == 'remove_friend' || $data['type'] == 'remove_request') {
 				$res = $this->model->removeFriend($this->_user['id'], $data['targetId']);
+				$this->model->addNotificationRemoveFriend($this->_user['id'], $data['targetId']);
 			} elseif($data['type'] == 'accept'){
 				$res = $this->model->acceptFriend($this->_user['id'], $data['targetId']);
+				$this->model->addNotificationAcceptFriendRequest($this->_user['id'], $data['targetId']);
 			}
 		}
 

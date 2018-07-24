@@ -1,0 +1,25 @@
+{% extends 'layouts/app.twig' %}
+
+{% block content %}
+
+	<div class="container">
+		<div class="row">
+			{% for notification in notifications %}
+				<div class="col-12">
+					{% if notification.type == 'view_profile' %}
+						<a href="/profile/{{ notification.profile.id }}">{{ notification.profile.login }}</a> viewed your profile {{ notification.time }}
+					{% endif %}
+
+					{% if notification.type == 'accept_friend_request' %}
+						<a href="/profile/{{ notification.profile.id }}">{{ notification.profile.login }}</a> accept your friend request {{ notification.time }}
+					{% endif %}
+
+					{% if notification.type == 'remove_from_friend' %}
+						<a href="/profile/{{ notification.profile.id }}">{{ notification.profile.login }}</a> remove you from friends {{ notification.time }}
+					{% endif %}
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+{% endblock %}
