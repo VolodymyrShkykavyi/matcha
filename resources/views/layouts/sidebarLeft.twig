@@ -202,9 +202,9 @@
                         <img alt="author" src="/img/author-page.jpg" class="avatar">
                         <span class="icon-status online"></span>
                     </div>
-                    <a href="02-ProfilePage.html" class="author-name fn">
+                    <a href="/" class="author-name fn">
                         <div class="author-title">
-                            James Spiegel <svg class="olymp-dropdown-arrow-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
+                            {{ user.login }} <svg class="olymp-dropdown-arrow-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
                         </div>
                         <span class="author-subtitle">{{ user.status }}</span>
                     </a>
@@ -223,21 +223,15 @@
                     </a>
                 </li>
                 <li>
-                    <a href="mobile-index.html">
-                        <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="NEWSFEED"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-newsfeed-icon"></use></svg>
-                        <span class="left-menu-title">Newsfeed</span>
-                    </a>
-                </li>
-                <li>
                     <a href="Mobile-28-YourAccount-PersonalInformation.html">
                         <svg class="olymp-star-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="FAV PAGE"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-star-icon"></use></svg>
                         <span class="left-menu-title">Fav Pages Feed</span>
                     </a>
                 </li>
                 <li>
-                    <a href="mobile-29-YourAccount-AccountSettings.html">
+                    <a href="/friends">
                         <svg class="olymp-happy-faces-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="FRIEND GROUPS"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-faces-icon"></use></svg>
-                        <span class="left-menu-title">Friend Groups</span>
+                        <span class="left-menu-title">Friends</span>
                     </a>
                 </li>
                 <li>
