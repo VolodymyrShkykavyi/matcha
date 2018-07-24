@@ -3,21 +3,60 @@
 {% block content %}
 
 
-    <div class="container">
-        <ul>
-            {% for friend in friends %}
-                <li>
-                    <br>login: {{ friend.profile.login }}
-                    <br>name: {{ friend.profile.firstName }} {{ friend.profile.lastName }}
-                    <br>lastAction: {{ friend.profile.lastAction }}
-                    <hr>
-                </li>
-            {% endfor %}
+	<div class="container">
+		<div class="row">
+			{% for friend in friends %}
+				<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<div class="ui-block" data-mh="friend-groups-item">
+						<div class="friend-item friend-groups">
+							<div class="friend-item-content">
+								<div class="more">
+									<svg class="olymp-three-dots-icon">
+										<use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+									</svg>
+									<ul class="more-dropdown">
+										<li>
+											<a href="#">Report Profile</a>
+										</li>
+										<li>
+											<a href="#">Block Profile</a>
+										</li>
+									</ul>
+								</div>
+								<div class="friend-avatar">
+									<div class="author-thumb">
+										<img src="img{{ friend.profile.img }}">
+									</div>
+									<div class="author-content">
+										<a href="/profile/{{ friend.profile.id }}"
+										   class="h5 author-name">{{ friend.profile.login }}</a>
+										<div class="country">{{ friend.profile.status }}</div>
+									</div>
+								</div>
 
-        </ul>
-        <pre>
-    {{ dump() }}
-        </pre>
-    </div>
+								<div class="control-block-button">
+									<a data-type="remove_friend" data-id="{{ friend.profile.id }}"
+									   title="Delete from friends" href="#" class="btn btn-control bg-red friend"
+									   data-toggle="modal" data-target="#create-friend-group-add-friends">
+										<svg class="olymp-happy-faces-icon">
+											<use xlink:href="svg-icons/sprites/icons.svg#olymp-happy-faces-icon"></use>
+										</svg>
+									</a>
 
+									<a title="Send message" href="/chat/{{ friend.profile.id }}"
+									   class="btn btn-control btn-blue">
+										<svg class="olymp-chat---messages-icon">
+											<use xlink:href="/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use>
+										</svg>
+									</a>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	<script src="/js/friend.js"></script>
 {% endblock %}
