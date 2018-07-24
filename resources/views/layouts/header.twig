@@ -45,7 +45,9 @@
 					<svg class="olymp-chat---messages-icon">
 						<use xlink:href="/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use>
 					</svg>
-					<div class="label-avatar bg-purple">2</div>
+					<div class="label-avatar bg-purple"
+
+					>122</div>
 				</a>
 			</div>
 
@@ -55,7 +57,11 @@
 						<use xlink:href="/svg-icons/sprites/icons.svg#olymp-thunder-icon"></use>
 					</svg>
 
-					<div class="label-avatar bg-primary">8</div>
+					<div class="label-avatar bg-primary"
+						{% if not num_notifications %}
+							style="display: none;"
+						{% endif %}
+					>{{ num_notifications }}</div>
 				</a>
 			</div>
 
