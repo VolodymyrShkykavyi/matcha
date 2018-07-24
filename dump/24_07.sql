@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июл 24 2018 г., 14:44
+-- Время создания: Июл 24 2018 г., 15:06
 -- Версия сервера: 5.7.21
 -- Версия PHP: 7.2.4
 
@@ -133,6 +133,19 @@ CREATE TABLE IF NOT EXISTS `settings` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `tags`
+--
+
+DROP TABLE IF EXISTS `tags`;
+CREATE TABLE IF NOT EXISTS `tags` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `tag` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `users`
 --
 
@@ -154,6 +167,19 @@ CREATE TABLE IF NOT EXISTS `users` (
   `IsOnline` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `user_tags`
+--
+
+DROP TABLE IF EXISTS `user_tags`;
+CREATE TABLE IF NOT EXISTS `user_tags` (
+  `id_user` int(10) UNSIGNED NOT NULL,
+  `id_tag` int(10) UNSIGNED NOT NULL,
+  UNIQUE KEY `id_user` (`id_user`,`id_tag`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
