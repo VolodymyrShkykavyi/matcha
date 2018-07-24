@@ -35,7 +35,6 @@ class Chat extends Controller implements MessageComponentInterface {
 		$querystring = $conn->httpRequest->getUri()->getQuery();
 		parse_str($querystring,$queryarray);
 		$client = new Client($queryarray["id"], $conn);
-		// var_dump($this->model);
 		$this->model->updateUserIsOnline($client->getId(), true);
 		$this->clients->attach($client);
 		echo "New connection! ({$conn->resourceId})\n";
@@ -61,7 +60,6 @@ class Chat extends Controller implements MessageComponentInterface {
 		foreach ($this->clients as $client) {
 			if ($client->getConn() === $conn){
 				$clientId = $client->getId();
-				// $this->model->updateUserIsOnline($clientId, false);
 				echo "Connection {$conn->resourceId} has disconnected\n";
 				$this->clients->detach($client);
 			}

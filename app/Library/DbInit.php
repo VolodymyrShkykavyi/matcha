@@ -20,6 +20,7 @@ class DbInit
 	{
 		$this->createDb();
 		$this->createTables();
+		$this->createUsers();
 		echo "Database installed!";
 	}
 
@@ -49,11 +50,34 @@ class DbInit
 				  `registerDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				  `lastAction` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				  `IsOnline` tinyint(1) NOT NULL DEFAULT '0',
+				  `img` varchar(255) DEFAULT '/author-main1.jpg',
 				  `active` tinyint(1) NOT NULL DEFAULT '0',
 				  PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;";
-		//TODO: fields: !isOnline!, verified, sexuality, fame(rating), blocked(isActive), location
-		$this->db->query($sql);
+			//TODO: fields: !isOnline!, verified, sexuality, fame(rating), blocked(isActive), location
+			try {
+				$this->db->query($sql);
+			} catch (\dbException $e){
+				die("Can't create table `users` : " . $e->getMessage());
+			}
+
+		$sql = "CREATE TABLE IF NOT EXISTS `messages` (
+				 `id_message` INTEGER PRIMARY KEY AUTO_INCREMENT,
+       			 `id_chat_room` INTEGER NOT NULL,
+       			 `id_user_from` INTEGER NOT NULL,
+       			 `id_user_to` INTEGER NOT NULL,
+				 `messadge` TEXT NOT NULL,
+				 `date_creation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				 FOREIGN KEY (id_user_from) REFERENCES users(id) ON DELETE CASCADE,
+				 FOREIGN KEY (id_user_to) REFERENCES users(id) ON DELETE CASCADE,
+				 FOREIGN KEY (id_chat_room) REFERENCES chats(id) ON DELETE CASCADE)
+			) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;";
+			try {
+				$this->db->query($sql);
+			} catch (\dbException $e){
+				die("Can't create table `messages` : " . $e->getMessage());
+			}
+
 
 		$sql = "CREATE TABLE IF NOT EXISTS `settings` (
 				  `id` int(10) UNSIGNED NOT NULL,
@@ -63,7 +87,11 @@ class DbInit
 				  `id_user` int(10) UNSIGNED NOT NULL,
 				  KEY `id_user` (`id_user`)
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-		$this->db->query($sql);
+		try {
+				$this->db->query($sql);
+			} catch (\dbException $e){
+				die("Can't create table `settings` : " . $e->getMessage());
+			}
 
 		$sql = "CREATE TABLE IF NOT EXISTS `location` (
 				  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -73,15 +101,50 @@ class DbInit
 				  PRIMARY KEY (`id`),
 				  KEY `fk_location_id_user` (`id_user`)
 				) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;";
-		$this->db->query($sql);
+		try {
+				$this->db->query($sql);
+			} catch (\dbException $e){
+				die("Can't create table `location` : " . $e->getMessage());
+			}
 
 		$sql = "CREATE TABLE IF NOT EXISTS `chats` (
-				  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-				  `id_user` int(10) UNSIGNED NOT NULL,
-				  `id_sob` int(10) UNSIGNED NOT NULL,
+				 `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+				 `id_user` int(10) UNSIGNED NOT NULL,
+				 `id_sob` int(10) UNSIGNED NOT NULL,
 				  PRIMARY KEY (`id`),
 				  KEY `fk_location_id_user` (`id_user`)
 				) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;";
-		$this->db->query($sql);
+		try {
+				$this->db->query($sql);
+			} catch (\dbException $e){
+				die("Can't create table `chats` : " . $e->getMessage());
+			}
+
+		$sql = "CREATE TABLE IF NOT EXISTS `friends` (
+				`id` int(10) UNSIGNED NOT NULL,
+  				`from_request` int(10) UNSIGNED NOT NULL,
+ 				`to_request` int(10) UNSIGNED NOT NULL,
+  				`status` tinyint(1) NOT NULL DEFAULT '0',
+  				`date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+				) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;";
+		try {
+				$this->db->query($sql);
+			} catch (\dbException $e){
+				die("Can't create table `friends` : " . $e->getMessage());
+			}
+	}
+
+	protected function createUsers()
+	{
+		$sql = "INSERT INTO `users` (`id`, `login`, `password`, `email`, `status`, `firstName`, `lastName`, `gender`, `birthDate`, `registerDate`, `lastAction`, `active`, `img`, `IsOnline`) VALUES
+(1, 'admin', '6a4e012bd9583858a5a6fa15f58bd86a25af266d3a4344f1ec2018b778f29ba83be86eb45e6dc204e11276f4a99eff4e2144fbe15e756c2c88e999649aae7d94', '123123@qwe', '123', '123', 'qwe', 'man', '2018-06-21', '2018-07-11 17:35:02', '2018-07-11 17:35:02', 1, '/author-main1.jpg', 0)";
+		try {
+				$this->db->query($sql);
+			} catch (\dbException $e){
+				die("Can't create table `friends` : " . $e->getMessage());
+			}
 	}
 }
+
+
+
