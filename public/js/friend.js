@@ -1,4 +1,3 @@
-
 $(".control-block-button a.friend, ul.friend-requests span a").click(function(ev){
 	ev.preventDefault();
 

@@ -35,7 +35,7 @@ $app->group('', function (){
 		$this->get('/settings', UserController::class.':accountSettings')->setName('user.settings');
 		$this->get('/friends', UserController::class.':friends');
 		$this->get('/friends/requests', UserController::class.':friendRequests');
-		$this->get('/chat', UserController::class.':chat');
+		$this->get('/chat[/{id:[0-9]+}]', UserController::class.':chat');
 	})->add(new RedirectIfUnverified($this->getContainer()['router']));
 
 	

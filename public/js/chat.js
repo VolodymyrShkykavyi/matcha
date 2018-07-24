@@ -8,6 +8,7 @@ window.onload = function(){
   socket.onmessage = function(event) {
     // let message = JSON.parse(event.data);
   };
+  
   if (document.location.pathname === '/chat'){
     document.forms["messages"].onsubmit = function()
     {
