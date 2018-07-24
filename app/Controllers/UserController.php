@@ -272,7 +272,7 @@ class UserController extends Controller
 		echo json_encode($_SESSION['auth']);
 	}
 
-	// public function login($request, $response, $args)
+	// public function ($request, $response, $args)
 	// {
 	// 	$data = $request->getParsedBody();
 	// 	$res = $this->model->getLoginUser($data['targetId']);
