@@ -288,6 +288,15 @@ class UserController extends Controller
 		return json_encode($res);
 	}
 
+	public function changePersonalInfo($request, $response, $args)
+	{
+		$data = $request->getParsedBody();
+//		$res = false;
+		$res = $data;
+
+		return json_encode($res);
+	}
+
 	public function getMyInfo($request, $response, $args)
 	{
 		echo json_encode($_SESSION['auth']);
@@ -354,15 +363,22 @@ class UserController extends Controller
 			$status = @$data->status;
 			$addr = "";
 
+		// check for over_query_limit status
+			while ($status=="OVER_QUERY_LIMIT") {
+				sleep(0.2); // seconds
+				$json = @file_get_contents($url);
+				$status = json_decode($json)->status;
+			}
+
 			if($status=="OK"){
-				$address_components = $data->results[0]->address_components;
-				if (!empty($address_components)){
-					$addr = $address_components[2]->long_name;
-					$addr .= ", ".$address_components[3]->long_name;
-					$addr .= ", ".$address_components[6]->long_name;
+				if (!empty($data->results)) {
+					$address_components = $data->results[0]->address_components;
+					if (!empty($address_components)) {
+						$addr = $address_components[2]->long_name;
+						$addr .= ", " . $address_components[3]->long_name;
+						$addr .= ", " . $address_components[6]->long_name;
+					}
 				}
-			} else {
-				return $status;
 			}
 
 			return $addr;

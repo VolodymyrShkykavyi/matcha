@@ -105,6 +105,16 @@
 					</div>
 				</div>
 
+				<div class="ui-block hobbies_interests" style="display: none">
+					<div class="ui-block-title">
+						<h6 class="title">Your hobbies and interests</h6>
+					</div>
+
+					<div class="ui-block-content">
+					TAGGGSS
+					</div>
+				</div>
+
 				<div class="ui-block change_password" style="display: none;">
 					<div class="ui-block-title">
 						<h6 class="title">Change Password</h6>
@@ -195,19 +205,18 @@
 											   value="{{ user.lastName }}">
 									</div>
 
+									<div class="form-group label-floating is-select">
+										<label class="control-label">Login</label>
+										<input name="login" class="form-control" placeholder="" type="text"
+											   value="{{ user.login }}">
+									</div>
+
 									<div class="form-group label-floating">
 										<label class="control-label">Custom status</label>
 										<input name="custom_status" class="form-control" placeholder="" type="text"
 											   value="{{ user.status }}">
 									</div>
 
-									<div class="form-group label-floating is-select">
-										<label class="control-label">Status</label>
-										<select name="status" class="selectpicker form-control">
-											<option value="married">Married</option>
-											<option value="not_married">Not Married</option>
-										</select>
-									</div>
 
 									{#<div class="form-group label-floating is-empty">#}
 									{#<label class="control-label">Your Phone Number</label>#}
@@ -225,11 +234,10 @@
 
 								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 									<div class="form-group label-floating">
-										<label class="control-label">TAGGGGS MAZAFAKA</label>
+										<label class="control-label">Write some description about you</label>
 										<textarea name="description" class="form-control"
-												  placeholder=""></textarea>
+												  placeholder="">{{ user.description }}</textarea>
 									</div>
-
 								</div>
 
 								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -260,15 +268,6 @@
 
 								</div>
 
-
-								<div class="col-12">
-									<div class="form-group label-floating">
-										<label class="control-label">Write some description about you</label>
-										<textarea name="description" class="form-control"
-												  placeholder="">{{ user.description }}</textarea>
-									</div>
-								</div>
-
 								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 									<div class="form-group with-icon label-floating">
 										<label class="control-label">Your Facebook Account</label>
@@ -285,8 +284,8 @@
 									<button class="btn btn-secondary btn-lg full-width">Save all Changes</button>
 								</div>
 								{#<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">#}
-									{#<button type="submit" class="btn btn-primary btn-lg full-width">Save all Changes#}
-									{#</button>#}
+								{#<button type="submit" class="btn btn-primary btn-lg full-width">Save all Changes#}
+								{#</button>#}
 								{#</div>#}
 
 							</div>
@@ -334,10 +333,7 @@
 											<a class="clickable" id="change_password" href="#">Change Password</a>
 										</li>
 										<li>
-											<a class="clickable" href="#">Hobbies and Interests</a>
-										</li>
-										<li>
-											<a class="clickable" href="#">Education and Employement</a>
+											<a class="clickable" id="hobbies_interests" href="#">Hobbies and Interests</a>
 										</li>
 									</ul>
 								</div>
