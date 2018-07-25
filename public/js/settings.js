@@ -93,6 +93,10 @@ $("#personal_information_form button").click(function (ev) {
 
 	data.description = $(form.description)[0].value;
 	data.sexual_preferenses = $(form.sex_preferences).val();
+	data.gender = $(form.gender)[0].value;
+	data.fb_page = form.fb_page.value;
+	data.twitter_page = form.twitter_page.value;
+
 	data.lat = $('#lat').text();
 	data.lng = $('#lng').text();
 
@@ -123,6 +127,7 @@ $("#personal_information_form button").click(function (ev) {
 		errors++;
 	} else {
 		checkEmail();
+		data.email = form.email.value;
 	}
 
 	if (form.custom_status.value.length > 50) {
@@ -140,6 +145,7 @@ $("#personal_information_form button").click(function (ev) {
 	}
 
 	if (!errors && !wrongEmail && !wrongLogin) {
+
 		$.ajax({
 			type: 'POST',
 			url: '/profile/personal/change',
@@ -147,10 +153,12 @@ $("#personal_information_form button").click(function (ev) {
 			success: function (response) {
 				response = JSON.parse(response);
 
-				console.log(response);
+				if (response){
+					alert('changed');
+				}
 			}
 		});
 	} else {
-		console.log('validation err');
+		alert('validation err, del me');
 	}
 });

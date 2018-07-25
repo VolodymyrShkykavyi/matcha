@@ -26,8 +26,7 @@ class UserController extends Controller
 				$chats = $this->model->getChatRooms($this->_user['id']);
 				$i = 0;
 				foreach ($chats as $value) {
-					if($value["id_sob"] == $this->_user['id'])
-					{
+					if ($value["id_sob"] == $this->_user['id']) {
 
 						$value["id_sob"] = $value["id_user"];
 					}
@@ -35,15 +34,15 @@ class UserController extends Controller
 					$value["last_mess"] = $this->model->getLastMessage($value["id_sob"], $value['id']);
 					$this->ViewData['chats'][$i] = $value;
 					$i++;
-					
+
 				}
-	//send to view
+				//send to view
 				$this->ViewData['user'] = $this->_user;
 				$this->ViewData['user']['location'] = $this->_formatted_location($location['lat'], $location['lng']);
 				$this->ViewData['user']['lat_lng'] = $location;
 				$this->ViewData['num_requests'] = count($friendRequests);
 				$this->ViewData['num_notifications'] = $notification_num;
-				foreach ($friends as &$friend){
+				foreach ($friends as &$friend) {
 					$id = ($friend['from_request'] == $this->_user['id']) ? $friend['to_request'] : $friend['from_request'];
 					$friend['profile'] = $this->model->getUser($id);
 				}
@@ -51,9 +50,8 @@ class UserController extends Controller
 				$this->ViewData['friends'] = $friends;
 
 
-
 				if (empty($this->_user['img'])) {
-					 $this->_user['img'] = '/author-main1.jpg';
+					$this->_user['img'] = '/author-main1.jpg';
 				}
 
 			}
@@ -72,16 +70,14 @@ class UserController extends Controller
 		$this->ViewData['args'] = $args;
 		$profile = $this->model->getUser($args['id']);
 		$location = $this->model->getUserLocation($args['id']);
-		
-		if (!empty($profile) && $profile['active'] && $profile['id'] != $this->_user['id'])
-		{
-			 if (empty($profile['img'])) 
-			 {
+
+		if (!empty($profile) && $profile['active'] && $profile['id'] != $this->_user['id']) {
+			if (empty($profile['img'])) {
 				$profile['img'] = '/author-main1.jpg';
 			}
 			$this->ViewData['profile'] = $profile;
 			$this->ViewData['profile']['friendship'] = $this->model->getFriend($this->_user['id'], $args['id']);
-			if (!empty($location)){
+			if (!empty($location)) {
 				$this->ViewData['profile']['location'] = $this->_formatted_location($location['lat'], $location['lng']);
 			}
 
@@ -98,7 +94,7 @@ class UserController extends Controller
 	{
 		$this->ViewData['num_notifications'] = 0;
 		$this->ViewData['notifications'] = $this->model->getNotifications($this->_user['id']);
-		foreach ($this->ViewData['notifications'] as &$notification){
+		foreach ($this->ViewData['notifications'] as &$notification) {
 			$notification['profile'] = $this->model->getUser($notification['id_user_from']);
 		}
 
@@ -134,7 +130,7 @@ class UserController extends Controller
 			$data['birthday'] = $birthday->format('Y-m-d');
 
 		$id = $this->model->addUser($data);
-		if ($id){
+		if ($id) {
 			$this->_user = $this->model->getUser($id);
 			$_SESSION['auth'] = [
 				'login' => $this->_user['login'],
@@ -151,7 +147,7 @@ class UserController extends Controller
 	public function showPhotoPage($request, $response, $args)
 	{
 
-		$this->render($response, 'uploadPhoto.twig','Photos');
+		$this->render($response, 'uploadPhoto.twig', 'Photos');
 	}
 
 	public function authorize($request, $response, $args)
@@ -178,9 +174,9 @@ class UserController extends Controller
 	public function verify($request, $response, $args)
 	{
 		var_dump($_SERVER);
-		if (!empty($args) && !empty($args['token'])){
+		if (!empty($args) && !empty($args['token'])) {
 			$this->ViewData['args'] = $args;
-			if ($this->model->updateUserActive($this->_user['id'], true)){
+			if ($this->model->updateUserActive($this->_user['id'], true)) {
 				$_SESSION['auth']['verify'] = 1;
 				return $response->withRedirect('/');
 			} else {
@@ -194,7 +190,7 @@ class UserController extends Controller
 
 	public function logout($request, $response, $args)
 	{
-		
+
 		unset($_SERVER['auth']);
 		session_destroy();
 
@@ -211,7 +207,7 @@ class UserController extends Controller
 			$birthday = $birthday->format('d/m/Y');
 		$this->ViewData['user']['birthDate'] = $birthday;
 		$this->ViewData['user']['email'] = $this->_user['email'];
-
+		$this->ViewData['user']['details'] = $this->model->getUserDetails($this->_user['id']);
 		$this->render($response, 'settings.twig', 'Account settings');
 	}
 
@@ -229,9 +225,9 @@ class UserController extends Controller
 		$res = false;
 
 		if (!empty($data) && $data['current'] && $data['new_psw'] && $data['confirm'] &&
-			$data['new_psw'] == $data['confirm']){
+			$data['new_psw'] == $data['confirm']) {
 			if (preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $data['new_psw']) &&
-				strlen($data['new_psw']) >= 6){
+				strlen($data['new_psw']) >= 6) {
 				$res = $this->model->updatePassword($this->_user['id'], $data['current'], $data['new_psw']);
 			}
 		}
@@ -240,13 +236,13 @@ class UserController extends Controller
 
 	public function friends($request, $response, $args)
 	{
-	   $this->render($response, 'friends.twig', 'Friends');
+		$this->render($response, 'friends.twig', 'Friends');
 	}
 
 	public function friendRequests($request, $response, $args)
 	{
 		$this->ViewData['requests'] = $this->model->getFriendRequests($this->_user['id']);
-		foreach ($this->ViewData['requests'] as &$request){
+		foreach ($this->ViewData['requests'] as &$request) {
 			if (isset($request['from_request'])) {
 				$request['profile'] = $this->model->getUser($request['from_request']);
 				if (empty($request['profile']['img'])) {
@@ -262,24 +258,25 @@ class UserController extends Controller
 	{
 		$data = $request->getParsedBody();
 
-		if (!empty($data) && $data['lat'] && $data['lng']){
+		if (!empty($data) && $data['lat'] && $data['lng']) {
 			return json_encode($this->model->updateLocation($this->_user['id'], $data['lat'], $data['lng']));
 		}
 
 		return json_encode(false);
 	}
+
 	public function changeFriendRequest($request, $response, $args)
 	{
 		$data = $request->getParsedBody();
 		$res = false;
 
 		if (!empty($data) && $data['type'] && $data['targetId'] && $data['targetId'] != $this->_user['id']) {
-			if ($data['type'] == 'add'){
+			if ($data['type'] == 'add') {
 				$res = $this->model->addFriend($this->_user['id'], $data['targetId']);
-			} elseif($data['type'] == 'remove_friend' || $data['type'] == 'remove_request') {
+			} elseif ($data['type'] == 'remove_friend' || $data['type'] == 'remove_request') {
 				$res = $this->model->removeFriend($this->_user['id'], $data['targetId']);
 				$this->model->addNotificationRemoveFriend($this->_user['id'], $data['targetId']);
-			} elseif($data['type'] == 'accept'){
+			} elseif ($data['type'] == 'accept') {
 				$res = $this->model->acceptFriend($this->_user['id'], $data['targetId']);
 				$this->model->addNotificationAcceptFriendRequest($this->_user['id'], $data['targetId']);
 			}
@@ -291,8 +288,28 @@ class UserController extends Controller
 	public function changePersonalInfo($request, $response, $args)
 	{
 		$data = $request->getParsedBody();
-//		$res = false;
-		$res = $data;
+		$res = false;
+
+		if (!empty($data['login']) && !empty($data['email']) && !empty($data['datetimepicker']) &&
+			!empty($data['lat']) && !empty($data['lng']) && !empty($data['sexual_preferenses']) &&
+			!empty($data['gender'])) {
+
+			$data['login'] = htmlspecialchars($data['login']);
+			$data['email'] = htmlspecialchars($data['email']);
+			$birthday = \DateTime::createFromFormat('d/m/Y', $data['datetimepicker']);
+
+			//get date in good format for Mysql
+			if ($birthday)
+				$data['birthday'] = $birthday->format('Y-m-d');
+			$data['description'] = htmlspecialchars($data['description']);
+			$data['fb_page'] = htmlspecialchars($data['fb_page']);
+			$data['twitter_page'] = htmlspecialchars($data['twitter_page']);
+
+			$res =  $this->model->updateUserPersonalInfo($this->_user['id'], $data);
+
+			return json_encode($res);
+
+		}
 
 		return json_encode($res);
 	}
@@ -320,75 +337,70 @@ class UserController extends Controller
 	public function ChatRoom1($request, $response, $args)
 	{
 		$data = $request->getParsedBody();
-		if (!empty($data) && $data['targetId'] && $data['targetId'] != $this->_user['id'])
-		{
+		if (!empty($data) && $data['targetId'] && $data['targetId'] != $this->_user['id']) {
 			$res = $this->model->getChatRooms($this->_user['id']);
 			foreach ($res as $value) {
-				if($value["id_sob"] == $data['targetId'])
+				if ($value["id_sob"] == $data['targetId'])
 					$c = 1;
-				if($value["id_user"] == $data['targetId'])
+				if ($value["id_user"] == $data['targetId'])
 					$c = 1;
 			}
-			if(!$c)
-			{
+			if (!$c) {
 				$this->model->addChatRoom($this->_user['id'], $data['targetId']);
 				$res = $this->model->getChatRooms($this->_user['id']);
 				foreach ($res as $value) {
-				if($value["id_sob"] == $data['targetId'])
-					return $value["id"];
-				if($value["id_user"] == $data['targetId'])
-					return $value["id"];
+					if ($value["id_sob"] == $data['targetId'])
+						return $value["id"];
+					if ($value["id_user"] == $data['targetId'])
+						return $value["id"];
 				}
-			}
-			else
-			{
+			} else {
 				foreach ($res as $value) {
-				if($value["id_sob"] == $data['targetId'])
-					return $value["id"];
-				if($value["id_user"] == $data['targetId'])
-					return $value["id"];
+					if ($value["id_sob"] == $data['targetId'])
+						return $value["id"];
+					if ($value["id_user"] == $data['targetId'])
+						return $value["id"];
 				}
 			}
-		}
-		else{
+		} else {
 			return "errorochka";
 		}
 	}
 
 	private function _formatted_location($lat, $lng)
 	{
-			$url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='.trim($lat).','.trim($lng).'&sensor=false';
-			$json = @file_get_contents($url);
-			$data = json_decode($json);
-			$status = @$data->status;
-			$addr = "";
+		$url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' . trim($lat) . ',' . trim($lng) . '&sensor=false';
+		$json = @file_get_contents($url);
+		$data = json_decode($json);
+		$status = @$data->status;
+		$addr = "";
 
 		// check for over_query_limit status
-			while ($status=="OVER_QUERY_LIMIT") {
-				sleep(0.2); // seconds
-				$json = @file_get_contents($url);
-				$status = json_decode($json)->status;
-			}
+		while ($status == "OVER_QUERY_LIMIT") {
+			sleep(0.2); // seconds
+			$json = @file_get_contents($url);
+			$status = json_decode($json)->status;
+		}
 
-			if($status=="OK"){
-				if (!empty($data->results)) {
-					$address_components = $data->results[0]->address_components;
-					if (!empty($address_components)) {
-						$addr = $address_components[2]->long_name;
-						$addr .= ", " . $address_components[3]->long_name;
-						$addr .= ", " . $address_components[6]->long_name;
-					}
+		if ($status == "OK") {
+			if (!empty($data->results)) {
+				$address_components = $data->results[0]->address_components;
+				if (!empty($address_components)) {
+					$addr = $address_components[2]->long_name;
+					$addr .= ", " . $address_components[3]->long_name;
+					$addr .= ", " . $address_components[6]->long_name;
 				}
 			}
+		}
 
-			return $addr;
+		return $addr;
 	}
 
 
 	public function chat($requests, $response, $args)
 	{
 		$this->ViewData['arg'] = $args;
-		$this->ViewData['mydata'] = ['dr'=> 1];
+		$this->ViewData['mydata'] = ['dr' => 1];
 		$this->render($response, "chat.twig", "chat");
 	}
 }
