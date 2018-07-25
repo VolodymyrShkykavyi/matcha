@@ -236,7 +236,7 @@
 									<div class="form-group label-floating">
 										<label class="control-label">Write some description about you</label>
 										<textarea name="description" class="form-control"
-												  placeholder="">{{ user.description }}</textarea>
+												  placeholder="">{{ user.details.description }}</textarea>
 									</div>
 								</div>
 
@@ -244,14 +244,14 @@
 
 									<div class="form-group label-floating is-select">
 										<label class="control-label">Your Gender</label>
-										<select class="selectpicker form-control">
+										<select name="gender" class="selectpicker form-control">
 											<option
 													{% if user.gender == 'man' %}selected{% endif %}
-													value="MA">Male
+													value="man">Male
 											</option>
 											<option
 													{% if user.gender == 'woman' %}selected{% endif %}
-													value="FE">Female
+													value="woman">Female
 											</option>
 										</select>
 									</div>
@@ -260,9 +260,15 @@
 									<div class="form-group label-floating is-select">
 										<label class="control-label">Sexual preferences</label>
 										<select name="sex_preferences" class="selectpicker form-control">
-											<option selected value="bi">Bi</option>
-											<option value="male">Man</option>
-											<option value="female">Woman</option>
+											<option
+												{% if user.details.sexual_preferences == 'bi' %}selected{% endif %}
+													value="bi">Bi</option>
+											<option
+												{% if user.details.sexual_preferences == 'male' %}selected{% endif %}
+													value="male">Man</option>
+											<option
+												{% if user.details.sexual_preferences == 'female' %}selected{% endif %}
+													value="female">Woman</option>
 										</select>
 									</div>
 
@@ -271,22 +277,18 @@
 								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 									<div class="form-group with-icon label-floating">
 										<label class="control-label">Your Facebook Account</label>
-										<input class="form-control" type="text" value="{{ user.fb_page }}">
+										<input name="fb_page" class="form-control" type="text" value="{{ user.details.fb_page }}">
 										<i class="fa fa-facebook c-facebook" aria-hidden="true"></i>
 									</div>
 									<div class="form-group with-icon label-floating">
 										<label class="control-label">Your Twitter Account</label>
-										<input class="form-control" type="text" value="{{ user.twitter_page }}">
+										<input name="twitter_page" class="form-control" type="text" value="{{ user.details.twitter_page }}">
 										<i class="fa fa-twitter c-twitter" aria-hidden="true"></i>
 									</div>
 								</div>
 								<div class="col-12 pl-5 pr-5">
 									<button class="btn btn-secondary btn-lg full-width">Save all Changes</button>
 								</div>
-								{#<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">#}
-								{#<button type="submit" class="btn btn-primary btn-lg full-width">Save all Changes#}
-								{#</button>#}
-								{#</div>#}
 
 							</div>
 						</form>
