@@ -25,4 +25,17 @@ class ApiController extends Controller
 
 		return json_encode(false);
 	}
+
+	public function checkLogin($request, $response, $args)
+	{
+		$data = $request->getParsedBody();
+		if (!empty($data['login'])) {
+			$id = $_SESSION['auth']['id'];
+			if (empty($id))
+				$id = 0;
+			return json_encode($this->model->checkLogin($id, $data['login']));
+		}
+
+		return json_encode(false);
+	}
 }
