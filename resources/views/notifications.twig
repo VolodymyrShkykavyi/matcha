@@ -4,21 +4,53 @@
 
 	<div class="container">
 		<div class="row">
-			{% for notification in notifications %}
-				<div class="col-12">
-					{% if notification.type == 'view_profile' %}
-						<a href="/profile/{{ notification.profile.id }}">{{ notification.profile.login }}</a> viewed your profile {{ notification.time }}
-					{% endif %}
+			<div class="col-12">
+				<div class="ui-block">
+					<div class="ui-block-title">
+						<h6 class="title">Notifications</h6>
+					</div>
 
-					{% if notification.type == 'accept_friend_request' %}
-						<a href="/profile/{{ notification.profile.id }}">{{ notification.profile.login }}</a> accept your friend request {{ notification.time }}
-					{% endif %}
+					<ul class="notification-list">
+						{% for notification in notifications %}
+							<li
+									{% if notification.viewed != 1 %} class="un-read" {% endif %}
+							>
+								<div class="author-thumb">
+									<img src="img{{ notification.profile.img }}" alt="author">
+								</div>
+								<div class="notification-event">
+									{% if notification.type == 'accept_friend_request' %}
+										You and <a href="/profile/{{ notification.profile.id }}"
+												   class="h6 notification-friend">
+										{{ notification.profile.login }}
+									</a> just became friends.
+									{% endif %}
 
-					{% if notification.type == 'remove_from_friend' %}
-						<a href="/profile/{{ notification.profile.id }}">{{ notification.profile.login }}</a> remove you from friends {{ notification.time }}
-					{% endif %}
+									{% if notification.type == 'remove_from_friend' %}
+										<a href="/profile/{{ notification.profile.id }}"
+										   class="h6 notification-friend">
+											{{ notification.profile.login }}
+										</a> delete you from friend list.
+									{% endif %}
+
+									{% if notification.type == 'view_profile' %}
+										<a href="/profile/{{ notification.profile.id }}"
+										   class="h6 notification-friend">
+											{{ notification.profile.login }}
+										</a> viewed yor profile.
+									{% endif %}
+
+									<span class="notification-date">
+									<time class="entry-date updated"
+										  datetime="{{ notification.time }}">{{ notification.time }}</time>
+								</span>
+								</div>
+							</li>
+						{% endfor %}
+
+					</ul>
 				</div>
-			{% endfor %}
+			</div>
 		</div>
 	</div>
 

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use PDO;
 
 class UserModel extends Model
 {
@@ -92,6 +91,13 @@ class UserModel extends Model
 		$res = $this->db->query('SELECT * FROM `location` WHERE id_user=?i', $userId);
 		
 		 return $res->fetch_assoc();
+	}
+
+	public function getUserDetails($userId)
+	{
+		$res = $this->db->query('SELECT * FROM `user_details` WHERE id_user=?i', $userId);
+
+		return $res->fetch_assoc();
 	}
 
 	public function getUserByLogin($login)
@@ -273,6 +279,32 @@ class UserModel extends Model
 		}
 
 		$res = $this->db->query('UPDATE users SET `active` = ?i WHERE id=?i', $status, $id);
+
+		return $res;
+	}
+
+	public function updateUserPersonalInfo($userId, $data)
+	{
+		$res = $this->db->query("UPDATE users SET login='?s', email='?s', firstName='?s', lastName='?s',
+ 			gender='?s', birthDate='?s' WHERE id = ?i",
+			$data['login'], $data['email'], $data['firstName'], $data['lastName'], $data['gender'], $data['birthday'],
+			$userId);
+
+		if (!$res)
+			return false;
+
+		//update location
+		$res = $this->updateLocation($userId, $data['lat'], $data['lng']);
+		if (!$res)
+			return false;
+
+		//update user details
+		$res = $this->db->query("INSERT INTO `user_details` (id_user, description, fb_page, twitter_page, sexual_preferences)
+			VALUES (?i, '?s', '?s', '?s', '?s')  
+			ON DUPLICATE KEY UPDATE description = '?s', fb_page = '?s', twitter_page = '?s', sexual_preferences = '?s'",
+			$userId, $data['description'], $data['fb_page'], $data['twitter_page'], $data['sexual_preferenses'],
+			$data['description'], $data['fb_page'], $data['twitter_page'], $data['sexual_preferenses']
+			);
 
 		return $res;
 	}
