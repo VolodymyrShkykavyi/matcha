@@ -2,367 +2,379 @@
 
 {% block content %}
 
-    <div class="container">
-        <div class="row">
-            <div class="settings col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-xs-12">
-                <div class="ui-block account_settings">
-                    <div class="ui-block-title">
-                        <h6 class="title">Account Settings</h6>
-                    </div>
-                    <div class="ui-block-content">
+	<div class="container">
+		<div class="row">
+			<div class="settings col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-xs-12">
+				<div class="ui-block account_settings" style="display: none;">
+					<div class="ui-block-title">
+						<h6 class="title">Account Settings</h6>
+					</div>
+					<div class="ui-block-content">
 
 
-                        <!-- Personal Account Settings Form -->
+						<!-- Personal Account Settings Form -->
 
-                        <form>
-                            <div class="row">
+						<form>
+							<div class="row">
 
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <div class="form-group label-floating is-select">
-                                        <label class="control-label">Who Can Friend You?</label>
-                                        <select class="selectpicker form-control">
-                                            <option value="EO">Everyone</option>
-                                            <option value="NO">No One</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <div class="form-group label-floating is-select">
-                                        <label class="control-label">Who Can View Your Posts</label>
-                                        <select class="selectpicker form-control">
-                                            <option value="US">Friends Only</option>
-                                            <option value="EO">Everyone</option>
-                                        </select>
-                                    </div>
-                                </div>
+								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+									<div class="form-group label-floating is-select">
+										<label class="control-label">Who Can Friend You?</label>
+										<select class="selectpicker form-control">
+											<option value="EO">Everyone</option>
+											<option value="NO">No One</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+									<div class="form-group label-floating is-select">
+										<label class="control-label">Who Can View Your Posts</label>
+										<select class="selectpicker form-control">
+											<option value="US">Friends Only</option>
+											<option value="EO">Everyone</option>
+										</select>
+									</div>
+								</div>
 
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div class="description-toggle">
-                                        <div class="description-toggle-content">
-                                            <div class="h6">Notifications Sound</div>
-                                            <p>A sound will be played each time you receive a new activity notification</p>
-                                        </div>
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div class="description-toggle">
+										<div class="description-toggle-content">
+											<div class="h6">Notifications Sound</div>
+											<p>A sound will be played each time you receive a new activity
+												notification</p>
+										</div>
 
-                                        <div class="togglebutton">
-                                            <label>
-                                                <input type="checkbox" checked="">
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="description-toggle">
-                                        <div class="description-toggle-content">
-                                            <div class="h6">Notifications Email</div>
-                                            <p>We’ll send you an email to your account each time you receive a new activity notification</p>
-                                        </div>
+										<div class="togglebutton">
+											<label>
+												<input type="checkbox" checked="">
+											</label>
+										</div>
+									</div>
+									<div class="description-toggle">
+										<div class="description-toggle-content">
+											<div class="h6">Notifications Email</div>
+											<p>We’ll send you an email to your account each time you receive a new
+												activity notification</p>
+										</div>
 
-                                        <div class="togglebutton">
-                                            <label>
-                                                <input type="checkbox" checked="">
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="description-toggle">
-                                        <div class="description-toggle-content">
-                                            <div class="h6">Friend’s Birthdays</div>
-                                            <p>Choose wheather or not receive notifications about your friend’s birthdays on your newsfeed</p>
-                                        </div>
+										<div class="togglebutton">
+											<label>
+												<input type="checkbox" checked="">
+											</label>
+										</div>
+									</div>
+									<div class="description-toggle">
+										<div class="description-toggle-content">
+											<div class="h6">Friend’s Birthdays</div>
+											<p>Choose wheather or not receive notifications about your friend’s
+												birthdays on your newsfeed</p>
+										</div>
 
-                                        <div class="togglebutton">
-                                            <label>
-                                                <input type="checkbox" checked="">
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="description-toggle">
-                                        <div class="description-toggle-content">
-                                            <div class="h6">Chat Message Sound</div>
-                                            <p>A sound will be played each time you receive a new message on an inactive chat window</p>
-                                        </div>
+										<div class="togglebutton">
+											<label>
+												<input type="checkbox" checked="">
+											</label>
+										</div>
+									</div>
+									<div class="description-toggle">
+										<div class="description-toggle-content">
+											<div class="h6">Chat Message Sound</div>
+											<p>A sound will be played each time you receive a new message on an inactive
+												chat window</p>
+										</div>
 
-                                        <div class="togglebutton">
-                                            <label>
-                                                <input type="checkbox" checked="">
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
+										<div class="togglebutton">
+											<label>
+												<input type="checkbox" checked="">
+											</label>
+										</div>
+									</div>
+								</div>
 
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <button class="btn btn-secondary btn-lg full-width">Restore all Attributes</button>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <button class="btn btn-primary btn-lg full-width">Save all Changes</button>
-                                </div>
-                            </div>
-                        </form>
+								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+									<button class="btn btn-secondary btn-lg full-width">Restore all Attributes</button>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+									<button class="btn btn-primary btn-lg full-width">Save all Changes</button>
+								</div>
+							</div>
+						</form>
 
-                        <!-- ... end Personal Account Settings Form  -->
+						<!-- ... end Personal Account Settings Form  -->
 
-                    </div>
-                </div>
+					</div>
+				</div>
 
-                <div class="ui-block change_password" style="display: none;">
-                    <div class="ui-block-title">
-                        <h6 class="title">Change Password</h6>
-                    </div>
+				<div class="ui-block change_password" style="display: none;">
+					<div class="ui-block-title">
+						<h6 class="title">Change Password</h6>
+					</div>
 
 
-                    <div class="ui-block-content">
+					<div class="ui-block-content">
 
-                    
-                    <!-- Change Password Form -->
-                    
-                    <form id="form_change_password">
-                        <div class="row">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Confirm Current Password</label>
-                                    <input name="current" class="form-control" placeholder="" type="password" value="">
-                                </div>
-                            </div>
-                    
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <div class="form-group label-floating is-empty">
-                                    <label class="control-label">Your New Password</label>
-                                    <input name="new_psw" class="form-control" placeholder="" type="password">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <div class="form-group label-floating is-empty">
-                                    <label class="control-label">Confirm New Password</label>
-                                    <input name="confirm" class="form-control" placeholder="" type="password">
-                                </div>
-                            </div>
-                                    
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <button type="button" class="btn btn-primary btn-lg full-width">Change Password Now!</button>
-                            </div>
-                    
-                        </div>
-                    </form>
-                    
-                    <!-- ... end Change Password Form -->
-                    </div>
-                </div>
 
-                <div class="ui-block personal_information" style="display: none;">
-                    <div class="ui-block-title">
-                        <h6 class="title">Personal Information</h6>
-                    </div>
-                    <div class="ui-block-content">
+						<!-- Change Password Form -->
 
-                    
-                    <!-- Personal Information Form  -->
-                    
-                    <form>
-                        <div class="row">
-                    
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <div class="form-group label-floating">
-                                    <label class="control-label">First Name</label>
-                                    <input class="form-control" placeholder="" type="text" value="{{ user.firstName }}">
-                                </div>
-                    
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Your Email</label>
-                                    <input class="form-control" placeholder="" type="email" value="{{ user.email }}">
-                                </div>
-                    
-                                <div class="form-group date-time-picker label-floating">
-                                    <label class="control-label">Your Birthday</label>
-                                    <input name="datetimepicker" value="{{ user.birthDate }}" />
-                                    <span class="input-group-addon">
-                                                            <svg class="olymp-month-calendar-icon icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-month-calendar-icon"></use></svg>
+						<form id="form_change_password">
+							<div class="row">
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div class="form-group label-floating">
+										<label class="control-label">Confirm Current Password</label>
+										<input name="current" class="form-control" placeholder="" type="password"
+											   value="">
+									</div>
+								</div>
+
+								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+									<div class="form-group label-floating is-empty">
+										<label class="control-label">Your New Password</label>
+										<input name="new_psw" class="form-control" placeholder="" type="password">
+									</div>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+									<div class="form-group label-floating is-empty">
+										<label class="control-label">Confirm New Password</label>
+										<input name="confirm" class="form-control" placeholder="" type="password">
+									</div>
+								</div>
+
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<button type="button" class="btn btn-primary btn-lg full-width">Change Password
+										Now!
+									</button>
+								</div>
+
+							</div>
+						</form>
+
+						<!-- ... end Change Password Form -->
+					</div>
+				</div>
+
+				<div class="ui-block personal_information">
+					<div class="ui-block-title">
+						<h6 class="title">Personal Information</h6>
+					</div>
+					<div class="ui-block-content">
+
+
+						<!-- Personal Information Form  -->
+
+						<form id="personal_information_form">
+							<div class="row">
+
+								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+									<div class="form-group label-floating">
+										<label class="control-label">First Name</label>
+										<input name="firstName" class="form-control" placeholder="" type="text"
+											   value="{{ user.firstName }}">
+									</div>
+
+									<div class="form-group label-floating">
+										<label class="control-label">Your Email</label>
+										<input name="email" class="form-control" placeholder="" type="email"
+											   value="{{ user.email }}">
+									</div>
+
+									<div class="form-group date-time-picker label-floating">
+										<label class="control-label">Your Birthday</label>
+										<input name="datetimepicker" value="{{ user.birthDate }}"/>
+										<span class="material-input" style="color: red;"></span>
+										<span class="input-group-addon">
+                                                            <svg class="olymp-month-calendar-icon icon"><use
+																		xlink:href="svg-icons/sprites/icons.svg#olymp-month-calendar-icon"></use></svg>
                                                         </span>
-                                </div>
-                            </div>
-                    
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Last Name</label>
-                                    <input class="form-control" placeholder="" type="text" value="{{ user.lastName }}">
-                                </div>
-                    
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Custom status</label>
-                                    <input class="form-control" placeholder="" type="email" value="{{ user.status }}">
-                                </div>
-                    
-                    
-                                <div class="form-group label-floating is-empty">
-                                    <label class="control-label">Your Phone Number</label>
-                                    <input class="form-control" placeholder="" type="text">
-                                </div>
-                            </div>
-                    
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                <div class="form-group label-floating is-select">
-                                    <label class="control-label">Your Country(GMaps API?)</label>
-                                    <select class="selectpicker form-control">
-                                        <option value="US">United States</option>
-                                        <option value="AU">Australia</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                <div class="form-group label-floating is-select">
-                                    <label class="control-label">Your State / Province</label>
-                                    <select class="selectpicker form-control">
-                                        <option value="CA">California</option>
-                                        <option value="TE">Texas</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                <div class="form-group label-floating is-select">
-                                    <label class="control-label">Your City</label>
-                                    <select class="selectpicker form-control">
-                                        <option value="SF">San Francisco</option>
-                                        <option value="NY">New York</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Write a little description about you</label>
-                                    <textarea class="form-control" placeholder="">Hi, I’m James, I’m 36 and I work as a Digital Designer for the  “Daydreams” Agency in Pier 56</textarea>
-                                </div>
-                    
-                                <div class="form-group label-floating is-select">
-                                    <label class="control-label">Your Gender</label>
-                                    <select class="selectpicker form-control">
-                                        <option value="MA">Male</option>
-                                        <option value="FE">Female</option>
-                                    </select>
-                                </div>
-                    
-                                <div class="form-group label-floating is-empty">
-                                    <label class="control-label">Religious Belifs</label>
-                                    <input class="form-control" placeholder="" type="text">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <div class="form-group label-floating is-empty">
-                                    <label class="control-label">Your Birthplace</label>
-                                    <input class="form-control" placeholder="" type="text">
-                                </div>
-                    
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Your Occupation</label>
-                                    <input class="form-control" placeholder="" type="text" value="UI/UX Designer">
-                                </div>
-                    
-                                <div class="form-group label-floating is-select">
-                                    <label class="control-label">Status</label>
-                                    <select class="selectpicker form-control">
-                                        <option value="MA">Married</option>
-                                        <option value="FE">Not Married</option>
-                                    </select>
-                                </div>
-                    
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Political Incline</label>
-                                    <input class="form-control" placeholder="" type="text" value="Democrat">
-                                </div>
-                            </div>
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="form-group with-icon label-floating">
-                                    <label class="control-label">Your Facebook Account</label>
-                                    <input class="form-control" type="text" value="www.facebook.com/james-spiegel95321">
-                                    <i class="fa fa-facebook c-facebook" aria-hidden="true"></i>
-                                </div>
-                                <div class="form-group with-icon label-floating">
-                                    <label class="control-label">Your Twitter Account</label>
-                                    <input class="form-control" type="text" value="www.twitter.com/james_spiegelOK">
-                                    <i class="fa fa-twitter c-twitter" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <button class="btn btn-secondary btn-lg full-width">Restore all Attributes</button>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <button class="btn btn-primary btn-lg full-width">Save all Changes</button>
-                            </div>
-                    
-                        </div>
-                    </form>
-                    
-                    <!-- ... end Personal Information Form  -->
-                    </div>
-                </div>
-            </div>
+									</div>
+								</div>
 
-            <div class="col-xl-3 order-xl-1 col-lg-3 order-lg-1 col-md-12 order-md-2 col-sm-12 col-xs-12 responsive-display-none">
-                <div class="ui-block">
+								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+									<div class="form-group label-floating">
+										<label class="control-label">Last Name</label>
+										<input name="lastName" class="form-control" placeholder="" type="text"
+											   value="{{ user.lastName }}">
+									</div>
+
+									<div class="form-group label-floating">
+										<label class="control-label">Custom status</label>
+										<input name="custom_status" class="form-control" placeholder="" type="text"
+											   value="{{ user.status }}">
+									</div>
+
+									<div class="form-group label-floating is-select">
+										<label class="control-label">Status</label>
+										<select name="status" class="selectpicker form-control">
+											<option value="married">Married</option>
+											<option value="not_married">Not Married</option>
+										</select>
+									</div>
+
+									{#<div class="form-group label-floating is-empty">#}
+									{#<label class="control-label">Your Phone Number</label>#}
+									{#<input class="form-control" placeholder="" type="text">#}
+									{#</div>#}
+								</div>
+
+								<div class="col-12 mb-3">
+									<div class="google-maps">
+										<div id="lat" class="d-none">{{ user.lat_lng.lat }}</div>
+										<div id="lng" class="d-none">{{ user.lat_lng.lng }}</div>
+										<div id="map_edit" class="map edit-map" style="min-height: 15rem;"></div>
+									</div>
+								</div>
+
+								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+									<div class="form-group label-floating">
+										<label class="control-label">TAGGGGS MAZAFAKA</label>
+										<textarea name="description" class="form-control"
+												  placeholder=""></textarea>
+									</div>
+
+								</div>
+
+								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+									<div class="form-group label-floating is-select">
+										<label class="control-label">Your Gender</label>
+										<select class="selectpicker form-control">
+											<option
+													{% if user.gender == 'man' %}selected{% endif %}
+													value="MA">Male
+											</option>
+											<option
+													{% if user.gender == 'woman' %}selected{% endif %}
+													value="FE">Female
+											</option>
+										</select>
+									</div>
 
 
+									<div class="form-group label-floating is-select">
+										<label class="control-label">Sexual preferences</label>
+										<select name="sex_preferences" class="selectpicker form-control">
+											<option selected value="bi">Bi</option>
+											<option value="male">Man</option>
+											<option value="female">Woman</option>
+										</select>
+									</div>
 
-                    <!-- Your Profile  -->
-
-                    <div class="your-profile">
-                        <div class="ui-block-title ui-block-title-small">
-                            <h6 class="title">Your PROFILE</h6>
-                        </div>
-
-                        <div id="accordion" role="tablist" aria-multiselectable="true">
-                            <div class="card">
-                                <div class="card-header" role="tab" id="headingOne">
-                                    <h6 class="mb-0">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            Profile Settings
-                                            <i class="fa fa-arrow-circle-down"></i>
-                                        </a>
-                                    </h6>
-                                </div>
-
-                                <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-                                    <ul class="your-profile-menu">
-                                        <li>
-                                            <a class="clickable" id="personal_information" href="#">Personal Information</a>
-                                        </li>
-                                        <li>
-                                            <a class="clickable" id="account_settings" href="#">Account Settings</a>
-                                        </li>
-                                        <li>
-                                            <a class="clickable" id="change_password" href="#">Change Password</a>
-                                        </li>
-                                        <li>
-                                            <a class="clickable" href="#">Hobbies and Interests</a>
-                                        </li>
-                                        <li>
-                                            <a class="clickable" href="#">Education and Employement</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ui-block-title">
-                            <a  href="/notifications" class="h6 title clickable">Notifications</a>
-                            <a href="/notifications" class="items-round-little bg-primary">8</a>
-                        </div>
-                        <div class="ui-block-title">
-                            <a  href="/chat" class="h6 title clickable">Chat / Messages</a>
-                        </div>
-                        <div class="ui-block-title">
-                            <a  href="/friends/requests" class="h6 title clickable">Friend Requests</a>
-                            <a href="#" class="items-round-little bg-blue"
-                                {% if not num_requests %}
-                                    style="display: none;"
-                                {% endif %}
-                            >
-                                {{ num_requests }}
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- ... end Your Profile  -->
+								</div>
 
 
-                </div>
-            </div>
-        </div>
-    </div>
+								<div class="col-12">
+									<div class="form-group label-floating">
+										<label class="control-label">Write some description about you</label>
+										<textarea name="description" class="form-control"
+												  placeholder="">{{ user.description }}</textarea>
+									</div>
+								</div>
 
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div class="form-group with-icon label-floating">
+										<label class="control-label">Your Facebook Account</label>
+										<input class="form-control" type="text" value="{{ user.fb_page }}">
+										<i class="fa fa-facebook c-facebook" aria-hidden="true"></i>
+									</div>
+									<div class="form-group with-icon label-floating">
+										<label class="control-label">Your Twitter Account</label>
+										<input class="form-control" type="text" value="{{ user.twitter_page }}">
+										<i class="fa fa-twitter c-twitter" aria-hidden="true"></i>
+									</div>
+								</div>
+								<div class="col-12 pl-5 pr-5">
+									<button class="btn btn-secondary btn-lg full-width">Save all Changes</button>
+								</div>
+								{#<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">#}
+									{#<button type="submit" class="btn btn-primary btn-lg full-width">Save all Changes#}
+									{#</button>#}
+								{#</div>#}
+
+							</div>
+						</form>
+
+						<!-- ... end Personal Information Form  -->
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xl-3 order-xl-1 col-lg-3 order-lg-1 col-md-12 order-md-2 col-sm-12 col-xs-12 responsive-display-none">
+				<div class="ui-block">
+
+
+					<!-- Your Profile  -->
+
+					<div class="your-profile">
+						<div class="ui-block-title ui-block-title-small">
+							<h6 class="title">Your PROFILE</h6>
+						</div>
+
+						<div id="accordion" role="tablist" aria-multiselectable="true">
+							<div class="card">
+								<div class="card-header" role="tab" id="headingOne">
+									<h6 class="mb-0">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+										   aria-expanded="true" aria-controls="collapseOne">
+											Profile Settings
+											<i class="fa fa-arrow-circle-down"></i>
+										</a>
+									</h6>
+								</div>
+
+								<div id="collapseOne" class="collapse show" role="tabpanel"
+									 aria-labelledby="headingOne">
+									<ul class="your-profile-menu">
+										<li>
+											<a class="clickable" id="personal_information" href="#">Personal
+												Information</a>
+										</li>
+										<li>
+											<a class="clickable" id="account_settings" href="#">Account Settings</a>
+										</li>
+										<li>
+											<a class="clickable" id="change_password" href="#">Change Password</a>
+										</li>
+										<li>
+											<a class="clickable" href="#">Hobbies and Interests</a>
+										</li>
+										<li>
+											<a class="clickable" href="#">Education and Employement</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+						<div class="ui-block-title">
+							<a href="/notifications" class="h6 title clickable">Notifications</a>
+							<a href="/notifications" class="items-round-little bg-primary">8</a>
+						</div>
+						<div class="ui-block-title">
+							<a href="/chat" class="h6 title clickable">Chat / Messages</a>
+						</div>
+						<div class="ui-block-title">
+							<a href="/friends/requests" class="h6 title clickable">Friend Requests</a>
+							<a href="#" class="items-round-little bg-blue"
+									{% if not num_requests %}
+										style="display: none;"
+									{% endif %}
+							>
+								{{ num_requests }}
+							</a>
+						</div>
+					</div>
+
+					<!-- ... end Your Profile  -->
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="/js/settings.js"></script>
+	<script src="/js/gmaps.js"></script>
+	<script async defer
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqLNucodvPuxX_30MWoh6g1YT6hWnvzS4&callback=init_edit_Map"
+			type="text/javascript"></script>
 
 {% endblock %}

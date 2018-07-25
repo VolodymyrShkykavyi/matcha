@@ -18,7 +18,8 @@ class UserController extends Controller
 
 			if (!empty($user)) {
 				$this->_user = $user;
-				$location = $this->model->getUserLocation($_SESSION['auth']['id']);
+
+				$location = $this->model->getUserLocation($this->_user['id']);
 				$friendRequests = $this->model->getFriendRequests($this->_user['id']);
 				$notification_num = $this->model->countNotifications($this->_user['id']);
 				$friends = $this->model->getFriends($this->_user['id']);
@@ -36,10 +37,10 @@ class UserController extends Controller
 					$i++;
 					
 				}
-				if (!empty($location)){
-					$this->ViewData['user']['location'] = $this->_formatted_location($location['lat'], $location['lng']);
-			   }
-				//send to view
+	//send to view
+				$this->ViewData['user'] = $this->_user;
+				$this->ViewData['user']['location'] = $this->_formatted_location($location['lat'], $location['lng']);
+				$this->ViewData['user']['lat_lng'] = $location;
 				$this->ViewData['num_requests'] = count($friendRequests);
 				$this->ViewData['num_notifications'] = $notification_num;
 				foreach ($friends as &$friend){
@@ -49,15 +50,12 @@ class UserController extends Controller
 
 				$this->ViewData['friends'] = $friends;
 
-				$this->ViewData['user']['id'] = $this->_user['id'];
-				$this->ViewData['user']['login'] = $this->_user['login'];
-				$this->ViewData['user']['status'] = $this->_user['status'];
-				
+
+
 				if (empty($this->_user['img'])) {
 					 $this->_user['img'] = '/author-main1.jpg';
 				}
-				$this->ViewData['user']['img'] = $this->_user['img'];
-				$this->ViewData['user']['lastAction'] = $this->_user['lastAction'];
+
 			}
 
 		}
@@ -363,6 +361,8 @@ class UserController extends Controller
 					$addr .= ", ".$address_components[3]->long_name;
 					$addr .= ", ".$address_components[6]->long_name;
 				}
+			} else {
+				return $status;
 			}
 
 			return $addr;
