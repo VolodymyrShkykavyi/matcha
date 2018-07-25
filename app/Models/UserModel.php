@@ -26,6 +26,20 @@ class UserModel extends Model
 		return $res;
 	}
 
+	public function getLoginUser($id)
+	{
+		if (!is_numeric($id) || $id <= 0) {
+			return false;
+		}
+
+		$res = $this->execute('SELECT `login` FROM users WHERE id=?i', [$id]);
+	   
+		if (!empty($res))
+			return $res[0];
+		return $res;
+	}
+
+
 	public function getFriend($userId, $friendId)
 	{
 		$res = $this->execute('SELECT * FROM `friends` WHERE (`from_request` = ?i AND `to_request` = ?i)
@@ -131,9 +145,19 @@ class UserModel extends Model
 			return $res[0];
 		return $res;
 	}
+	
+	public function getLastMessage($id_from, $id_chat_room)
+	{
+		$res = $this->execute('SELECT `messadge` FROM `messages` WHERE `id_chat_room` = ?i AND `id_user_from` = ?i ORDER BY `date_creation` DESC  LIMIT 1 ', [$id_chat_room, $id_from]);
+		return($res);
+	}
 
-
-
+	public function getAllMessage($id_chat_room)
+	{
+		$res = $this->execute('SELECT * FROM `messages` WHERE `id_chat_room` = ?i', [$id_chat_room]);
+		return($res);
+	}
+	
 
 /////////////////////////////////
 	public function addUser($data)
@@ -262,12 +286,6 @@ class UserModel extends Model
 		return $res;
 	}
 
-	 public function getLastMessage($id_from, $id_chat_room)
-	{
-		$res = $this->execute('SELECT `messadge` FROM `messages` WHERE `id_chat_room` = ?i AND `id_user_from` = ?i ORDER BY `date_creation` DESC  LIMIT 1 ', [$id_chat_room, $id_from]);
-		return($res);
-	}
-	
 
 	public function updatePassword($userId, $current, $psw)
 	{

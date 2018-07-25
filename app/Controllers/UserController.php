@@ -295,11 +295,24 @@ class UserController extends Controller
 		echo json_encode($_SESSION['auth']);
 	}
 
+	// public function ($request, $response, $args)
+	// {
+	// 	$data = $request->getParsedBody();
+	// 	$res = $this->model->getLoginUser($data['targetId']);
+	// 	return $res;
+	// }
+
+
 	public function ChatRoom($request, $response, $args)
 	{
-
 		$data = $request->getParsedBody();
+		$res = $this->model->getAllMessage($data['targetId']);
+		return json_encode($res);
+	}
 
+	public function ChatRoom1($request, $response, $args)
+	{
+		$data = $request->getParsedBody();
 		if (!empty($data) && $data['targetId'] && $data['targetId'] != $this->_user['id'])
 		{
 			$res = $this->model->getChatRooms($this->_user['id']);
@@ -310,15 +323,30 @@ class UserController extends Controller
 					$c = 1;
 			}
 			if(!$c)
+			{
 				$this->model->addChatRoom($this->_user['id'], $data['targetId']);
+				$res = $this->model->getChatRooms($this->_user['id']);
+				foreach ($res as $value) {
+				if($value["id_sob"] == $data['targetId'])
+					return $value["id"];
+				if($value["id_user"] == $data['targetId'])
+					return $value["id"];
+				}
+			}
 			else
-				return "chat est";
+			{
+				foreach ($res as $value) {
+				if($value["id_sob"] == $data['targetId'])
+					return $value["id"];
+				if($value["id_user"] == $data['targetId'])
+					return $value["id"];
+				}
+			}
 		}
 		else{
 			return "errorochka";
 		}
 	}
-
 
 	private function _formatted_location($lat, $lng)
 	{
@@ -339,6 +367,7 @@ class UserController extends Controller
 
 			return $addr;
 	}
+
 
 	public function chat($requests, $response, $args)
 	{
