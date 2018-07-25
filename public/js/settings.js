@@ -1,5 +1,6 @@
 let errors = 0;
 let wrongEmail = 0;
+let wrongLogin = 0;
 
 function showError(elem, msg) {
 	$(elem).next().css("color", "red");
@@ -54,8 +55,33 @@ function checkEmail() {
 
 }
 
-$("#personal_information_form input[name='email']").keyup(checkEmail);
+function checkLogin()
+{
+	let data = {};
+	let input = $("#personal_information_form input[name='login']")[0];
+	data.login = input.value;
+	$.ajax({
+		type: 'POST',
+		url: '/check/login',
+		data: data,
+		async: false,
+		success: function (response) {
+			if (response === 'true') {
+				$(input).css("border-color", "green");
+				showError(input, "");
+				wrongLogin = 0;
+			} else if (response === 'false') {
+				//already exists
+				$(input).css("border-color", "red");
+				wrongLogin = 1;
+				showError(input, "Login already exists");
+			}
+		}
+	});
+}
 
+$("#personal_information_form input[name='email']").keyup(checkEmail);
+$("#personal_information_form input[name='login']").keyup(checkLogin);
 
 $("#personal_information_form button").click(function (ev) {
 	let data = {};
@@ -65,7 +91,6 @@ $("#personal_information_form button").click(function (ev) {
 	ev.preventDefault();
 	clearErrors();
 
-	data.status = form.status.value;
 	data.description = $(form.description)[0].value;
 	data.sexual_preferenses = $(form.sex_preferences).val();
 	data.lat = $('#lat').text();
@@ -85,6 +110,14 @@ $("#personal_information_form button").click(function (ev) {
 		data.lastName = form.lastName.value;
 	}
 
+	if (form.login.value.length > 30){
+		showError(form.firstName, "Too long value. Max length 30 chars");
+		errors++;
+	} else {
+		checkLogin();
+		data.login = form.login.value;
+	}
+
 	if (form.email.value.length > 150) {
 		showError(form.email, "Too long value. Max length 150 chars");
 		errors++;
@@ -96,7 +129,7 @@ $("#personal_information_form button").click(function (ev) {
 		showError(form.custom_status, "Too long value. Max length 50 chars");
 		errors++;
 	} else {
-		data.custom_status = form.custom_status.value;
+		data.status = form.custom_status.value;
 	}
 
 	if (age < 18) {
@@ -106,7 +139,7 @@ $("#personal_information_form button").click(function (ev) {
 		data.datetimepicker = form.datetimepicker.value;
 	}
 
-	if (!errors && !wrongEmail) {
+	if (!errors && !wrongEmail && !wrongLogin) {
 		$.ajax({
 			type: 'POST',
 			url: '/profile/personal/change',
@@ -118,6 +151,6 @@ $("#personal_information_form button").click(function (ev) {
 			}
 		});
 	} else {
-		console.log('wrong email' + wrongEmail);
+		console.log('validation err');
 	}
 });

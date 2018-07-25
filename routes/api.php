@@ -15,4 +15,5 @@ $app->group('', function (){
 	$this->post('/chat/mess', UserController::class.':ChatRoom');
 	$this->post('/profile/personal/change', UserController::class.':changePersonalInfo');
 	$this->post('/check/email', ApiController::class.':checkEmail');
+	$this->post('/check/login', ApiController::class.':checkLogin');
 })->add(new RedirectIfUnauthorized($container['router']));
