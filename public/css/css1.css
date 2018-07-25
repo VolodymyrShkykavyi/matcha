@@ -1,0 +1,10 @@
+.scroll{
+	margin-left: 20px; 
+	width: 100vw;
+	max-width: 400px;
+	max-height: 700px;
+	
+	overflow-y: scroll;
+	overflow-x: hidden;
+	word-wrap: break-word;
+}

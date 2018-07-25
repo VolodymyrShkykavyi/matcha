@@ -14,6 +14,21 @@
     z-index: 21
 }
 
+.none{
+    display: none;
+}
+
+
+.scroll{
+    margin-left: 20px; 
+    max-width: 100%;
+    max-height: 300px;
+    
+    overflow-y: scroll;
+    overflow-x: hidden;
+    word-wrap: break-word;
+}
+
 .search-bar, .search-bar.w-search {
     width: 500px;
     background-color: #494c62
@@ -316,7 +331,7 @@
     width: 24px
 }
 
-.control-icon .mCustomScrollbar {
+.control-icon .mCustomScrollbar .scroll{
     overflow: hidden;
     max-height: 300px
 }
@@ -385,7 +400,7 @@
     padding: 13px 0
 }
 
-.author-page .mCustomScrollbar {
+.author-page .mCustomScrollbar .scroll{
     max-height: calc(100vh - 40px)
 }
 
@@ -671,7 +686,7 @@
     background-color: #494c62
 }
 
-.tab-content-responsive .mCustomScrollbar {
+.tab-content-responsive .mCustomScrollbar .scroll{
     max-height: calc(100vh - 140px);
     overflow-y: auto !important
 }
@@ -877,7 +892,7 @@
     bottom: 0
 }
 
-.has-standard-header .fixed-sidebar.right .mCustomScrollbar {
+.has-standard-header .fixed-sidebar.right .mCustomScrollbar .scroll{
     max-height: calc(100vh - 140px)
 }
 
@@ -925,7 +940,7 @@
     width: 100%
 }
 
-.header--standard .mCustomScrollbar {
+.header--standard .mCustomScrollbar .scroll{
     max-height: calc(100vh - 70px)
 }
 
@@ -1981,7 +1996,7 @@
         margin-bottom: 5px
     }
 
-    .control-icon .mCustomScrollbar {
+    .control-icon .mCustomScrollbar .scroll{
         max-height: 150px
     }
 }
@@ -2456,11 +2471,11 @@ section {
     }
 }
 
-.mobile-app .fixed-sidebar.right .mCustomScrollbar {
+.mobile-app .fixed-sidebar.right .mCustomScrollbar .scroll{
     max-height: calc(100vh - 140px)
 }
 
-.mobile-app .fixed-sidebar .mCustomScrollbar {
+.mobile-app .fixed-sidebar .mCustomScrollbar .scroll{
     max-height: calc(100vh - 70px)
 }
 
@@ -4887,7 +4902,7 @@ fieldset[disabled] .form-group.is-focused .checkbox label {
     color: #515365
 }
 
-.fixed-sidebar .mCustomScrollbar {
+.fixed-sidebar .mCustomScrollbar .scroll{
     max-height: calc(100vh - 70px);
     overflow: hidden
 }
@@ -4939,7 +4954,7 @@ fieldset[disabled] .form-group.is-focused .checkbox label {
     min-height: 100%
 }
 
-.fixed-sidebar.right .mCustomScrollbar {
+.fixed-sidebar.right .mCustomScrollbar .scroll{
     max-height: calc(100vh - 210px)
 }
 
@@ -5255,7 +5270,7 @@ fieldset[disabled] .form-group.is-focused .checkbox label {
         border-left: none
     }
 
-    .fixed-sidebar .mCustomScrollbar {
+    .fixed-sidebar .mCustomScrollbar .scroll{
         max-height: calc(100vh - 70px)
     }
 }
@@ -6245,7 +6260,7 @@ fieldset[disabled] .form-group.is-focused .checkbox label {
     z-index: -4444
 }
 
-.profile-settings-responsive .mCustomScrollbar {
+.profile-settings-responsive .mCustomScrollbar .scroll{
     max-height: calc(100vh - 70px)
 }
 
@@ -6443,7 +6458,7 @@ fieldset[disabled] .form-group.is-focused .checkbox label {
     border-left: 1px solid #e6ecf5
 }
 
-.chat-field .mCustomScrollbar {
+.chat-field .mCustomScrollbar .scroll{
     overflow: hidden;
     max-height: 450px
 }
@@ -6746,7 +6761,7 @@ fieldset[disabled] .form-group.is-focused .checkbox label {
     z-index: 5
 }
 
-.popup-chat .mCustomScrollbar {
+.popup-chat .mCustomScrollbar .scroll{
     overflow: hidden;
     max-height: 350px
 }
@@ -6869,7 +6884,7 @@ body.body--fixed, body:before {
     max-height: 50vh
 }
 
-.popup-chat-responsive .mCustomScrollbar {
+.popup-chat-responsive .mCustomScrollbar .scroll{
     overflow: hidden;
     max-height: 150px
 }
@@ -7174,7 +7189,7 @@ figure {
     border: none
 }
 
-.open-photo-popup .mCustomScrollbar {
+.open-photo-popup .mCustomScrollbar .scroll{
     overflow: hidden;
     max-height: 140px
 }
@@ -7232,7 +7247,7 @@ figure {
     float: left
 }
 
-.open-photo-popup-v2 .mCustomScrollbar {
+.open-photo-popup-v2 .mCustomScrollbar .scroll{
     max-height: 180px
 }
 
@@ -7584,7 +7599,7 @@ figure {
     width: 770px
 }
 
-.event-private-public .mCustomScrollbar {
+.event-private-public .mCustomScrollbar .scroll{
     overflow: hidden;
     max-height: 365px
 }
@@ -8941,7 +8956,7 @@ ol ol li {
     font-size: 20px
 }
 
-.features-video .mCustomScrollbar {
+.features-video .mCustomScrollbar .scroll{
     max-height: 110px;
     overflow: hidden
 }

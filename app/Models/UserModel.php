@@ -101,7 +101,7 @@ class UserModel extends Model
 		return $res;
 	}
 
-	 public function getChatRooms($id)
+	public function getChatRooms($id)
 	{
 		if (!is_numeric($id) || $id <= 0) {
 			return false;
@@ -116,6 +116,20 @@ class UserModel extends Model
 		return $res;
 	}
 
+	public function getChatRoomById($id)
+	{
+		if (!is_numeric($id) || $id <= 0) {
+			return false;
+		}
+		try{
+			  $res = $this->execute('SELECT * FROM chats WHERE id=?i', [$id]);
+		}catch (\dbException $e){
+				return $e;
+			}
+		if (!empty($res))
+			return $res;
+		return $res;
+	}
 
 
 	public function auth($login, $password)
