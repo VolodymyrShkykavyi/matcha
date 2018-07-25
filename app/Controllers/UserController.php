@@ -300,6 +300,44 @@ class UserController extends Controller
 
 		$data = $request->getParsedBody();
 
+		$all_mess = $this->model->getAllMessage($data['room_id']);
+		if($all_mess[0]["id_user_from"] == $this->_user['id'])
+			$user_sob = $this->model->getUser($all_mess[0]["id_user_to"]);
+		else if($all_mess[0]["id_user_to"] == $this->_user['id'])
+			$user_sob = $this->model->getUser($all_mess[0]["id_user_from"]);
+		if($all_mess == NULL)
+		{
+			$curr_room = $this->model->getChatRoomById($data['room_id']);
+			if($curr_room[0]['id_user'] == $this->_user['id'])
+					$user_sob = $this->model->getUser($curr_room[0]['id_sob']);
+			else if($curr_room[0]['id_sob'] == $this->_user['id'])
+					$user_sob = $this->model->getUser($curr_room[0]['id_user']);
+		}
+		$chat_field = '<div class="ui-block-title"><h6 class="title"><h6 class="title">' . $user_sob['login'] . '</h6></div>';
+		$chat_field = $chat_field . '<div id="scroll" class="scroll" data-mcs-theme="dark"><ul class="notification-list chat-message chat-message-field">';
+		if($all_mess != NULL)
+		{
+			$chat_field = $chat_field . '';
+			foreach ($all_mess as $value) {
+
+				if($value['id_user_from'] == $this->_user['id'])
+					$who = $this->_user['login'];
+				else
+					$who = $user_sob['login'];
+				$chat_field = $chat_field . '<li><div class="author-thumb">' . $value['img'] . '<img src="/img/avatar10-sm.jpg" alt="author"></div><div class="notification-event" style="width:90%;"><a href="#" class="h6 notification-friend">' . $who . '</a><span class="notification-date" ><time class="entry-date updated" datetime="2004-07-24T18:18">' . $value['date_creation'] . '</time></span><br/><span class="chat-message-item" >' . $value['messadge'] . '</span></div></li>'; 
+			}
+			$chat_field = $chat_field . '';
+		}
+		else
+		{
+			$chat_field = $chat_field . '<li><div class="notification-event"><span class="chat-message-item">Massedge history is empty</span></div></li>';
+		}
+		echo $chat_field ;
+	}
+
+	public function ChatRoom1($request, $response, $args)
+	{
+		$data = $request->getParsedBody();
 		if (!empty($data) && $data['targetId'] && $data['targetId'] != $this->_user['id'])
 		{
 			$res = $this->model->getChatRooms($this->_user['id']);
@@ -310,15 +348,30 @@ class UserController extends Controller
 					$c = 1;
 			}
 			if(!$c)
+			{
 				$this->model->addChatRoom($this->_user['id'], $data['targetId']);
+				$res = $this->model->getChatRooms($this->_user['id']);
+				foreach ($res as $value) {
+				if($value["id_sob"] == $data['targetId'])
+					return $value["id"];
+				if($value["id_user"] == $data['targetId'])
+					return $value["id"];
+				}
+			}
 			else
-				return "chat est";
+			{
+				foreach ($res as $value) {
+				if($value["id_sob"] == $data['targetId'])
+					return $value["id"];
+				if($value["id_user"] == $data['targetId'])
+					return $value["id"];
+				}
+			}
 		}
 		else{
 			return "errorochka";
 		}
 	}
-
 
 	private function _formatted_location($lat, $lng)
 	{
@@ -339,6 +392,7 @@ class UserController extends Controller
 
 			return $addr;
 	}
+
 
 	public function chat($requests, $response, $args)
 	{

@@ -6,15 +6,17 @@ window.onload = function(){
   var socket = new WebSocket(url);
 
   socket.onmessage = function(event) {
-    // let message = JSON.parse(event.data);
+    let message = JSON.parse(event.data);
+    console.log(message);
   };
   
   if (document.location.pathname === '/chat'){
+
     document.forms["messages"].onsubmit = function()
     {
       let message = {
-       name:this.name.value,
-       msg: this.msg.value,
+       msg: this.mess.value,
+       id_room: this.id_room.value
       }
       socket.send(JSON.stringify(message));
       return false;
