@@ -1,5 +1,6 @@
 <?php
 use App\Controllers\UserController;
+use App\Controllers\ApiController;
 use App\Middleware\RedirectIfUnauthorized;
 
 //only for authorized users
@@ -12,4 +13,7 @@ $app->group('', function (){
 	$this->post('/friend/change', UserController::class.':changeFriendRequest');
 	$this->post('/info/get', UserController::class.':getMyInfo');
 	$this->post('/chat/mess', UserController::class.':ChatRoom');
+	$this->post('/profile/personal/change', UserController::class.':changePersonalInfo');
+	$this->post('/check/email', ApiController::class.':checkEmail');
+	$this->post('/check/login', ApiController::class.':checkLogin');
 })->add(new RedirectIfUnauthorized($container['router']));
