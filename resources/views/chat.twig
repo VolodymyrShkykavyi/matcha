@@ -4,19 +4,13 @@
 
 
 <div class="container">
-	<h1>Пример работы с WebSocket</h1>
-	<form action="" name="messages">
-  		<div class="row">Имя: <input type="text" name="name"></div>
-  		<div class="row">Текст: <input type="text" name="msg"></div>
-  		<div class="row"><input type="submit" value="Поехали"></div>
-	</form>
 <div id="status"></div>
 <div id="user_id" style="display: none">{{ user.id }}</div>
-	<pre>
+<!-- 	<pre>
 		{{ dump() }}
-	</pre>
+	</pre> -->
 	<div class="row">
-		<div class="col-12">
+		<div class="col-12 ml-3 mr-5">
 			<div class="ui-block">
 				<div class="ui-block-title">
 					<h6 class="title">Chat / Messages</h6>
@@ -58,40 +52,23 @@
 					</div>
 					<div class="col-xl-7 col-lg-6 col-md-12 col-sm-12 col-xs-12 padding-l-0">						
 						<!-- Chat Field -->
-						<div class="chat-field">
-							<div class="ui-block-title">
-								<h6 class="title">Elaine Dreyfuss</h6>
-								<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
-							</div>
-							<div class="mCustomScrollbar" data-mcs-theme="dark">
-								<ul class="notification-list chat-message chat-message-field">
-									<li>
-										<div class="author-thumb">
-											<img src="/img/avatar10-sm.jpg" alt="author">
-										</div>
-										<div class="notification-event">
-											<a href="#" class="h6 notification-friend">Elaine Dreyfuss</a>
-											<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">Yesterday at 8:10pm</time></span>
-											<span class="chat-message-item">Hi James, How are your doing? Please remember that next week we are going to Gotham Bar to celebrate Marina’s Birthday.</span>
-										</div>
-									</li>
-								</ul>
-							</div>
-							<form>
-						
+						<div id="chat-field" class="chat-field">
+						</div>
+						<div id="input_mess" class="none">
+							<form action="" name="messages">
 								<div class="form-group label-floating is-empty">
 									<label class="control-label">Write your reply here...</label>
-									<textarea class="form-control" placeholder=""  ></textarea>
+									<textarea class="form-control" placeholder="" name="mess"></textarea>
 								</div>
+								<div class="none">
+									<input id="mess_rumm" name="id_room" value=""></input>
+								</div>
+								<div>
 									<button class="btn btn-primary btn-sm">Send</button>
 								</div>
-						
 							</form>
-						
 						</div>
-						
 						<!-- ... end Chat Field -->
-
 					</div>
 				</div>
 
