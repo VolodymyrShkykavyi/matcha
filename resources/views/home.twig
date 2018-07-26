@@ -77,4 +77,8 @@
         {{ dump() }}
     </pre>
 </div>
+
+{% if not user.lat_lng %}
+    <script src="/js/get_location.js"></script>
+{% endif %}
 {% endblock %}
