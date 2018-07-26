@@ -7,10 +7,13 @@ window.onload = function(){
 
   socket.onmessage = function(event) {
     let message = JSON.parse(event.data);
-    if(message['type'] == private_mess)
+    $("#last_mess" + message['id_room']).html(message['msg']);
+    if(message['type'] == "private_mess")
     {
       if($("#curr_chat").html() == message['id_room'])
+      {
         chat_field(message['id_room']);
+      }
     }
     
     console.log(message);

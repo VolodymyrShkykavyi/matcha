@@ -36,7 +36,7 @@
 								</div>
 								<div class="notification-event">
 									<a  class="h6 notification-friend">{{ friend.profile.login }}</a>	
-									<span id="last_mess" class="chat-message-item">{{ chat.last_mess[0]['messadge']}}</span>
+									<span id="last_mess{{ chat.id }}" class="chat-message-item">{{ chat.last_mess[0]['messadge']}}</span>
 									<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">{{ user.lastAction }}</time></span>
 								</div>
 								<div class="more">
