@@ -7,19 +7,32 @@ window.onload = function(){
 
   socket.onmessage = function(event) {
     let message = JSON.parse(event.data);
+    if(message['type'] == private_mess)
+    {
+      if($("#curr_chat").html() == message['id_room'])
+        chat_field(message['id_room']);
+    }
+    
     console.log(message);
   };
   
-  if (document.location.pathname === '/chat'){
 
-    document.forms["messages"].onsubmit = function()
+
+
+    var mess_form = $("form[name='messages']")[0];
+
+    if(mess_form)
     {
-      let message = {
-       msg: this.mess.value,
-       id_room: this.id_room.value
-      }
-      socket.send(JSON.stringify(message));
-      return false;
+      mess_form.onsubmit = function(ev){
+        ev.preventDefault();
+        let message = {
+              msg: this.mess.value,
+               id_room: this.id_room.value,
+              type: "private_mess",
+              }
+              socket.send(JSON.stringify(message));
+              this.mess.value = "";
+     };
     }
-  }
+
 }

@@ -6,7 +6,9 @@ namespace App\Models;
 class UserModel extends Model
 {
 
-/////////////////////////////
+
+
+	////////// 		SELECT SECTOR 		///////////////////
 	public function getUsers()
 	{
 		return $this->execute('SELECT * FROM `users`');
@@ -174,12 +176,18 @@ class UserModel extends Model
 
 	public function getAllMessage($id_chat_room)
 	{
+		if (!is_numeric($id_chat_room) || $id_chat_room <= 0) {
+			return false;
+		}
 		$res = $this->execute('SELECT * FROM `messages` WHERE `id_chat_room` = ?i', [$id_chat_room]);
 		return($res);
 	}
 	
 
-/////////////////////////////////
+
+
+
+	////////////////		INSRT SECTOR 		/////////////////
 	public function addUser($data)
 	{
 		if (empty($data) || empty($data['login']) || empty($data['password']) ||
@@ -270,7 +278,10 @@ class UserModel extends Model
 	}
 
 
-	/////////////////////////////
+
+
+
+	///////////// 		UPDATE SECTOR 		////////////////
 
 	public function updateUserActive($id, $status)
 	{
@@ -365,6 +376,12 @@ class UserModel extends Model
 		return $res;
 	}
 
+
+
+
+
+
+	////////////////////		DELETE SECTOR (DANGEROUS SECTOR) ////////////////////
 	public function removeFriend($userId, $friendId)
 	{
 		if (!is_numeric($userId) || !is_numeric($friendId)){
@@ -376,6 +393,10 @@ class UserModel extends Model
 		return $res;
 	}
 
+
+
+
+	///////////////////////       PRIVATE SECTOR 	///////////////////////////
 	private function _getHashPassword($password)
 	{
 		return hash('whirlpool', $password);

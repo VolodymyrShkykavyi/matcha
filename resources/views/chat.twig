@@ -6,7 +6,8 @@
 <div class="container">
 <div id="status"></div>
 <div id="user_id" style="display: none">{{ user.id }}</div>
-<!-- 	<pre>
+<div id="curr_chat" style="display: none"></div>
+	<!-- <pre>
 		{{ dump() }}
 	</pre> -->
 	<div class="row">
@@ -26,28 +27,28 @@
 						<ul class="notification-list chat-message">
 							
 
-
-							{% for chat in chats %}
+							{% for friend in friends %}
+								{% for chat in chats %}
+									{% if (friend.from_request == chat.id_sob or friend.to_request == chat.id_sob) and (friend.status == 1) %}
 							<li onclick="chat_field({{ chat.id }})" >
 								<div class="author-thumb">
 									<img src="/img/avatar8-sm.jpg" alt="author">
 								</div>
 								<div class="notification-event">
-									
-										{% for friend in friends %}
-											{% if (friend.from_request == chat.id_sob or friend.to_request == chat.id_sob) and (friend.status == 1) %}
-												<a  class="h6 notification-friend">{{ friend.profile.login }}</a>
-											{% endif %}
-										{% endfor %}
-									
-									<span class="chat-message-item">{{ chat.last_mess[0]['messadge']}}</span>
+									<a  class="h6 notification-friend">{{ friend.profile.login }}</a>	
+									<span id="last_mess" class="chat-message-item">{{ chat.last_mess[0]['messadge']}}</span>
 									<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">{{ user.lastAction }}</time></span>
 								</div>
 								<div class="more">
 									<svg class="olymp-three-dots-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
 								</div>
-							</li>
+							</li>	
+									{% endif %}
+								{% endfor %}
 							{% endfor %}
+
+
+
 						</ul>
 					</div>
 					<div class="col-xl-7 col-lg-6 col-md-12 col-sm-12 col-xs-12 padding-l-0">						
@@ -64,7 +65,7 @@
 									<input id="mess_rumm" name="id_room" value=""></input>
 								</div>
 								<div>
-									<button class="btn btn-primary btn-sm">Send</button>
+									<button id="butt" class="btn btn-primary btn-sm">Send</button>
 								</div>
 							</form>
 						</div>

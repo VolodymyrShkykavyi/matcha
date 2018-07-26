@@ -333,9 +333,23 @@ class UserController extends Controller
 		{
 			$curr_room = $this->model->getChatRoomById($data['room_id']);
 			if($curr_room[0]['id_user'] == $this->_user['id'])
+			{
 					$user_sob = $this->model->getUser($curr_room[0]['id_sob']);
+					$friends = $this->model->getFriend($this->_user['id'], $user_sob['id']);
+					if($friends['id'] == "")
+						return "";
+			}
 			else if($curr_room[0]['id_sob'] == $this->_user['id'])
+			{
 					$user_sob = $this->model->getUser($curr_room[0]['id_user']);
+					$friends = $this->model->getFriend($this->_user['id'], $user_sob['id']);
+					if($friends['id'] == "")
+						return "";
+			}
+			else{
+
+					return "";
+			}
 		}
 		$chat_field = '<div class="ui-block-title"><h6 class="title"><h6 class="title">' . $user_sob['login'] . '</h6></div>';
 		$chat_field = $chat_field . '<div id="scroll" class="scroll" data-mcs-theme="dark"><ul class="notification-list chat-message chat-message-field">';
@@ -362,34 +376,41 @@ class UserController extends Controller
 	public function ChatRoom1($request, $response, $args)
 	{
 		$data = $request->getParsedBody();
+		
 		if (!empty($data) && $data['targetId'] && $data['targetId'] != $this->_user['id']) {
-			$res = $this->model->getChatRooms($this->_user['id']);
-			foreach ($res as $value) {
-				if ($value["id_sob"] == $data['targetId'])
-					$c = 1;
-				if ($value["id_user"] == $data['targetId'])
-					$c = 1;
-			}
-			if (!$c) {
-				$this->model->addChatRoom($this->_user['id'], $data['targetId']);
+			$friends = $this->model->getFriend($this->_user['id'], $data['targetId']);
+			if($friends['id'])
+			{
 				$res = $this->model->getChatRooms($this->_user['id']);
 				foreach ($res as $value) {
 					if ($value["id_sob"] == $data['targetId'])
-						return $value["id"];
+						$c = 1;
 					if ($value["id_user"] == $data['targetId'])
-						return $value["id"];
+						$c = 1;
+				}
+				if (!$c) {
+					$this->model->addChatRoom($this->_user['id'], $data['targetId']);
+					$res = $this->model->getChatRooms($this->_user['id']);
+					foreach ($res as $value) {
+						if ($value["id_sob"] == $data['targetId'])
+							return $value["id"];
+						if ($value["id_user"] == $data['targetId'])
+							return $value["id"];
+					}
+				} else {
+					foreach ($res as $value) {
+						if ($value["id_sob"] == $data['targetId'])
+							return $value["id"];
+						if ($value["id_user"] == $data['targetId'])
+							return $value["id"];
+					}
 				}
 			} else {
-				foreach ($res as $value) {
-					if ($value["id_sob"] == $data['targetId'])
-						return $value["id"];
-					if ($value["id_user"] == $data['targetId'])
-						return $value["id"];
-				}
+				return 0;
 			}
-		} else {
-			return "errorochka";
 		}
+		else
+			return 0;
 	}
 
 	private function _formatted_location($lat, $lng)

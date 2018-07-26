@@ -29,4 +29,34 @@ class ChatModel{
 		$res = $this->db->query('UPDATE users SET `IsOnline` = ?i WHERE id=?i', $status, $id);
 		return $res;
 	}
+
+	public function addMessadge($id_chat_room, $id_user_from, $id_user_to, $messadge){
+		// if (empty($id_chat_room) || !is_numeric($id_chat_room) || empty($id_user_from) || !is_numeric($id_user_from) ||empty($id_user_to) || !is_numeric($id_user_to) || empty($messadge) ){
+		// 	return false;
+		// }
+		$res = $this->db->query('INSERT INTO messages (`id_chat_room`, `id_user_from`, `id_user_to` , `messadge`) VALUES ("?s" , "?s" , "?s", "?s")', $id_chat_room, $id_user_from, $id_user_to, $messadge);
+		return $res;
+	}
+
+
+	public function getChatRoomById($id)
+	{
+		if (!is_numeric($id) || $id <= 0) {
+			return false;
+		}
+		try{
+			  $res = $this->db->query('SELECT * FROM chats WHERE id=?i', $id);
+		}catch (\dbException $e){
+				return $e;
+			}
+			if($res)
+			{
+				$data = $res->fetch_assoc();
+			}
+			else
+				return(0);
+		return $data;
+	}
+
+
 }
