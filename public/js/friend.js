@@ -14,6 +14,10 @@ $(".control-block-button a.friend, ul.friend-requests span a").click(function(ev
 		let send = {type: data.type, targetId: data.id};
 		data.type = '';
 		this.setAttribute('data-type', '');
+			if (send.type == 'add' && data.noimg){
+				alert('You haven\'t profile image yet. Pleas upload it, before sending any friend request');
+				return;
+			}
 
 		$.ajax({
 			type: 'POST',
