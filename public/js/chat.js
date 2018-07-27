@@ -1,4 +1,5 @@
 
+
 window.onload = function(){
   var id_el = $($("#site-header a div.author-title")[0]).data().id;
 
@@ -7,16 +8,21 @@ window.onload = function(){
 
   socket.onmessage = function(event) {
     let message = JSON.parse(event.data);
-    $("#last_mess" + message['id_room']).html(message['msg']);
     if(message['type'] == "private_mess")
     {
+      $("#last_mess" + message['id_room']).html(message['msg']);
       if($("#curr_chat").html() == message['id_room'])
       {
         chat_field(message['id_room']);
+        var win = new Audio('http://localhost:1111/audio/notify.mp3');
+            win.play();
+      }
+      else
+      {
+       var win = new Audio('http://localhost:1111/audio/notify.mp3');
+            win.play();
       }
     }
-    
-    console.log(message);
   };
   
 
@@ -33,7 +39,10 @@ window.onload = function(){
                id_room: this.id_room.value,
               type: "private_mess",
               }
-              socket.send(JSON.stringify(message));
+              if(this.mess.value != "")
+              {
+                 socket.send(JSON.stringify(message));
+              }
               this.mess.value = "";
      };
     }
