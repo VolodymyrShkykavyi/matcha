@@ -44,14 +44,44 @@ class Chat extends Controller implements MessageComponentInterface {
 	{
 		$data = json_decode($msg);
 
-		var_dump($data->msg);
-			$numRecv = count($this->clients) - 1;
-			echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
-				, $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
-			foreach ($this->clients as $client) {
-				$data->trget_id = $client->getId();
-				$client->getConn()->send(json_encode($data));
+		if($data->type == "private_mess")
+		{
+			$chat_room = $this->model->getChatRoomById($data->id_room);
+			if($chat_room['id'])
+			{
+				foreach ($this->clients as $client) {
+					if($from->resourceId == $client->getConn()->resourceId)
+					{
+						$from_id = $client->getId();
+						break;
+					}
+				}
+				if($chat_room['id_user'] == $from_id)
+					$id_to = $chat_room['id_sob'];
+				else
+					$id_to = $chat_room['id_user'];
+				$res = $this->model->addMessadge($chat_room['id'], $from_id, $id_to, $data->msg);
+				foreach ($this->clients as $client) {
+
+						$c_user_id = $client->getId();
+						if($c_user_id == $chat_room['id_user'])
+						{
+							$client->getConn()->send(json_encode($data));
+						}
+						if($c_user_id == $chat_room['id_sob'])
+						{
+							$client->getConn()->send(json_encode($data));
+						}
+					}
 			}
+				// $numRecv = count($this->clients) - 1;
+				// echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
+				// 	, $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
+				// 	foreach ($this->clients as $client) {
+				// 		$data->trget_id = $client->getId();
+				// 		$client->getConn()->send(json_encode($data));
+				// 	}
+		}
 	}
 	public function onClose(ConnectionInterface $conn)
 	{

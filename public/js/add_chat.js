@@ -11,9 +11,7 @@ $("a.btn.btn-control.bg-purple").click(function(ev){
 			url: '/profile/chat',
 			data: send,
 			success: function(response){
-                	window.location = "/chat";
-                	// chat_field(response);
-                    return;
+					window.location = "/chat/" + response;
                 }
 		});
 
