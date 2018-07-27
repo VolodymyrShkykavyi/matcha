@@ -152,13 +152,13 @@ $("#personal_information_form button").click(function (ev) {
 			data: data,
 			success: function (response) {
 				response = JSON.parse(response);
-
+				console.log(response);
 				if (response){
 					alert('changed');
 				}
 			}
 		});
 	} else {
-		alert('validation err, del me');
+		//alert('validation err, del me');
 	}
 });
