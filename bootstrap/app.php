@@ -39,6 +39,8 @@ $container['flash'] = function (){
 	return new \Slim\Flash\Messages();
 };
 
+$container['upload_directory'] = __DIR__ . "/../public/uploads";
+
 // Register logger 'Monolog' on container
 $container['logger'] = function() {
 	$logger = new \Monolog\Logger('matcha_logger');

@@ -18,13 +18,18 @@ class UserController extends Controller
 
 			if (!empty($user)) {
 				$this->_user = $user;
-
 				$location = $this->model->getUserLocation($this->_user['id']);
 				$friendRequests = $this->model->getFriendRequests($this->_user['id']);
 				$notification_num = $this->model->countNotifications($this->_user['id']);
 				$friends = $this->model->getFriends($this->_user['id']);
 				$chats = $this->model->getChatRooms($this->_user['id']);
+				
 				$i = 0;
+				if (empty($this->_user['img'])) {
+					$this->_user['img'] = '/author-main1.jpg';
+					$this->_user['no_img'] = 1;
+				}
+
 				foreach ($chats as $value) {
 					if ($value["id_sob"] == $this->_user['id']) {
 
@@ -48,11 +53,6 @@ class UserController extends Controller
 				}
 
 				$this->ViewData['friends'] = $friends;
-
-
-				if (empty($this->_user['img'])) {
-					$this->_user['img'] = '/author-main1.jpg';
-				}
 
 			}
 
@@ -271,7 +271,7 @@ class UserController extends Controller
 		$res = false;
 
 		if (!empty($data) && $data['type'] && $data['targetId'] && $data['targetId'] != $this->_user['id']) {
-			if ($data['type'] == 'add') {
+			if ($data['type'] == 'add' && empty($this->_user['no_img'])) {
 				$res = $this->model->addFriend($this->_user['id'], $data['targetId']);
 			} elseif ($data['type'] == 'remove_friend' || $data['type'] == 'remove_request') {
 				$res = $this->model->removeFriend($this->_user['id'], $data['targetId']);
