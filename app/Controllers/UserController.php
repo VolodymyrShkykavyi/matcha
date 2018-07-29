@@ -30,6 +30,10 @@ class UserController extends Controller
 
 						$value["id_sob"] = $value["id_user"];
 					}
+					$unread_mess =  $this->model->getUnreadMessage(13,  5, 0);
+					// $value["count_unread"] = count($unread_mess);
+
+					$value["count_unread"] = $unread_mess;
 					$value["id_user"] = $this->_user['id'];
 					$value["last_mess"] = $this->model->getLastMessage($value["id_sob"], $value['id']);
 					$this->ViewData['chats'][$i] = $value;
@@ -324,7 +328,7 @@ class UserController extends Controller
 
 		$data = $request->getParsedBody();
 
-		$all_mess = $this->model->getAllMessage($data['room_id']);
+		$all_mess = $this->model->getMessage($data['room_id'], $data['start']);
 		if($all_mess[0]["id_user_from"] == $this->_user['id'])
 			$user_sob = $this->model->getUser($all_mess[0]["id_user_to"]);
 		else if($all_mess[0]["id_user_to"] == $this->_user['id'])
@@ -351,26 +355,46 @@ class UserController extends Controller
 					return "";
 			}
 		}
-		$chat_field = '<div class="ui-block-title"><h6 class="title"><h6 class="title">' . $user_sob['login'] . '</h6></div>';
-		$chat_field = $chat_field . '<div id="scroll" class="scroll" data-mcs-theme="dark"><ul class="notification-list chat-message chat-message-field">';
-		if($all_mess != NULL)
+		if($data['start'] < 2)
 		{
-			$chat_field = $chat_field . '';
-			foreach ($all_mess as $value) {
+			$chat_field = '<div class="ui-block-title"><h6 class="title"><h6 class="title">' . $user_sob['login'] .	 '</h6></div>';
+			$chat_field = $chat_field . '<div id="scroll" class="scroll" data-mcs-theme="dark"><ul 	id="chat_mess_ul" class="notification-list chat-message chat-message-field">';
+			if($all_mess != NULL)
+			{ 
+				foreach ($all_mess as $value) {
 
-				if($value['id_user_from'] == $this->_user['id'])
-					$who = $this->_user['login'];
-				else
-					$who = $user_sob['login'];
-				$chat_field = $chat_field . '<li><div class="author-thumb">' . $value['img'] . '<img src="/img/avatar10-sm.jpg" alt="author"></div><div class="notification-event" style="width:90%;"><a href="#" class="h6 notification-friend">' . $who . '</a><span class="notification-date" ><time class="entry-date updated" datetime="2004-07-24T18:18">' . $value['date_creation'] . '</time></span><br/><span class="chat-message-item" >' . $value['messadge'] . '</span></div></li>'; 
+					if($value['id_user_from'] == $this->_user['id'])
+						$who = $this->_user;
+					else
+						$who = $user_sob;
+					$chat_field = $chat_field . '<li><div class="author-thumb"><img src="/img' .$who['img'] . '" alt="author"></div><div class="notification-event" style="width:90%;"><a href="#" class="h6 notification-friend">' . $who['login'] . '</a><span class="notification-date" ><time class="entry-date updated" datetime="2004-07-24T18:18">' . $value['date_creation'] . '</time></span><br/><span class="chat-message-item" >' . $value['messadge'] . '</span></div></li>'; 
+				}
 			}
-			$chat_field = $chat_field . '';
+			else
+			{
+				$chat_field = $chat_field . '<li><div class="notification-event"><span class="chat-message-item">Messedge history is empty</span></div></li>';
+			}
+			echo $chat_field ;
 		}
 		else
 		{
-			$chat_field = $chat_field . '<li><div class="notification-event"><span class="chat-message-item">Massedge history is empty</span></div></li>';
+			if($all_mess != NULL)
+			{ 
+				foreach ($all_mess as $value) {
+
+					if($value['id_user_from'] == $this->_user['id'])
+						$who = $this->_user;
+					else
+						$who = $user_sob;
+					$chat_field = $chat_field . '<li><div class="author-thumb"><img src="/img' .$who['img'] . '" alt="author"></div><div class="notification-event" style="width:90%;"><a href="#" class="h6 notification-friend">' . $who['login'] . '</a><span class="notification-date" ><time class="entry-date updated" datetime="2004-07-24T18:18">' . $value['date_creation'] . '</time></span><br/><span class="chat-message-item" >' . $value['messadge'] . '</span></div></li>'; 
+				}
+				return($chat_field);
+			}
+			else
+			{
+				return("END");
+			}
 		}
-		echo $chat_field ;
 	}
 
 	public function ChatRoom1($request, $response, $args)

@@ -56,23 +56,33 @@ class Chat extends Controller implements MessageComponentInterface {
 						break;
 					}
 				}
+				$user_from = $this->model->getUser($from_id);
+				$data->img = $user_from['img'];
+				$data->login = $user_from['login'];
 				if($chat_room['id_user'] == $from_id)
+				{
 					$id_to = $chat_room['id_sob'];
+				}
 				else
+				{
 					$id_to = $chat_room['id_user'];
+				}
 				$res = $this->model->addMessadge($chat_room['id'], $from_id, $id_to, $data->msg);
+				$last_mess = $this->model->getLastMessage($from_id, $chat_room['id']);
+				$data->date_creation = $last_mess['date_creation'];
 				foreach ($this->clients as $client) {
-
-						$c_user_id = $client->getId();
-						if($c_user_id == $chat_room['id_user'])
-						{
-							$client->getConn()->send(json_encode($data));
-						}
-						if($c_user_id == $chat_room['id_sob'])
-						{
-							$client->getConn()->send(json_encode($data));
-						}
+					$c_user_id = $client->getId();
+					if($c_user_id == $from_id)
+					{
+						$data->type = "mess_send";
+						$client->getConn()->send(json_encode($data));
 					}
+					if($c_user_id == $id_to)
+					{
+						$data->type = "mess_res";
+						$client->getConn()->send(json_encode($data));
+					}
+				}
 			}
 				// $numRecv = count($this->clients) - 1;
 				// echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
