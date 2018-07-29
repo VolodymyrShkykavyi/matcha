@@ -7,9 +7,9 @@
 <div id="status"></div>
 <div id="user_id" style="display: none">{{ user.id }}</div>
 <div id="curr_chat" style="display: none"></div>
-	<!-- <pre>
+	<pre>
 		{{ dump() }}
-	</pre> -->
+	</pre>
 	<div class="row">
 		<div class="col-12 ml-3 mr-5">
 			<div class="ui-block">
@@ -30,14 +30,15 @@
 							{% for friend in friends %}
 								{% for chat in chats %}
 									{% if (friend.from_request == chat.id_sob or friend.to_request == chat.id_sob) and (friend.status == 1) %}
-							<li onclick="chat_field({{ chat.id }})" >
+							<li onclick="chat_field({{ chat.id }}, 1)" >
 								<div class="author-thumb">
-									<img src="/img/avatar8-sm.jpg" alt="author">
+									<img src="/img/{{friend.profile.img}}" alt="author">
 								</div>
 								<div class="notification-event">
 									<a  class="h6 notification-friend">{{ friend.profile.login }}</a>	
 									<span id="last_mess{{ chat.id }}" class="chat-message-item">{{ chat.last_mess[0]['messadge']}}</span>
-									<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">{{ user.lastAction }}</time></span>
+									<span class="notification-date"><time id="last_mess_date" class="entry-date updated" datetime="2004-07-24T18:18">{{ user.lastAction }}</time></span>
+									<div align="center" class="label-avatar bg-purple mar">{{1}}</div>
 								</div>
 								<div class="more">
 									<svg class="olymp-three-dots-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
