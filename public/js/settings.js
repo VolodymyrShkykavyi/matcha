@@ -162,3 +162,76 @@ $("#personal_information_form button").click(function (ev) {
 		//alert('validation err, del me');
 	}
 });
+
+
+
+//tags
+
+$("#form_add_tag button").click(function(){
+	let input = $("#form_add_tag input[name='new_tag'")[0];
+	let tag = $.trim(input.value);
+	let errors = 0;
+
+	clearErrors();
+
+	if (tag.lastIndexOf('#') > 0){
+		showError(input, "# is forbidden inside tags");
+		errors++;
+	}
+	if (tag.length < 3){
+		showError(input, "min tag length 3 chars");
+		errors++;
+	}
+	if (tag.length > 20){
+		showError(input, 'max tag length 20 chars');
+		errors++;
+	}
+
+	if (!errors){
+		$.ajax({
+			type: 'POST',
+			url: '/tag/add',
+			data: {tag: tag},
+			success: function (response) {
+				response = JSON.parse(response);
+				if (response === 'false'){
+					showError(input, 'validation error');
+					return;
+				}
+				if (response.error){
+					showError(input, response.error);
+					return;
+				}
+				console.log($("#tag_list")[0]);
+				let new_el = $("<button type=\"button\" onclick=\"delTag(this);\" class=\"ml-1 mr-1 btn btn-secondary\" data-id=\""+ response +"\">" + tag + "</button>");
+
+				$("#tag_list").append(new_el);
+			}
+		});
+	}
+});
+
+function delTag(elem) {
+    let id = $(elem).data().id;
+
+    if (confirm("You really want to delete this tag ?")) {
+        $.ajax({
+            type: 'POST',
+            url: 'tag/delete',
+            data: {id: id},
+            success: function (response) {
+                response = JSON.parse(response);
+
+                if (response === true){
+                    $(elem).remove();
+                }
+            }
+        });
+
+    }
+}
+
+
+$("#tag_list button").click(function () {
+	delTag(this);
+});

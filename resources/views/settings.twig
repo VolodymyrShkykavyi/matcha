@@ -11,7 +11,38 @@
 					</div>
 
 					<div class="ui-block-content">
-					TAGGGSS
+						<form id="form_add_tag">
+							<div class="row">
+								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+									<div class="form-group label-floating is-empty">
+										<label class="control-label">Your New tag</label>
+										<input name="new_tag" class="form-control" placeholder="" type="text">
+									</div>
+								</div>
+								
+								<div class="col-12 col-md-2">
+									<button type="button" class="btn btn-primary btn-lg full-width">Add</button>
+								</div>
+
+							</div>
+						</form>
+
+						<div class="row" id="tag_list">
+
+							{% if user.tags %}
+							{% for tag in user.tags %}
+								<button type="button" class="ml-1 mr-1 btn btn-secondary" data-id="{{ tag.id_tag }}">
+									{{tag.tag}}
+								</button>
+							{% endfor %}
+							{% else %}
+								<div class="col-12 mb-3 text-center"> Your tag list is empty</div>
+							{% endif %}
+							
+						</div>
+
+							
+
 					</div>
 				</div>
 

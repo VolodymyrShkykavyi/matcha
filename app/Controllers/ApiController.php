@@ -40,6 +40,44 @@ class ApiController extends Controller
 		return json_encode(false);
 	}
 
+	public function addTag($request, $response, $args)
+	{
+		$res = false;
+		$data = $request->getParsedBody();
+
+		if (!empty($data['tag'])) {
+			$data['tag'] = trim($data['tag']);
+			$pos = strrpos($data['tag'], '#');
+			if (!$pos){
+				$data['tag'] = trim($data['tag'], '#');
+
+				if (strlen($data['tag']) >= 3 && strlen($data['tag']) <= 20){	
+					$res = $this->model->addTag($_SESSION['auth']['id'], $data['tag']);
+					if (!$res){
+						return json_encode(['error' => 'Tag already exists']);
+					}
+				}
+			}
+		}
+
+		return json_encode($res);
+	}
+
+	public function deleteTag($request, $response, $args)
+    {
+        $res = false;
+        $data = $request->getParsedBody();
+
+        if (!empty($data['id'])){
+            if (is_numeric($data['id']) && $data['id'] > 0) {
+                if ($this->model->deleteTag($_SESSION['auth']['id'], $data['id']))
+                    $res = true;
+            }
+        }
+
+        return json_encode($res);
+    }
+
 	public function uploadPhoto($request, $response, $args)
 	{
 		$directory = $this->c['upload_directory'];
