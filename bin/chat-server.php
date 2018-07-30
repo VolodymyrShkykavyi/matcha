@@ -12,7 +12,7 @@ use App\Controllers\Chat;
                 new Chat()
             )
         ),
-        8080
+        7777
     );
 
     $server->run();
