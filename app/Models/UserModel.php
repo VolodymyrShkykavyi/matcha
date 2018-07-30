@@ -189,7 +189,7 @@ class UserModel extends Model
 		if (!is_numeric($id_chat_room) || $id_chat_room <= 0) {
 			return false;
 		}
-		$res = $this->execute('SELECT * FROM `messages`  WHERE `id_chat_room` = ?i ORDER BY `date_creation`  LIMIT 20 OFFSET ?i', [$id_chat_room , $start]);
+		$res = $this->execute('SELECT * FROM `messages`  WHERE `id_chat_room` = ?i ORDER BY `date_creation` DESC LIMIT 20 OFFSET ?i', [$id_chat_room , $start]);
 		return($res);
 	}
 	

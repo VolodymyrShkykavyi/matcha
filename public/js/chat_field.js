@@ -42,7 +42,7 @@ function chat_field(room_id, start) {
 					}
 					else
 					{
-						$("#chat_mess_ul").html(response + $("#chat_mess_ul").html());
+						$("#chat_mess_ul").prepend(response);
 					}
 					if(scroll && count != 0)
 					{
@@ -51,13 +51,13 @@ function chat_field(room_id, start) {
 							{
 								if(response != "")
 								{
-
 									count = count + 20;
+									var elmnt = document.getElementById("chat_mess_ul").firstChild.id;
 									chat_field($("#curr_chat").html(), count);
 									if(end != 1)
 									{
-										console.log(scroll.scrollTop);
-										scroll.scrollTop = 2600;
+										var target = document.getElementById(elmnt);
+										target.firstChild.scrollIntoView(true);
 									}
 								}
 							}
@@ -72,7 +72,7 @@ function chat_field(room_id, start) {
 if (chat_id.length == 3){
 	let send = {
 		targetId: chat_id[2],
-		start:  1
+		start: 0
 	};
 		$.ajax({
 			type: 'POST',
@@ -80,7 +80,7 @@ if (chat_id.length == 3){
 			data: send,
 			success: function(response){
 				if (response !== 'errorochka')
-					chat_field(response, 1);
+					chat_field(response, 0);
                 }
 		});
 }

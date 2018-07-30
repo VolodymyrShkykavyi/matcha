@@ -23,6 +23,8 @@ function onFocus() {
         $("#last_mess_date").html(message['date_creation']);
         if(message['msg'].length > 50)
           $("#last_mess" + message['id_room']).html(message['msg'].substr(0, 50) + "...");
+        else
+          $("#last_mess" + message['id_room']).html(message['msg']);
       }
       if($("#curr_chat").html() == message['id_room'])
       {
@@ -62,3 +64,11 @@ function onFocus() {
     }
 
 }
+
+$(document).keypress(function(e) {
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if (keycode == '13' && $('#textarea').is(':focus')) {
+      e.preventDefault();
+       $('#butt').click();
+   }
+});

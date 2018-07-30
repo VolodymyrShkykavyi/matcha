@@ -7,9 +7,9 @@
 <div id="status"></div>
 <div id="user_id" style="display: none">{{ user.id }}</div>
 <div id="curr_chat" style="display: none"></div>
-	<pre>
+<!-- 	<pre>
 		{{ dump() }}
-	</pre>
+	</pre> -->
 	<div class="row">
 		<div class="col-12 ml-3 mr-5">
 			<div class="ui-block">
@@ -30,7 +30,7 @@
 							{% for friend in friends %}
 								{% for chat in chats %}
 									{% if (friend.from_request == chat.id_sob or friend.to_request == chat.id_sob) and (friend.status == 1) %}
-							<li onclick="chat_field({{ chat.id }}, 1)" >
+							<li onclick="chat_field({{ chat.id }}, 0)" >
 								<div class="author-thumb">
 									<img src="/img/{{friend.profile.img}}" alt="author">
 								</div>
@@ -62,7 +62,7 @@
 							<form action="" name="messages">
 								<div class="form-group label-floating is-empty">
 									<label class="control-label">Write your reply here...</label>
-									<textarea class="form-control" placeholder="" name="mess"></textarea>
+									<textarea id="textarea" class="form-control" placeholder="" name="mess"></textarea>
 								</div>
 								<div class="none">
 									<input id="mess_rumm" name="id_room" value=""></input>
