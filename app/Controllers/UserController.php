@@ -460,8 +460,11 @@ class UserController extends Controller
 				$address_components = $data->results[0]->address_components;
 				if (!empty($address_components)) {
 					$addr = $address_components[2]->long_name;
-					$addr .= ", " . $address_components[3]->long_name;
-					$addr .= ", " . $address_components[6]->long_name;
+					if (!empty($address_components[3]))
+						$addr .= ", " . $address_components[3]->long_name;
+					if (!empty($address_components[6]))
+						//TODO: better finding
+						$addr .= ", " . $address_components[6]->long_name;
 				}
 			}
 		}
