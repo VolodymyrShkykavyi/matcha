@@ -63,6 +63,21 @@ class ApiController extends Controller
 		return json_encode($res);
 	}
 
+	public function deleteTag($request, $response, $args)
+    {
+        $res = false;
+        $data = $request->getParsedBody();
+
+        if (!empty($data['id'])){
+            if (is_numeric($data['id']) && $data['id'] > 0) {
+                if ($this->model->deleteTag($_SESSION['auth']['id'], $data['id']))
+                    $res = true;
+            }
+        }
+
+        return json_encode($res);
+    }
+
 	public function uploadPhoto($request, $response, $args)
 	{
 		$directory = $this->c['upload_directory'];

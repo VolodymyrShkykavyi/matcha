@@ -202,9 +202,36 @@ $("#form_add_tag button").click(function(){
 					showError(input, response.error);
 					return;
 				}
-				console.log(response);
-				
+				console.log($("#tag_list")[0]);
+				let new_el = $("<button type=\"button\" onclick=\"delTag(this);\" class=\"ml-1 mr-1 btn btn-secondary\" data-id=\""+ response +"\">" + tag + "</button>");
+
+				$("#tag_list").append(new_el);
 			}
 		});
 	}
+});
+
+function delTag(elem) {
+    let id = $(elem).data().id;
+
+    if (confirm("You really want to delete this tag ?")) {
+        $.ajax({
+            type: 'POST',
+            url: 'tag/delete',
+            data: {id: id},
+            success: function (response) {
+                response = JSON.parse(response);
+
+                if (response === true){
+                    $(elem).remove();
+                }
+            }
+        });
+
+    }
+}
+
+
+$("#tag_list button").click(function () {
+	delTag(this);
 });

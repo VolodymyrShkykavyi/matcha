@@ -18,5 +18,6 @@ $app->group('', function (){
 	$this->post('/check/login', ApiController::class.':checkLogin');
 	$this->post('/photo/upload', ApiController::class.':uploadPhoto');
 	$this->post('/tag/add', ApiController::class.':addTag');
-	
+    $this->post('/tag/delete', ApiController::class.':deleteTag');
+
 })->add(new RedirectIfUnauthorized($container['router']));

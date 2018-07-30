@@ -47,4 +47,11 @@ class ApiModel extends Model
 		return $tagId;
 	}
 
+	public function deleteTag($userId, $tagId)
+    {
+        $res = $this->db->query("DELETE FROM user_tags WHERE id_user = ?i AND id_tag = ?i", $userId, $tagId);
+
+        return !empty($res);
+    }
+
 }
