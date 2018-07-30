@@ -329,10 +329,13 @@ class UserController extends Controller
 		$data = $request->getParsedBody();
 
 		$all_mess = $this->model->getMessage($data['room_id'], $data['start']);
-		if($all_mess[0]["id_user_from"] == $this->_user['id'])
+		if($all_mess != NULL)
+		{
+			if($all_mess[0]["id_user_from"] == $this->_user['id'])
 			$user_sob = $this->model->getUser($all_mess[0]["id_user_to"]);
-		else if($all_mess[0]["id_user_to"] == $this->_user['id'])
+			else if($all_mess[0]["id_user_to"] == $this->_user['id'])
 			$user_sob = $this->model->getUser($all_mess[0]["id_user_from"]);
+		}	
 		if($all_mess == NULL)
 		{
 			$curr_room = $this->model->getChatRoomById($data['room_id']);
