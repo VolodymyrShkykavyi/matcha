@@ -177,7 +177,7 @@ class UserModel extends Model
 	public function getUnreadMessage($id_from, $id_room, $status)
 	{
 		try{
-			$res = $this->execute('SELECT `id_message` FROM `messages` WHERE `id_chat_room` = ?i AND `id_user_from` = ?i', [$id_chat_room, $id_from]);
+			$res = $this->execute('SELECT `id_message` FROM `messages` WHERE `id_chat_room` = ?i AND `id_user_from` = ?i AND `read_status` = ?i', [$id_room, $id_from, $status]);
 			}catch (\dbException $e){
 				return $e;
 			}
