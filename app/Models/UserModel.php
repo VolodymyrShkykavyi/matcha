@@ -157,6 +157,13 @@ class UserModel extends Model
 		return $res;
 	}
 
+	public function getTags($userId)
+	{
+		$res = $this->db->query("SELECT * FROM `user_tags` JOIN tags ON id_tag = id WHERE id_user = ?i", $userId);
+
+		return $res->fetch_assoc_array();
+	}
+
 
 	public function auth($login, $password)
 	{

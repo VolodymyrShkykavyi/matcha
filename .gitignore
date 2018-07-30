@@ -3,3 +3,4 @@ vendor/
 *.log
 conf.conf
 .DS_Store
+config/
