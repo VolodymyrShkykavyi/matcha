@@ -35,6 +35,8 @@ function onFocus() {
       }
       else
       {
+        // console.log(message);
+        $("#count_unread_mess").html(message['count_unread']);
        var win = new Audio('/audio/notify.mp3');
             win.play();
       }

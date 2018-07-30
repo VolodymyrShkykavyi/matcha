@@ -36,8 +36,6 @@ class UserController extends Controller
 						$value["id_sob"] = $value["id_user"];
 					}
 					$unread_mess =  $this->model->getUnreadMessage($value["id_sob"], $value["id"], 0);
-					// $value["count_unread"] = count($unread_mess);
-
 					$value["count_unread"] = count($unread_mess);
 					$value["id_user"] = $this->_user['id'];
 					$value["last_mess"] = $this->model->getLastMessage($value["id_sob"], $value['id']);
