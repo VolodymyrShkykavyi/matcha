@@ -162,3 +162,49 @@ $("#personal_information_form button").click(function (ev) {
 		//alert('validation err, del me');
 	}
 });
+
+
+
+//tags
+
+$("#form_add_tag button").click(function(){
+	let input = $("#form_add_tag input[name='new_tag'")[0];
+	let tag = $.trim(input.value);
+	let errors = 0;
+
+	clearErrors();
+
+	if (tag.lastIndexOf('#') > 0){
+		showError(input, "# is forbidden inside tags");
+		errors++;
+	}
+	if (tag.length < 3){
+		showError(input, "min tag length 3 chars");
+		errors++;
+	}
+	if (tag.length > 20){
+		showError(input, 'max tag length 20 chars');
+		errors++;
+	}
+
+	if (!errors){
+		$.ajax({
+			type: 'POST',
+			url: '/tag/add',
+			data: {tag: tag},
+			success: function (response) {
+				response = JSON.parse(response);
+				if (response === 'false'){
+					showError(input, 'validation error');
+					return;
+				}
+				if (response.error){
+					showError(input, response.error);
+					return;
+				}
+				console.log(response);
+				
+			}
+		});
+	}
+});

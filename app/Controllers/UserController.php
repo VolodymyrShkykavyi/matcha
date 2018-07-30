@@ -212,6 +212,13 @@ class UserController extends Controller
 		$this->ViewData['user']['birthDate'] = $birthday;
 		$this->ViewData['user']['email'] = $this->_user['email'];
 		$this->ViewData['user']['details'] = $this->model->getUserDetails($this->_user['id']);
+
+
+		$this->ViewData['user']['tags'] = $this->model->getTags($this->_user['id']);
+
+
+
+
 		$this->render($response, 'settings.twig', 'Account settings');
 	}
 
