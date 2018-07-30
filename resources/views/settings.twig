@@ -5,106 +5,6 @@
 	<div class="container">
 		<div class="row">
 			<div class="settings col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-xs-12">
-				<div class="ui-block account_settings" style="display: none;">
-					<div class="ui-block-title">
-						<h6 class="title">Account Settings</h6>
-					</div>
-					<div class="ui-block-content">
-
-
-						<!-- Personal Account Settings Form -->
-
-						<form>
-							<div class="row">
-
-								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-									<div class="form-group label-floating is-select">
-										<label class="control-label">Who Can Friend You?</label>
-										<select class="selectpicker form-control">
-											<option value="EO">Everyone</option>
-											<option value="NO">No One</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-									<div class="form-group label-floating is-select">
-										<label class="control-label">Who Can View Your Posts</label>
-										<select class="selectpicker form-control">
-											<option value="US">Friends Only</option>
-											<option value="EO">Everyone</option>
-										</select>
-									</div>
-								</div>
-
-								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<div class="description-toggle">
-										<div class="description-toggle-content">
-											<div class="h6">Notifications Sound</div>
-											<p>A sound will be played each time you receive a new activity
-												notification</p>
-										</div>
-
-										<div class="togglebutton">
-											<label>
-												<input type="checkbox" checked="">
-											</label>
-										</div>
-									</div>
-									<div class="description-toggle">
-										<div class="description-toggle-content">
-											<div class="h6">Notifications Email</div>
-											<p>We’ll send you an email to your account each time you receive a new
-												activity notification</p>
-										</div>
-
-										<div class="togglebutton">
-											<label>
-												<input type="checkbox" checked="">
-											</label>
-										</div>
-									</div>
-									<div class="description-toggle">
-										<div class="description-toggle-content">
-											<div class="h6">Friend’s Birthdays</div>
-											<p>Choose wheather or not receive notifications about your friend’s
-												birthdays on your newsfeed</p>
-										</div>
-
-										<div class="togglebutton">
-											<label>
-												<input type="checkbox" checked="">
-											</label>
-										</div>
-									</div>
-									<div class="description-toggle">
-										<div class="description-toggle-content">
-											<div class="h6">Chat Message Sound</div>
-											<p>A sound will be played each time you receive a new message on an inactive
-												chat window</p>
-										</div>
-
-										<div class="togglebutton">
-											<label>
-												<input type="checkbox" checked="">
-											</label>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-									<button class="btn btn-secondary btn-lg full-width">Restore all Attributes</button>
-								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-									<button class="btn btn-primary btn-lg full-width">Save all Changes</button>
-								</div>
-							</div>
-						</form>
-
-						<!-- ... end Personal Account Settings Form  -->
-
-					</div>
-				</div>
-
 				<div class="ui-block hobbies_interests" style="display: none">
 					<div class="ui-block-title">
 						<h6 class="title">Your hobbies and interests</h6>
@@ -329,9 +229,6 @@
 												Information</a>
 										</li>
 										<li>
-											<a class="clickable" id="account_settings" href="#">Account Settings</a>
-										</li>
-										<li>
 											<a class="clickable" id="change_password" href="#">Change Password</a>
 										</li>
 										<li>
@@ -344,7 +241,7 @@
 
 						<div class="ui-block-title">
 							<a href="/notifications" class="h6 title clickable">Notifications</a>
-							<a href="/notifications" class="items-round-little bg-primary">8</a>
+							<a href="/notifications" class="items-round-little bg-primary">{{ num_notifications }}</a>
 						</div>
 						<div class="ui-block-title">
 							<a href="/chat" class="h6 title clickable">Chat / Messages</a>
