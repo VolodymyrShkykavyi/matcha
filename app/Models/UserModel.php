@@ -174,12 +174,22 @@ class UserModel extends Model
 		return($res);
 	}
 
-	public function getAllMessage($id_chat_room)
+	public function getUnreadMessage($id_from, $id_room, $status)
+	{
+		try{
+			$res = $this->execute('SELECT `id_message` FROM `messages` WHERE `id_chat_room` = ?i AND `id_user_from` = ?i', [$id_chat_room, $id_from]);
+			}catch (\dbException $e){
+				return $e;
+			}
+		return($res);
+	}
+
+	public function getMessage($id_chat_room, $start)
 	{
 		if (!is_numeric($id_chat_room) || $id_chat_room <= 0) {
 			return false;
 		}
-		$res = $this->execute('SELECT * FROM `messages` WHERE `id_chat_room` = ?i', [$id_chat_room]);
+		$res = $this->execute('SELECT * FROM `messages`  WHERE `id_chat_room` = ?i ORDER BY `date_creation`  LIMIT 20 OFFSET ?i', [$id_chat_room , $start]);
 		return($res);
 	}
 	
