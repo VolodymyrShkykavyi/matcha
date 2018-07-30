@@ -38,7 +38,9 @@
 									<a  class="h6 notification-friend">{{ friend.profile.login }}</a>	
 									<span id="last_mess{{ chat.id }}" class="chat-message-item">{{ chat.last_mess[0]['messadge']}}</span>
 									<span class="notification-date"><time id="last_mess_date" class="entry-date updated" datetime="2004-07-24T18:18">{{ user.lastAction }}</time></span>
-									<div align="center" class="label-avatar bg-purple mar">{{1}}</div>
+									{% if chat.count_unread > 0%}
+										<div align="center" class="label-avatar bg-purple mar">{{chat.count_unread}}</div>
+									{% endif %}
 								</div>
 								<div class="more">
 									<svg class="olymp-three-dots-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
