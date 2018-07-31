@@ -200,7 +200,13 @@ class UserModel extends Model
 		return($res);
 	}
 	
+	public function getAllReports()
+	{
+		$res = $this->db->query("SELECT COUNT(id) AS num, id_user, checked FROM `user_reports` WHERE checked = 0
+			GROUP BY id_user");
 
+		return $res->fetch_assoc_array();
+	}
 
 
 

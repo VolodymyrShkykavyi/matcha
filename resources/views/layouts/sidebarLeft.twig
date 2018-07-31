@@ -29,11 +29,13 @@
                     </a>
                 </li>
 
-                <li>
-                    <a href="20-CalendarAndEvents-MonthlyCalendar.html">
-                        <svg class="olymp-calendar-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="CALENDAR AND EVENTS"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-calendar-icon"></use></svg>
-                    </a>
-                </li>
+                {% if user.admin %}
+                    <li>
+                        <a href="/reports">
+                            <svg class="olymp-calendar-icon left-menu-icon" style="fill: black;"  data-toggle="tooltip" data-placement="right"   data-original-title="BLOCK REPORTS"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-calendar-icon"></use></svg>
+                        </a>
+                    </li>
+                {% endif %}
 
                 <li>
                     <a href="25-FriendsBirthday.html">

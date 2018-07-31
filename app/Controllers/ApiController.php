@@ -40,6 +40,32 @@ class ApiController extends Controller
 		return json_encode(false);
 	}
 
+	public function blockUser($request, $response, $args)
+	{
+		$data = $request->getParsedBody();
+		$res = false;
+
+		//target id
+		if (!empty($data['id'])){
+			$this->loadModel('user');
+			$user = $this->model->getUser($_SESSION['auth']['id']);
+			$block = 0;
+
+			if (!empty($user)){
+				if ($user['admin'] && !empty($data['block']) && $data['block']){
+					$block = 1;
+				}
+				$this->loadModel('api');
+
+				if ($this->model->blockUser($user['id'], $data['id'], $user['admin'], $block)){
+					$res = true;
+				}
+			}
+		}
+
+		return json_encode($res);
+	}
+
 	public function addTag($request, $response, $args)
 	{
 		$res = false;

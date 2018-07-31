@@ -39,12 +39,16 @@
                                         <div class="more">
                                             <svg class="olymp-three-dots-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
                                             <ul class="more-dropdown more-with-triangle">
-                                                <li>
-                                                    <a href="#">Report Profile</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Block Profile</a>
-                                                </li>
+                                                {% if user.admin %}
+                                                    <li>
+                                                        <a href="#" data-type="block" data-id="{{ profile.id }}">Block Profile</a>
+                                                    </li>
+                                                {% else %}
+                                                    <li>
+                                                        <a href="#" data-type="report" data-id="{{ profile.id }}">Report Profile</a>
+                                                    </li>
+                                                {% endif %}
+
                                             </ul>
                                         </div>
                                     </li>
@@ -129,4 +133,5 @@
     </pre>
 </div> -->
 <script src="/js/friend.js"></script>
+<script src="/js/block_user.js"></script>
 {% endblock %}
