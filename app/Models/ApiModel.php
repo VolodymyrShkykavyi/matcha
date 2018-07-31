@@ -20,6 +20,13 @@ class ApiModel extends Model
 		return empty($res->fetch_assoc());
 	}
 
+	public function getUserPhoto($userId, $photoId)
+	{
+		$res = $this->db->query("SELECT * FROM photos WHERE id_user = ?i AND id = ?i", $userId, $photoId);
+
+		return $res->fetch_assoc();
+	}
+
 	public function getUserPhotoNum($userId)
 	{
 		$num = 0;
@@ -81,6 +88,13 @@ class ApiModel extends Model
 
 			$res = $this->db->query("UPDATE users SET blocked = ?i WHERE id = ?i", $block, $targetId);
 		}
+
+		return $res;
+	}
+
+	public function updateUserAvatar($userId, $src)
+	{
+		$res = $this->db->query("UPDATE users SET `img` = '?s' WHERE id = ?i", $src, $userId);
 
 		return $res;
 	}
