@@ -150,7 +150,7 @@ class UserController extends Controller
 
 	public function showPhotoPage($request, $response, $args)
 	{
-
+		$this->ViewData['photos'] = $this->model->getPhotos($this->_user['id']);
 		$this->render($response, 'uploadPhoto.twig', 'Photos');
 	}
 

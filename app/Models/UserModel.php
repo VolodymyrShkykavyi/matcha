@@ -208,6 +208,13 @@ class UserModel extends Model
 		return $res->fetch_assoc_array();
 	}
 
+	public function getPhotos($userId)
+	{
+		$res = $this->db->query("SELECT * FROM photos WHERE id_user = ?i", $userId);
+
+		return $res->fetch_assoc_array();
+	}
+
 
 
 	////////////////		INSRT SECTOR 		/////////////////
