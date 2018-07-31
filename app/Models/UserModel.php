@@ -191,6 +191,13 @@ class UserModel extends Model
 		return($res);
 	}
 
+	public function getUnreadMessage1($id_to, $id_room, $status)
+	{
+		
+		$res = $this->db->query('SELECT COUNT(`id_message`) FROM `messages` WHERE `id_chat_room` = ?s AND `id_user_to` = "?s" AND `read_status` = ?s', $id_room, $id_to, $status);
+		return ($res->fetch_assoc_array()[0]["COUNT(`id_message`)"]);
+	}
+
 	public function getMessage($id_chat_room, $start)
 	{
 		if (!is_numeric($id_chat_room) || $id_chat_room <= 0) {
@@ -299,6 +306,17 @@ class UserModel extends Model
 
 
 	///////////// 		UPDATE SECTOR 		////////////////
+
+	public function setAllMessRead($room_id, $user_id)
+	{
+		if (empty($room_id) || !is_numeric($room_id) || !is_numeric($user_id) || !is_numeric($user_id)){
+			return false;
+		}
+
+		$res = $this->db->query('UPDATE messages SET `read_status` = ?i WHERE id_chat_room=?i AND id_user_to=?i', 1, $room_id, $user_id);
+
+		return $res;
+	}
 
 	public function updateUserActive($id, $status)
 	{

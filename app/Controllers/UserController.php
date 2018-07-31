@@ -328,6 +328,25 @@ class UserController extends Controller
 		echo json_encode($_SESSION['auth']);
 	}
 
+	public function allRead($request, $response, $args)
+	{
+		$data = $request->getParsedBody();
+		$res = false;
+
+		$res = $this->model->setAllMessRead($data['room_id'], $this->_user['id']);
+		return $res;
+	}
+
+	public function getCountUnreadMess($request, $response, $args)
+	{
+		$data = $request->getParsedBody();
+
+		$res =  $this->model->getUnreadMessage1($this->_user['id'], $data['room_id'], 0);
+		return $res;
+	}
+
+	
+
 	public function ChatRoom($request, $response, $args)
 	{
 

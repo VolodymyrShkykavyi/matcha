@@ -3,7 +3,7 @@
 window.onload = function(){
   var id_el = $($("#site-header a div.author-title")[0]).data().id;
 
-  var url = "ws://localhost:7777/?id=" + id_el;
+  var url = "ws://e1r3p1:7777/?id=" + id_el;
   var socket = new WebSocket(url);
 
   var isActive = true;
@@ -13,6 +13,24 @@ window.onload = function(){
 function onFocus() {
     isActive = true;
 }
+
+function getCountUnread(room_id)
+{
+
+  let send = {
+      room_id: room_id
+    };
+    $.ajax({
+      type: 'POST',
+      url: '/chat/getUnread',
+      data: send,
+      success: function(response)
+      {
+          $("#count_unread_mess").html(response);
+      }
+    })
+}
+
 
   socket.onmessage = function(event) {
     let message = JSON.parse(event.data);
@@ -32,14 +50,17 @@ function onFocus() {
         var scroll = $("#scroll")[0];
           if(scroll)
               scroll.scrollTop = scroll.scrollHeight;
+            all_read(message['id_room']);
       }
       else
       {
-        // console.log(message);
-        $("#count_unread_mess").html(message['count_unread']);
-       var win = new Audio('/audio/notify.mp3');
-            win.play();
+        var win = new Audio('/audio/notify.mp3');
+        win.play();
+        var count_unread =  $("#count_unread_mess")[0];
+        if(count_unread)
+          count_unread.classList.remove('none');
       }
+      getCountUnread(message['id_room']);
     }
   };
   
