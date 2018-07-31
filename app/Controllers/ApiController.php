@@ -40,6 +40,32 @@ class ApiController extends Controller
 		return json_encode(false);
 	}
 
+	public function blockUser($request, $response, $args)
+	{
+		$data = $request->getParsedBody();
+		$res = false;
+
+		//target id
+		if (!empty($data['id'])){
+			$this->loadModel('user');
+			$user = $this->model->getUser($_SESSION['auth']['id']);
+			$block = 0;
+
+			if (!empty($user)){
+				if ($user['admin'] && !empty($data['block']) && $data['block']){
+					$block = 1;
+				}
+				$this->loadModel('api');
+
+				if ($this->model->blockUser($user['id'], $data['id'], $user['admin'], $block)){
+					$res = true;
+				}
+			}
+		}
+
+		return json_encode($res);
+	}
+
 	public function addTag($request, $response, $args)
 	{
 		$res = false;
@@ -80,20 +106,69 @@ class ApiController extends Controller
 
 	public function uploadPhoto($request, $response, $args)
 	{
-		$directory = $this->c['upload_directory'];
+		$directory = __DIR__ . '/../../public/img';
     	$uploadedFiles = $request->getUploadedFiles();
     	$res = false;
+    	
+    	$photoNum = $this->model->getUserPhotoNum($_SESSION['auth']['id']);
+    	if (!empty($uploadedFiles) && $photoNum < 5){
+	    	// handle single input with single file upload
+		    $uploadedFile = $uploadedFiles['image'];
 
-    	// handle single input with single file upload
-	    $uploadedFile = $uploadedFiles['image'];
-	    if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
-	       $filename = $this->_moveUploadedFile($directory, $uploadedFile);
-	      
-	    }
+		    if ($uploadedFile && $uploadedFile->getError() === UPLOAD_ERR_OK) {
+		       $filename = $this->_moveUploadedFile($directory, $uploadedFile);
+		     	$id = $this->model->addPhoto($_SESSION['auth']['id'], $filename);
+		     	if ($id){
+		     		$res = [
+		     			'src' => '/img/' . $filename,
+		     			'id' => $id
+		     		];
+		     	}
 
+		    }
+		} else {
+			$res = ['error' => 'Max photo per user 5. Please delete some fotos before upload.'];
+		}
 
+		return json_encode($res);
+	}
 
-	return json_encode($res);
+	public function deletePhoto($request, $response, $args)
+	{
+		$res = false;
+
+		$data = $request->getParsedBody();
+		if (!empty($data['id'])){
+			if ($this->model->deletePhoto($_SESSION['auth']['id'], $data['id'])){
+				$res = true;
+			}
+		}
+
+		return json_encode($res);
+	}
+
+	public function changeAvatar($request, $response, $args)
+	{
+		$res = false;
+		$data = $request->getParsedBody();
+
+		if (!empty($data['id'])){
+			$this->loadModel('user');
+			$user = $this->model->getUser($_SESSION['auth']['id']);
+			if (!empty($user)){
+				$this->loadModel('api');
+
+				$photo = $this->model->getUserPhoto($user['id'], $data['id']);
+				if (!empty($photo)){
+					$src = '/' . $photo['src'];
+					if ($this->model->updateUserAvatar($user['id'], $src)){
+						$res = true;
+					}
+				}
+			}
+		}
+
+		return json_encode($res);
 	}
 
 	/**
@@ -107,8 +182,7 @@ class ApiController extends Controller
 	private function _moveUploadedFile($directory, UploadedFile $uploadedFile)
 	{
 	    $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
-	    		var_dump($extension);
-		die();
+	   
 	    $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
 	    $filename = sprintf('%s.%0.8s', $basename, $extension);
 
