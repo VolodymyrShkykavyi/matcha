@@ -6,6 +6,7 @@ use App\Middleware\RedirectIfUnauthorized;
 //only for authorized users
 $app->group('', function (){
 	// $this->post('/profile/chat/login', UserController::class.':login');
+	$this->post('/chat/read', UserController::class.':allRead');
 	$this->post('/profile/chat', UserController::class.':ChatRoom1');
 	$this->post('/status/change', UserController::class.':changeStatus');
 	$this->post('/location/change', UserController::class.':changeLocation');
