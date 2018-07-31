@@ -106,20 +106,45 @@ class ApiController extends Controller
 
 	public function uploadPhoto($request, $response, $args)
 	{
-		$directory = $this->c['upload_directory'];
+		$directory = __DIR__ . '/../../public/uploads';
     	$uploadedFiles = $request->getUploadedFiles();
     	$res = false;
+    	
+    	$photoNum = $this->model->getUserPhotoNum($_SESSION['auth']['id']);
+    	if (!empty($uploadedFiles) && $photoNum < 4){
+	    	// handle single input with single file upload
+		    $uploadedFile = $uploadedFiles['image'];
 
-    	// handle single input with single file upload
-	    $uploadedFile = $uploadedFiles['image'];
-	    if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
-	       $filename = $this->_moveUploadedFile($directory, $uploadedFile);
-	      
-	    }
+		    if ($uploadedFile && $uploadedFile->getError() === UPLOAD_ERR_OK) {
+		       $filename = $this->_moveUploadedFile($directory, $uploadedFile);
+		     	$id = $this->model->addPhoto($_SESSION['auth']['id'], $filename);
+		     	if ($id){
+		     		$res = [
+		     			'src' => '/uploads/' . $filename,
+		     			'id' => $id
+		     		];
+		     	}
 
+		    }
+		} else {
+			$res = ['error' => 'Max photo per user 4. Please delete some fotos before upload.'];
+		}
 
+		return json_encode($res);
+	}
 
-	return json_encode($res);
+	public function deletePhoto($request, $response, $args)
+	{
+		$res = false;
+
+		$data = $request->getParsedBody();
+		if (!empty($data['id'])){
+			if ($this->model->deletePhoto($_SESSION['auth']['id'], $data['id'])){
+				$res = true;
+			}
+		}
+
+		return json_encode($res);
 	}
 
 	/**
@@ -133,8 +158,7 @@ class ApiController extends Controller
 	private function _moveUploadedFile($directory, UploadedFile $uploadedFile)
 	{
 	    $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
-	    		var_dump($extension);
-		die();
+	   
 	    $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
 	    $filename = sprintf('%s.%0.8s', $basename, $extension);
 

@@ -20,6 +20,28 @@ class ApiModel extends Model
 		return empty($res->fetch_assoc());
 	}
 
+	public function getUserPhotoNum($userId)
+	{
+		$num = 0;
+		$res = $this->db->query("SELECT COUNT(*) AS num FROM `photos` WHERE id_user = ?i", $userId)->fetch_assoc();
+
+		if (!empty($res)){
+			$num = $res['num'];
+		}
+		return $num; 
+	}
+
+	public function addPhoto($userId, $filename)
+	{
+		$res =  $this->db->query("INSERT INTO photos (id_user, src) VALUES (?i, '?s')", $userId, $filename);
+
+		if ($res){
+			return  $this->db->getLastInsertId();
+		}
+
+		return false;
+	}
+
 	public function addTag($userId, $tag)
 	{
 		$res = $this->db->query("SELECT * FROM tags WHERE tag = '?s'", $tag)->fetch_assoc();
@@ -70,4 +92,10 @@ class ApiModel extends Model
         return !empty($res);
     }
 
+    public function deletePhoto($userId, $imageId)
+    {
+    	$res = $this->db->query("DELETE FROM photos WHERE id_user = ?i AND id = ?i", $userId, $imageId);
+
+    	return $res;
+    }
 }

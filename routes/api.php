@@ -17,6 +17,7 @@ $app->group('', function (){
 	$this->post('/check/email', ApiController::class.':checkEmail');
 	$this->post('/check/login', ApiController::class.':checkLogin');
 	$this->post('/photo/upload', ApiController::class.':uploadPhoto');
+	$this->post('/photo/delete', ApiController::class.':deletePhoto');
 	$this->post('/tag/add', ApiController::class.':addTag');
     $this->post('/tag/delete', ApiController::class.':deleteTag');
     $this->post('/profile/block', ApiController::class.':blockUser');
