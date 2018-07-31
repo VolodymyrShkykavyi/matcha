@@ -139,8 +139,19 @@ class ApiController extends Controller
 
 		$data = $request->getParsedBody();
 		if (!empty($data['id'])){
-			if ($this->model->deletePhoto($_SESSION['auth']['id'], $data['id'])){
-				$res = true;
+			$this->loadModel('user');
+			$user = $this->model->getUser($_SESSION['auth']['id']);
+			$this->loadModel('api');
+			$photo = $this->model->getUserPhoto($_SESSION['auth']['id'], $data['id']);
+			
+			if (!empty($user) && !empty($photo)){
+				if ($user['img'] == '/'.$photo['src']){
+					$this->model->deleteUserAvatar($_SESSION['auth']['id']);
+				}
+				if ($this->model->deletePhoto($_SESSION['auth']['id'], $data['id'])){
+					unlink(__DIR__ . '/../../public/img/' . $photo['src']);
+					$res = true;
+				}
 			}
 		}
 
