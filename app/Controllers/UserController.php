@@ -36,8 +36,6 @@ class UserController extends Controller
 						$value["id_sob"] = $value["id_user"];
 					}
 					$unread_mess =  $this->model->getUnreadMessage($value["id_sob"], $value["id"], 0);
-					// $value["count_unread"] = count($unread_mess);
-
 					$value["count_unread"] = count($unread_mess);
 					$value["id_user"] = $this->_user['id'];
 					$value["last_mess"] = $this->model->getLastMessage($value["id_sob"], $value['id']);
@@ -384,14 +382,15 @@ class UserController extends Controller
 			$chat_field = '<div class="ui-block-title"><h6 class="title"><h6 class="title">' . $user_sob['login'] .	 '</h6></div>';
 			$chat_field = $chat_field . '<div id="scroll" class="scroll" data-mcs-theme="dark"><ul 	id="chat_mess_ul" class="notification-list chat-message chat-message-field">';
 			if($all_mess != NULL)
-			{ 
+			{
+				$all_mess = array_reverse($all_mess);
 				foreach ($all_mess as $value) {
 
 					if($value['id_user_from'] == $this->_user['id'])
 						$who = $this->_user;
 					else
 						$who = $user_sob;
-					$chat_field = $chat_field . '<li><div class="author-thumb"><img src="/img' .$who['img'] . '" alt="author"></div><div class="notification-event" style="width:90%;"><a href="#" class="h6 notification-friend">' . $who['login'] . '</a><span class="notification-date" ><time class="entry-date updated" datetime="2004-07-24T18:18">' . $value['date_creation'] . '</time></span><br/><span class="chat-message-item" >' . $value['messadge'] . '</span></div></li>'; 
+					$chat_field = $chat_field . '<li id="' . $value['id_message'] . '" ><div class="author-thumb"><img src="/img' .$who['img'] . '" alt="author"></div><div class="notification-event" style="width:90%;"><a href="#" class="h6 notification-friend">' . $who['login'] . '</a><span class="notification-date" ><time class="entry-date updated" datetime="2004-07-24T18:18">' . $value['date_creation'] . '</time></span><br/><span class="chat-message-item" >' . $value['messadge'] . '</span></div></li>'; 
 				}
 			}
 			else
@@ -403,14 +402,15 @@ class UserController extends Controller
 		else
 		{
 			if($all_mess != NULL)
-			{ 
+			{
+				$all_mess = array_reverse($all_mess);
 				foreach ($all_mess as $value) {
 
 					if($value['id_user_from'] == $this->_user['id'])
 						$who = $this->_user;
 					else
 						$who = $user_sob;
-					$chat_field = $chat_field . '<li><div class="author-thumb"><img src="/img' .$who['img'] . '" alt="author"></div><div class="notification-event" style="width:90%;"><a href="#" class="h6 notification-friend">' . $who['login'] . '</a><span class="notification-date" ><time class="entry-date updated" datetime="2004-07-24T18:18">' . $value['date_creation'] . '</time></span><br/><span class="chat-message-item" >' . $value['messadge'] . '</span></div></li>'; 
+					$chat_field = $chat_field . '<li id="' . $value['id_message'] . '" ><div class="author-thumb"><img src="/img' .$who['img'] . '" alt="author"></div><div class="notification-event" style="width:90%;"><a href="#" class="h6 notification-friend">' . $who['login'] . '</a><span class="notification-date" ><time class="entry-date updated" datetime="2004-07-24T18:18">' . $value['date_creation'] . '</time></span><br/><span class="chat-message-item" >' . $value['messadge'] . '</span></div></li>'; 
 				}
 				return($chat_field);
 			}
