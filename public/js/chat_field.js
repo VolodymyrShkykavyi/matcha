@@ -2,6 +2,21 @@ let chat_id = window.location.pathname.split('/');
 var count = 1;
 var end = 0;
 
+function all_read(room_id){
+
+	let send = {
+			room_id: room_id
+		};
+		$.ajax({
+			type: 'POST',
+			url: '/chat/read',
+			data: send,
+			success: function(response)
+			{
+
+			}
+		})
+}
 
 function chat_field(room_id, start) {
 	var el1  = $("#chat-field")[0];
@@ -27,6 +42,7 @@ function chat_field(room_id, start) {
 				{
 					if(start < 2)
 					{
+						all_read(room_id);
 						el1.innerHTML = response;
 						el.classList.remove('none');
 						var mess_rumm = $("#mess_rumm")[0];
@@ -42,7 +58,7 @@ function chat_field(room_id, start) {
 					}
 					else
 					{
-						$("#chat_mess_ul").html(response + $("#chat_mess_ul").html());
+						$("#chat_mess_ul").prepend(response);
 					}
 					if(scroll && count != 0)
 					{
@@ -51,13 +67,13 @@ function chat_field(room_id, start) {
 							{
 								if(response != "")
 								{
-
 									count = count + 20;
+									var elmnt = document.getElementById("chat_mess_ul").firstChild.id;
 									chat_field($("#curr_chat").html(), count);
 									if(end != 1)
 									{
-										console.log(scroll.scrollTop);
-										scroll.scrollTop = 2600;
+										var target = document.getElementById(elmnt);
+										target.firstChild.scrollIntoView(true);
 									}
 								}
 							}
@@ -70,17 +86,20 @@ function chat_field(room_id, start) {
 };
 
 if (chat_id.length == 3){
-	let send = {
-		targetId: chat_id[2],
-		start:  1
-	};
-		$.ajax({
-			type: 'POST',
-			url: '/profile/chat',
-			data: send,
-			success: function(response){
-				if (response !== 'errorochka')
-					chat_field(response, 1);
-                }
-		});
+	if(chat_id[1] == "chat")
+	{
+		let send = {
+			targetId: chat_id[2],
+			start: 0
+		};
+			$.ajax({
+				type: 'POST',
+				url: '/profile/chat',
+				data: send,
+				success: function(response){
+					if (response !== 'errorochka')
+						chat_field(response, 0);
+       	         }
+			});
+		}
 }

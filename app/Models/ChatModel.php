@@ -88,18 +88,21 @@ class ChatModel{
 		return $data;
 	}
 
-	public function picture_from_db($start)
+	public function getUnreadMessage($id_from, $id_room, $status)
 	{
-		$start = (int)$start;
-		$sql = "SELECT * FROM pictures ORDER BY date_creation DESC LIMIT 5 OFFSET ".$start;
-		$array = array();
-		$result = sql_req($sql, $array);
-		if ($result)
-			return ($result);
-		else
-			return false;
+		try{
+			$res = $this->db->query('SELECT `id_message` FROM `messages` WHERE `id_chat_room` = ?i AND `id_user_from` = ?i AND `read_status` = ?i', $id_room, $id_from, $status);
+			}catch (\dbException $e){
+				return $e;
+			}
+		if($res)
+			{
+				$data = $res->fetch_assoc();
+			}
+			else
+				return(0);
+		return $data;
 	}
-
 	
 	////////////////// 						UPDATE SECTOR 				/////////////////////
 	public function updateUserIsOnline($id, $status){
