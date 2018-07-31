@@ -112,4 +112,11 @@ class ApiModel extends Model
 
     	return $res;
     }
+
+    public function deleteUserAvatar($userId)
+    {
+    	$res = $this->db->query("UPDATE users SET `img` = NULL WHERE id = ?i", $userId);
+
+    	return $res;
+    }
 }
