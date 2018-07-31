@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июл 31 2018 г., 09:19
+-- Время создания: Июл 31 2018 г., 17:59
 -- Версия сервера: 5.7.21
 -- Версия PHP: 7.2.4
 
@@ -457,10 +457,22 @@ INSERT INTO `notifications` (`id`, `id_user_from`, `id_user`, `type`, `time`, `v
 
 DROP TABLE IF EXISTS `photos`;
 CREATE TABLE IF NOT EXISTS `photos` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_user` int(10) UNSIGNED NOT NULL,
-  `src` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `src` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `photos`
+--
+
+INSERT INTO `photos` (`id`, `id_user`, `src`) VALUES
+(18, 19, '4c2b26b6ba38f279.png'),
+(19, 19, '612122b514c422ba.png'),
+(23, 19, '8f710d0057e5b747.png'),
+(21, 19, '2d80487389275639.png'),
+(22, 19, '607e6b620d05be9f.png');
 
 -- --------------------------------------------------------
 
@@ -538,7 +550,7 @@ INSERT INTO `users` (`id`, `login`, `admin`, `blocked`, `password`, `email`, `st
 (16, 'martynka', 0, 0, '8ca0fd2adb6bb22a05fd7e712acf23a38270127b2dcde4b7824f18b78083ecb475113bcfbea4b74a1e5ed8f9947b1f54676acfa74a13af1ad7c52f9ce22d9cc3', 'Marta@matrta.com', NULL, 'Marta', 'Martynova', 'man', '1970-04-26', '2018-07-28 09:37:14', '2018-07-28 09:37:14', 1, '/author-main1.jpg', 1),
 (17, '₿itconnect', 0, 0, '344907e89b981caf221d05f597eb57a6af408f15f4dd7895bbd1b96a2938ec24a7dcf23acb94ece0b6d7b0640358bc56bdb448194b9305311aff038a834a079f', '322@mail.ru', NULL, 'Carlos', 'Matos', 'man', '1998-06-26', '2018-07-28 09:59:22', '2018-07-28 09:59:22', 1, '/author-main1.jpg', 1),
 (18, 'ikarachy', 0, 0, 'dcd4c99c29eb1414bf74a4eb950094caeae8ee05bbd7afd970532935cc43b34f9f213a17f19c2ec1cfe68eec4d255e69db9d3f65ad26d652651d2959c2208745', 'kuziczka4@gmail.com', NULL, 'Iryna', 'Karachynetska', 'woman', '1995-05-04', '2018-07-28 15:18:53', '2018-07-28 15:18:53', 1, '/author-main1.jpg', 1),
-(19, 'root', 0, 0, '899b76161701a4111b36cbadd0d168e896f1e97d22b4f470331293b9d9bce5fd6a338b64bfd640b8d78ef3a465047886527e1c250d587ca7693f46d27ae8721a', 'qwe@asd', NULL, '123123', 'qwe', 'man', '1975-05-27', '2018-07-30 09:51:55', '2018-07-30 09:51:55', 1, '/author-main1.jpg', 0);
+(19, 'root', 0, 0, '899b76161701a4111b36cbadd0d168e896f1e97d22b4f470331293b9d9bce5fd6a338b64bfd640b8d78ef3a465047886527e1c250d587ca7693f46d27ae8721a', 'qwe@asd', NULL, '123123', 'qwe', 'man', '1975-05-27', '2018-07-30 09:51:55', '2018-07-30 09:51:55', 1, '/8f710d0057e5b747.png', 0);
 
 -- --------------------------------------------------------
 
