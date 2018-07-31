@@ -4,7 +4,7 @@
 	<div class="container">
 		<div class="row mt-3">
 			<div class="m-auto">
-				<form action="/photo/upload" method="post" enctype="multipart/form-data">
+				<form action="/photo/upload" method="post" enctype="multipart/form-data" id="form_upload">
 					<div class="card">
 						<div class="card-header">Upload new photo to gallery</div>
 						<div class="card-body">
@@ -30,39 +30,33 @@
 			</div>
 		</div>
 
-		<pre>{{ dump() }}</pre>
+		<div class="row" id="photos_row">
+			<h2 class="col-12 mt-3 text-center">
+				<span>Your photos</span>
+				<hr> 
+			</h2>
+
+			{% for photo in photos %}
+			<div class="col-6 col-md-3 photo">
+				 <div class="d-block position-relative">
+                    <div class="img-thumbnail" style="background-color: transparent;">
+                        <img src="/img/{{ photo.src }}" class=" img-fluid w-100"/>
+                    </div>
+                    <div class="overlay rounded">
+                        <button data-id="{{ photo.id }}" title="Set as avatar" type="button" class="btn rounded-circle btn-ava shadow-none" style="background-color: green;">
+                            <i class="fa fa-user fa-lg text-light"></i>
+                        </button>
+                        <button data-id="{{ photo.id }}" title="Delete photo" type="button" class="btn btn-danger rounded-circle btn-del-img shadow-none">
+                            <i class=" fa fa-trash fa-lg text-light"></i>
+                        </button>
+
+                    </div>
+                </div>
+			</div>
+			{% endfor %}
+		</div>
 	</div>
 
-	<script>
-		var btnBrowse = document.getElementById("btn_browse");
-		var originalUpload = btnBrowse.children[1];
-		var filename = document.getElementById("filename");
-		var errMsg = document.getElementById("error_msg");
-
-		btnBrowse.addEventListener('click', function () {
-			originalUpload.click();
-		});
-
-		btnBrowse.addEventListener('change', function () {
-			filename.value = originalUpload.files[0].name;
-			if (!errMsg.classList.contains('d-none')) {
-				errMsg.classList.add('d-none');
-			}
-		});
-
-		if (document.getElementById('btn_upload')) {
-			document.getElementById('btn_upload').addEventListener('click', function (ev) {
-				if (!filename.value) {
-					ev.preventDefault();
-					errMsg.classList.remove('d-none');
-				}
-				else {
-					if (!errMsg.classList.contains('d-none')) {
-						errMsg.classList.add('d-none');
-					}
-				}
-			});
-		}
-	</script>
+	<script src="/js/uploadPhoto.js"></script>
 
 {% endblock %}

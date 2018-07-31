@@ -207,7 +207,20 @@ class UserModel extends Model
 		return($res);
 	}
 	
+	public function getAllReports()
+	{
+		$res = $this->db->query("SELECT COUNT(id) AS num, id_user, checked FROM `user_reports` WHERE checked = 0
+			GROUP BY id_user");
 
+		return $res->fetch_assoc_array();
+	}
+
+	public function getPhotos($userId)
+	{
+		$res = $this->db->query("SELECT * FROM photos WHERE id_user = ?i", $userId);
+
+		return $res->fetch_assoc_array();
+	}
 
 
 

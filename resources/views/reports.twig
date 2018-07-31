@@ -1,0 +1,41 @@
+{% extends 'layouts/app.twig' %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="ui-block">
+					<div class="ui-block-title">
+						<h6 class="title">Reports list</h6>
+					</div>
+						
+					<ul class="notification-list">
+						{% for report in reports %}
+							<li>
+
+								<div class="notification-event">
+									 <span class="chat-message-item">
+										<a href="/profile/{{ report.id_user }}">{{ report.login }}</a> has {{ report.num }} requests for blocking.
+									</span>
+								</div>
+
+								<span class="notification-icon" style="margin-top: -0.5rem;">
+									<button type="button" data-type="block" data-id="{{ report.id_user }}" class="btn btn-danger">
+										Block
+									</button>
+									<button type="button" data-type="clear" data-id="{{ report.id_user }}" class="btn btn-mutted">
+										X
+									</button>
+								</span>
+
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="/js/block_user.js"></script>
+
+{% endblock %}
