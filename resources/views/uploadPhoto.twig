@@ -40,12 +40,16 @@
 			<div class="col-6 col-md-3 photo">
 				 <div class="d-block position-relative">
                     <div class="img-thumbnail" style="background-color: transparent;">
-                        <img src="/uploads/{{ photo.src }}" class=" img-fluid w-100"/>
+                        <img src="/img/{{ photo.src }}" class=" img-fluid w-100"/>
                     </div>
                     <div class="overlay rounded">
-                        <button data-id="{{ photo.id }}" type="button" class="btn btn-danger rounded-circle btn-del-img shadow-none">
-                            <i class="fa fa-trash fa-lg text-light"></i>
+                        <button data-id="{{ photo.id }}" title="Set as avatar" type="button" class="btn rounded-circle btn-ava shadow-none" style="background-color: green;">
+                            <i class="fa fa-user fa-lg text-light"></i>
                         </button>
+                        <button data-id="{{ photo.id }}" title="Delete photo" type="button" class="btn btn-danger rounded-circle btn-del-img shadow-none">
+                            <i class=" fa fa-trash fa-lg text-light"></i>
+                        </button>
+
                     </div>
                 </div>
 			</div>

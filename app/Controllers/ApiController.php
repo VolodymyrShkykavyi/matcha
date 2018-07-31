@@ -106,12 +106,12 @@ class ApiController extends Controller
 
 	public function uploadPhoto($request, $response, $args)
 	{
-		$directory = __DIR__ . '/../../public/uploads';
+		$directory = __DIR__ . '/../../public/img';
     	$uploadedFiles = $request->getUploadedFiles();
     	$res = false;
     	
     	$photoNum = $this->model->getUserPhotoNum($_SESSION['auth']['id']);
-    	if (!empty($uploadedFiles) && $photoNum < 4){
+    	if (!empty($uploadedFiles) && $photoNum < 5){
 	    	// handle single input with single file upload
 		    $uploadedFile = $uploadedFiles['image'];
 
@@ -120,14 +120,14 @@ class ApiController extends Controller
 		     	$id = $this->model->addPhoto($_SESSION['auth']['id'], $filename);
 		     	if ($id){
 		     		$res = [
-		     			'src' => '/uploads/' . $filename,
+		     			'src' => '/img/' . $filename,
 		     			'id' => $id
 		     		];
 		     	}
 
 		    }
 		} else {
-			$res = ['error' => 'Max photo per user 4. Please delete some fotos before upload.'];
+			$res = ['error' => 'Max photo per user 5. Please delete some fotos before upload.'];
 		}
 
 		return json_encode($res);
@@ -141,6 +141,30 @@ class ApiController extends Controller
 		if (!empty($data['id'])){
 			if ($this->model->deletePhoto($_SESSION['auth']['id'], $data['id'])){
 				$res = true;
+			}
+		}
+
+		return json_encode($res);
+	}
+
+	public function changeAvatar($request, $response, $args)
+	{
+		$res = false;
+		$data = $request->getParsedBody();
+
+		if (!empty($data['id'])){
+			$this->loadModel('user');
+			$user = $this->model->getUser($_SESSION['auth']['id']);
+			if (!empty($user)){
+				$this->loadModel('api');
+
+				$photo = $this->model->getUserPhoto($user['id'], $data['id']);
+				if (!empty($photo)){
+					$src = '/' . $photo['src'];
+					if ($this->model->updateUserAvatar($user['id'], $src)){
+						$res = true;
+					}
+				}
 			}
 		}
 
