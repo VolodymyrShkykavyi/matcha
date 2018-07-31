@@ -19,5 +19,6 @@ $app->group('', function (){
 	$this->post('/photo/upload', ApiController::class.':uploadPhoto');
 	$this->post('/tag/add', ApiController::class.':addTag');
     $this->post('/tag/delete', ApiController::class.':deleteTag');
+    $this->post('/profile/block', ApiController::class.':blockUser');
 
 })->add(new RedirectIfUnauthorized($container['router']));

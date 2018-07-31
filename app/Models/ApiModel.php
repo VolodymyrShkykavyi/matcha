@@ -47,6 +47,22 @@ class ApiModel extends Model
 		return $tagId;
 	}
 
+	public function blockUser($userId, $targetId, $isAdmin, $block = 0)
+	{
+		$res = false;
+
+		if (!$isAdmin){
+			$res = $this->db->query("INSERT INTO user_reports (`id_user`, `id_user_from`, `checked`) VALUES (?i, ?i, 0)
+				ON DUPLICATE KEY UPDATE checked = 0", $targetId, $userId);
+		} else {
+			$this->db->query("UPDATE user_reports SET checked = 1 WHERE id_user = ?i", $targetId);
+
+			$res = $this->db->query("UPDATE users SET blocked = ?i WHERE id = ?i", $block, $targetId);
+		}
+
+		return $res;
+	}
+
 	public function deleteTag($userId, $tagId)
     {
         $res = $this->db->query("DELETE FROM user_tags WHERE id_user = ?i AND id_tag = ?i", $userId, $tagId);

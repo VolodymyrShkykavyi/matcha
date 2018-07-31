@@ -201,6 +201,20 @@ class UserController extends Controller
 		return $response->withRedirect('/');
 	}
 
+	public function getBlockReports($request, $response, $args)
+	{
+		if (!$this->_user['admin']){
+			return $response->withRedirect('/');
+		}
+
+		$this->ViewData['reports'] = $this->model->getAllReports();
+		foreach ($this->ViewData['reports'] as &$report) {
+			$user = $this->model->getUser($report['id_user']);
+			$report['login'] = $user['login'];
+		}
+		return $this->render($response, 'reports.twig', 'Reports');
+	}
+
 	public function accountSettings($request, $response, $args)
 	{
 		$this->ViewData['user']['firstName'] = $this->_user['firstName'];
