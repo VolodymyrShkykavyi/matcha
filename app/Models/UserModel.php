@@ -193,9 +193,11 @@ class UserModel extends Model
 
 	public function getUnreadMessage1($id_to, $id_room, $status)
 	{
-		
-		$res = $this->db->query('SELECT COUNT(`id_message`) FROM `messages` WHERE `id_chat_room` = ?s AND `id_user_to` = "?s" AND `read_status` = ?s', $id_room, $id_to, $status);
-		return ($res->fetch_assoc_array()[0]["COUNT(`id_message`)"]);
+		if (!is_numeric($id_to) || $id_to <= 0 || !is_numeric($id_room) || $id_room <= 0 || !is_numeric($status) || $status < 0) {
+			return "error";
+		}
+		$res = $this->db->query('SELECT COUNT(`id_message`) FROM `messages` WHERE `id_chat_room` = ?i AND `id_user_to` = ?i AND `read_status` = ?i', $id_room, $id_to, $status);
+		return($res->fetch_assoc_array()[0]["COUNT(`id_message`)"]);
 	}
 
 	public function getMessage($id_chat_room, $start)

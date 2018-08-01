@@ -1,3 +1,4 @@
+
 .mobile-app-tabs .nav-link, .testimonial-item-content {
     -webkit-box-direction: normal;
     -webkit-box-orient: vertical
@@ -31,6 +32,7 @@
     overflow-x: hidden;
     word-wrap: break-word;
     word-break: break-all;
+
 }
 
 .search-bar, .search-bar.w-search {
