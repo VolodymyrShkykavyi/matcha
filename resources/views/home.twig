@@ -62,6 +62,9 @@
             </div>
         </div>
     </div>
+    
+
+    <h2>Your current rating is: {{ rating }}</h2>
 
 </div>
 
@@ -72,11 +75,13 @@
     <pre>
         {#{{ users }}#}
     </pre>
-
+-->
+    <div class="container">
     <h3>dump:</h3><br>
     <pre>
         {{ dump() }}
-    </pre> -->
+    </pre> 
+    </div>
 
 {% if not user.lat_lng %}
     <script src="/js/get_location.js"></script>

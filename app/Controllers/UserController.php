@@ -63,6 +63,7 @@ class UserController extends Controller
 
 	public function home($request, $response, $args)
 	{
+		$this->ViewData['rating'] = $this->_countUserRating($this->_user['id']);
 
 		$this->render($response, 'home.twig', 'Home Page');
 	}
@@ -513,6 +514,39 @@ class UserController extends Controller
 		}
 
 		return $addr;
+	}
+
+	private function _countUserRating($userId)
+	{
+		$rating = 0;
+		$user = $this->model->getUser($userId);
+
+		if (!empty($user)){
+			$numFriends = $this->model->countFriends($userId);
+			$numTags = $this->model->countTags($userId);
+			$details = $this->model->getUserDetails($userId);
+			$openReports = $this->model->countOpenReports($userId);
+			$numUnicalVisits = $this->model->countUnicVisitors($userId);
+
+			$rating += $numFriends * 5;
+			$rating += $numTags;
+			$rating += $numUnicalVisits;
+			$rating -= $openReports * 2;
+
+			if (!empty($details['description']))
+				$rating += 10;
+			if (!empty($details['fb_page']))
+				$rating += 3;
+			if (!empty($details['twitter_page']))
+				$rating += 3;
+			if (!empty($user['status']))
+				$rating += 3;
+			if (!empty($user['img']))
+				$rating += 10;
+
+		}
+
+		return $rating;
 	}
 
 
