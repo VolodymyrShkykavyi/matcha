@@ -63,7 +63,7 @@ class UserController extends Controller
 
 	public function home($request, $response, $args)
 	{
-		$this->ViewData['rating'] = $this->_countUserRating($this->_user['id']);
+		$this->ViewData['rating'] = $this->_calculateUserRating($this->_user['id']);
 
 		$this->render($response, 'home.twig', 'Home Page');
 	}
@@ -516,7 +516,7 @@ class UserController extends Controller
 		return $addr;
 	}
 
-	private function _countUserRating($userId)
+	private function _calculateUserRating($userId)
 	{
 		$rating = 0;
 		$user = $this->model->getUser($userId);
