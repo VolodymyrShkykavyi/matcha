@@ -13,15 +13,33 @@ function all_read(room_id){
 			data: send,
 			success: function(response)
 			{
-
+				
 			}
 		})
 }
 
+function getCountUnread1(room_id)
+{
+
+  let send = {
+      room_id: room_id
+    };
+    $.ajax({
+      type: 'POST',
+      url: '/chat/getUnread',
+      data: send,
+      success: function(response)
+      {
+          $("#count_unread_mess").html(response);
+      }
+    })
+}
+
+
 function chat_field(room_id, start) {
 	var el1  = $("#chat-field")[0];
 	var el  = $("#input_mess")[0];
-
+	var count_unread =  $("#count_unread_mess")[0];
 
 	if(el1){
 		let send = {
@@ -43,6 +61,8 @@ function chat_field(room_id, start) {
 					if(start < 2)
 					{
 						all_read(room_id);
+						getCountUnread1(room_id);
+						count_unread.classList.add('none');
 						el1.innerHTML = response;
 						el.classList.remove('none');
 						var mess_rumm = $("#mess_rumm")[0];
