@@ -64,6 +64,21 @@ class UserController extends Controller
 	public function home($request, $response, $args)
 	{
 		$this->ViewData['rating'] = $this->_calculateUserRating($this->_user['id']);
+		$this->ViewData['info'] = [];
+
+		$details = $this->model->getUserDetails($this->_user['id']);
+
+		if (!empty($this->_user['no_img']))
+			$this->ViewData['info'][] = "Upload avatar. It will help you find pair!";
+		if (empty($details['description']))
+			$this->ViewData['info'][] = "Please add some description about you.";
+		if (empty($details['fb_page']))
+			$this->ViewData['info'][] = "Add reference on your facebook page to get more rating";
+		if (empty($details['twitter_page']))
+			$this->ViewData['info'][] = "Add reference on your twitter page to get more rating";
+		if (empty($this->_user['status']))
+			$this->ViewData['info'][] = "Add some status to your profile. Let another people know what in your minds now!";
+
 
 		$this->render($response, 'home.twig', 'Home Page');
 	}
