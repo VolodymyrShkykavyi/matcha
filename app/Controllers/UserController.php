@@ -63,8 +63,48 @@ class UserController extends Controller
 
 	public function home($request, $response, $args)
 	{
+		$this->ViewData['rating'] = $this->_calculateUserRating($this->_user['id']);
+		$this->ViewData['info'] = [];
+
+		$details = $this->model->getUserDetails($this->_user['id']);
+
+		if (!empty($this->_user['no_img']))
+			$this->ViewData['info'][] = "Upload avatar. It will help you find pair!";
+		if (empty($details['description']))
+			$this->ViewData['info'][] = "Please add some description about you.";
+		if (empty($details['fb_page']))
+			$this->ViewData['info'][] = "Add reference on your facebook page to get more rating";
+		if (empty($details['twitter_page']))
+			$this->ViewData['info'][] = "Add reference on your twitter page to get more rating";
+		if (empty($this->_user['status']))
+			$this->ViewData['info'][] = "Add some status to your profile. Let another people know what in your minds now!";
+
 
 		$this->render($response, 'home.twig', 'Home Page');
+	}
+
+	public function getSearchPage($request, $response, $args)
+	{
+		$users = $this->model->getUsers();
+		$userTags = $this->model->getTags($this->_user['id']);
+		$tagsArr = array();
+
+		foreach ($userTags as $value) {
+				$tagsArr[] = $value['id_tag'];
+		}
+		foreach ($users as &$user) {
+			$user['numSharedTags'] = $this->model->countSharedTags($user['id'], $tagsArr);
+			$user['rating'] = $this->_calculateUserRating($user['id']);
+			$user['distanse'] = $this->_calculateDistanse(
+				$this->ViewData['user']['lat_lng']['lat'], $this->ViewData['user']['lat_lng']['lng'],
+				$user['lat'], $user['lng']
+			);
+		}
+
+		$this->ViewData['search'] = $users;
+
+
+		$this->render($response, 'search.twig', 'Find pair');
 	}
 
 	public function getProfile($request, $response, $args)
@@ -149,6 +189,9 @@ class UserController extends Controller
 	public function showPhotoPage($request, $response, $args)
 	{
 		$this->ViewData['photos'] = $this->model->getPhotos($this->_user['id']);
+		if (!empty($args)){
+			$this->ViewData['showAvatartInfo'] = 1;
+		}
 		$this->render($response, 'uploadPhoto.twig', 'Photos');
 	}
 
@@ -510,6 +553,59 @@ class UserController extends Controller
 		}
 
 		return $addr;
+	}
+
+	private function _calculateUserRating($userId)
+	{
+		$rating = 0;
+		$user = $this->model->getUser($userId);
+
+		if (!empty($user)){
+			$numFriends = $this->model->countFriends($userId);
+			$numTags = $this->model->countTags($userId);
+			$details = $this->model->getUserDetails($userId);
+			$openReports = $this->model->countOpenReports($userId);
+			$numUnicalVisits = $this->model->countUnicVisitors($userId);
+
+			$rating += $numFriends * 5;
+			$rating += $numTags;
+			$rating += $numUnicalVisits;
+			$rating -= $openReports * 2;
+
+			if (!empty($details['description']))
+				$rating += 10;
+			if (!empty($details['fb_page']))
+				$rating += 3;
+			if (!empty($details['twitter_page']))
+				$rating += 3;
+			if (!empty($user['status']))
+				$rating += 3;
+			if (!empty($user['img']))
+				$rating += 10;
+
+		}
+
+		return $rating;
+	}
+
+	private function _calculateDistanse($lat1, $lon1, $lat2, $lon2)
+	{
+		$earth_rad = 6373.0;
+
+		$lat1 = deg2rad (($lat1));
+		$lon1 = deg2rad (($lon1));
+		$lat2 = deg2rad (($lat2));
+		$lon2 = deg2rad (($lon2));
+
+		$dlon = $lon2 - $lon1;
+		$dlat = $lat2 - $lat1;
+
+		$a = sin($dlat / 2) ** 2 + cos($lat1) * cos($lat2) * sin($dlon / 2) ** 2;
+		$c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+		$distance = $earth_rad * $c;
+
+		return intval($distance);
 	}
 
 

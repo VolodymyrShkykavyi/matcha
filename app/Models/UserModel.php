@@ -11,7 +11,10 @@ class UserModel extends Model
 	////////// 		SELECT SECTOR 		///////////////////
 	public function getUsers()
 	{
-		return $this->execute('SELECT * FROM `users`');
+		return $this->execute('SELECT * FROM `users` 
+			JOIN user_details ON users.id = user_details.id_user 
+			JOIN location ON users.id = location.id_user
+			WHERE users.blocked = 0 AND users.active = 1');
 	}
 
 	public function getUser($id)
@@ -76,6 +79,63 @@ class UserModel extends Model
 	public function countNotifications($userId)
 	{
 		$res = $this->db->query("SELECT COUNT(*) FROM `notifications` WHERE `id_user` = ?i AND `viewed` = 0", $userId);
+
+		$res = $res->fetch_row();
+
+		if (!empty($res))
+			return $res[0];
+		return $res;
+	}
+
+	public function countFriends($userId)
+	{
+		$res = $this->db->query(
+			"SELECT COUNT(*) FROM `friends` WHERE `status` = 1 AND (`from_request` = ?i OR `to_request` = ?i)",
+			$userId, $userId);
+
+		$res = $res->fetch_row();
+
+		if (!empty($res))
+			return $res[0];
+		return $res;
+	}
+
+	public function countTags($userId)
+	{
+		$res = $this->db->query("SELECT COUNT(*) FROM `user_tags` WHERE `id_user` = ?i", $userId);
+
+		$res = $res->fetch_row();
+
+		if (!empty($res))
+			return $res[0];
+		return $res;
+	}
+
+	public function countOpenReports($userId)
+	{
+		$res = $this->db->query("SELECT COUNT(*) FROM `user_reports` WHERE `id_user` = ?i AND checked = 0", $userId);
+
+		$res = $res->fetch_row();
+
+		if (!empty($res))
+			return $res[0];
+		return $res;
+	}
+
+	public function countUnicVisitors($userId)
+	{
+		$res = $this->db->query("SELECT COUNT(*) FROM `notifications` WHERE `id_user` = ?i AND type = 'view_profile'", $userId);
+
+		$res = $res->fetch_row();
+
+		if (!empty($res))
+			return $res[0];
+		return $res;
+	}
+
+	public function countSharedTags($targetId, $tagsArr)
+	{
+		$res = $this->db->query("SELECT COUNT(*) FROM `user_tags` WHERE `id_user` = ?i AND id_tag IN (?ai)", $targetId, $tagsArr);
 
 		$res = $res->fetch_row();
 
