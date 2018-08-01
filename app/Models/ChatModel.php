@@ -53,6 +53,25 @@ class ChatModel{
 		return $data;
 	}
 
+	public function getFriendRequest($id)
+	{
+		if (!is_numeric($id) || $id <= 0) {
+			return false;
+		}
+		try{
+			  $res = $this->db->query('SELECT id FROM friends WHERE to_request=?i AND status=0', $id);
+		}catch (\dbException $e){
+				return $e;
+			}
+			if($res)
+			{
+				$data = $res->fetch_assoc();
+			}
+			else
+				return(0);
+		return $data;
+	}
+
 	public function getUser($id)
 	{
 		if (!is_numeric($id) || $id <= 0) {

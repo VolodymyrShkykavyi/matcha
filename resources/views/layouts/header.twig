@@ -29,10 +29,10 @@
 							<use xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use>
 						</svg>
 
-						<div class="label-avatar bg-blue"
+						<div id="friend_req" class="label-avatar bg-blue
 								{% if not num_requests %}
-									style="display: none;"
-								{% endif %}
+									none
+								{% endif %}"
 						>
 							{{ num_requests }}
 						</div>

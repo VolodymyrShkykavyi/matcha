@@ -80,24 +80,28 @@ class Chat extends Controller implements MessageComponentInterface {
 					if($c_user_id == $id_to)
 					{
 						$data->type = "mess_res";
-						// var_dump($id_to);
-						// var_dump($from_id);
-						// var_dump($chat_room['id']);
 						$unread_mess = $this->model->getUnreadMessage($from_id, $chat_room['id'], 0);
-						// var_dump($unread_mess);
 						$data->count_unread = count($unread_mess);
 						$client->getConn()->send(json_encode($data));
 					}
 				}
 			}
-				// $numRecv = count($this->clients) - 1;
-				// echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
-				// 	, $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
-				// 	foreach ($this->clients as $client) {
-				// 		$data->trget_id = $client->getId();
-				// 		$client->getConn()->send(json_encode($data));
-				// 	}
 		}
+		if($data->type == "addFriend")
+		{
+			$coutn_req = $this->model->getFriendRequest($data->friend_id);
+			$data->req = count($coutn_req);
+			foreach ($this->clients as $client) {
+					$c_user_id = $client->getId();
+					if($c_user_id == $data->friend_id)
+					{
+						$client->getConn()->send(json_encode($data));
+						break;
+					}
+				}
+			
+		}
+
 	}
 	public function onClose(ConnectionInterface $conn)
 	{
