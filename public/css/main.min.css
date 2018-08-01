@@ -62,6 +62,12 @@
     opacity: 1;
 }
 
+.alert-info {
+    color: #05675a;
+    background-color: #abe3ef;
+    border-color: #92c5bf;
+}
+
 .header .page-title {
     padding: 26px 50px 26px 100px;
     text-transform: uppercase;

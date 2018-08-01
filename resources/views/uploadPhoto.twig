@@ -1,7 +1,18 @@
 {% extends 'layouts/app.twig' %}
 
 {% block content %}
+
+
 	<div class="container">
+		{% if showAvatartInfo %}
+		<div class="row">
+			<div class="alert alert-info m-auto">
+				To change an avatar, first of all you need to have at least 1 photo in your gallery.<br>
+				When hovering over a photo, you will see 2 buttons - the upper one (<i class="fa fa-user fa-lg text-light"></i>) will allow you to change the avatar
+			</div>
+		</div>
+			
+		{% endif %}
 		<div class="row mt-3">
 			<div class="m-auto">
 				<form action="/photo/upload" method="post" enctype="multipart/form-data" id="form_upload">

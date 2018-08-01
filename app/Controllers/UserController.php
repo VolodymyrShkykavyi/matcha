@@ -149,6 +149,9 @@ class UserController extends Controller
 	public function showPhotoPage($request, $response, $args)
 	{
 		$this->ViewData['photos'] = $this->model->getPhotos($this->_user['id']);
+		if (!empty($args)){
+			$this->ViewData['showAvatartInfo'] = 1;
+		}
 		$this->render($response, 'uploadPhoto.twig', 'Photos');
 	}
 

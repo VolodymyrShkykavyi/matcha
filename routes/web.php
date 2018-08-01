@@ -36,7 +36,7 @@ $app->group('', function (){
 		$this->get('/friends', UserController::class.':friends');
 		$this->get('/friends/requests', UserController::class.':friendRequests');
 		$this->get('/chat[/{id:[0-9]+}]', UserController::class.':chat');
-		$this->get('/photo', UserController::class.':showPhotoPage');
+		$this->get('/photo[/{avatar:avatar}]', UserController::class.':showPhotoPage');
 		$this->get('/notifications', UserController::class.':getNotifications');
 		$this->get('/reports', UserController::class.':getBlockReports');
 	})->add(new RedirectIfUnverified($this->getContainer()['router']));
