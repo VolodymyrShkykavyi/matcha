@@ -14,6 +14,24 @@ function onFocus() {
     isActive = true;
 }
 
+function getCountUnread(room_id)
+{
+
+  let send = {
+      room_id: room_id
+    };
+    $.ajax({
+      type: 'POST',
+      url: '/chat/getUnread',
+      data: send,
+      success: function(response)
+      {
+          $("#count_unread_mess").html(response);
+      }
+    })
+}
+
+
   socket.onmessage = function(event) {
     let message = JSON.parse(event.data);
     if(message['type'] == "mess_send" || message['type'] == "mess_res")
@@ -32,14 +50,17 @@ function onFocus() {
         var scroll = $("#scroll")[0];
           if(scroll)
               scroll.scrollTop = scroll.scrollHeight;
+            all_read(message['id_room']);
       }
       else
       {
-        // console.log(message);
-        $("#count_unread_mess").html(message['count_unread']);
-       var win = new Audio('/audio/notify.mp3');
-            win.play();
+        var win = new Audio('/audio/notify.mp3');
+        win.play();
+        var count_unread =  $("#count_unread_mess")[0];
+        if(count_unread)
+          count_unread.classList.remove('none');
       }
+      getCountUnread(message['id_room']);
     }
   };
   
