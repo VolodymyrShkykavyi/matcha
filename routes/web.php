@@ -39,6 +39,7 @@ $app->group('', function (){
 		$this->get('/photo[/{avatar:avatar}]', UserController::class.':showPhotoPage');
 		$this->get('/notifications', UserController::class.':getNotifications');
 		$this->get('/reports', UserController::class.':getBlockReports');
+		$this->get('/search', UserController::class.':getSearchPage');
 	})->add(new RedirectIfUnverified($this->getContainer()['router']));
 
 	

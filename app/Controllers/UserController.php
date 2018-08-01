@@ -83,6 +83,30 @@ class UserController extends Controller
 		$this->render($response, 'home.twig', 'Home Page');
 	}
 
+	public function getSearchPage($request, $response, $args)
+	{
+		$users = $this->model->getUsers();
+		$userTags = $this->model->getTags($this->_user['id']);
+		$tagsArr = array();
+
+		foreach ($userTags as $value) {
+				$tagsArr[] = $value['id_tag'];
+		}
+		foreach ($users as &$user) {
+			$user['numSharedTags'] = $this->model->countSharedTags($user['id'], $tagsArr);
+			$user['rating'] = $this->_calculateUserRating($user['id']);
+			$user['distanse'] = $this->_calculateDistanse(
+				$this->ViewData['user']['lat_lng']['lat'], $this->ViewData['user']['lat_lng']['lng'],
+				$user['lat'], $user['lng']
+			);
+		}
+
+		$this->ViewData['search'] = $users;
+
+
+		$this->render($response, 'search.twig', 'Find pair');
+	}
+
 	public function getProfile($request, $response, $args)
 	{
 		$this->ViewData['args'] = $args;
@@ -562,6 +586,26 @@ class UserController extends Controller
 		}
 
 		return $rating;
+	}
+
+	private function _calculateDistanse($lat1, $lon1, $lat2, $lon2)
+	{
+		$earth_rad = 6373.0;
+
+		$lat1 = deg2rad (($lat1));
+		$lon1 = deg2rad (($lon1));
+		$lat2 = deg2rad (($lat2));
+		$lon2 = deg2rad (($lon2));
+
+		$dlon = $lon2 - $lon1;
+		$dlat = $lat2 - $lat1;
+
+		$a = sin($dlat / 2) ** 2 + cos($lat1) * cos($lat2) * sin($dlon / 2) ** 2;
+		$c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+		$distance = $earth_rad * $c;
+
+		return intval($distance);
 	}
 
 
