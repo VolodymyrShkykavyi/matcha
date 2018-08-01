@@ -63,25 +63,20 @@
         </div>
     </div>
     
+    <div class="mb-2">
+        <h4>Your current rating is: {{ rating }} <i class="fa fa-star" style="color: #f5c310;"></i></h4>
+    </div>
 
-    <h2>Your current rating is: {{ rating }}</h2>
-
+    {% if info %}
+        <h5 class="mt-2">Some suggestions to increase your rating</h5>
+        {% for msg in info %}
+            <div class="alert alert-info">
+                {{ msg }}
+            </div>
+        {% endfor %}
+    {% endif %}
 </div>
 
-<!-- ... end Top Header-Profile -->
-
-<!-- <div class="container">
-    args:<br>
-    <pre>
-        {#{{ users }}#}
-    </pre>
--->
-    <div class="container">
-    <h3>dump:</h3><br>
-    <pre>
-        {{ dump() }}
-    </pre> 
-    </div>
 
 {% if not user.lat_lng %}
     <script src="/js/get_location.js"></script>
