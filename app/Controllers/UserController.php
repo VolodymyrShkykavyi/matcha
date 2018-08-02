@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 
 use Interop\Container\ContainerInterface;
+use DateTime;
 
 class UserController extends Controller
 {
@@ -93,6 +94,9 @@ class UserController extends Controller
 				$tagsArr[] = $value['id_tag'];
 		}
 		foreach ($users as &$user) {
+			$user['age'] = DateTime::createFromFormat('Y-m-d', $user['birthDate'])
+				->diff(new DateTime('now'))
+				->y;
 			$user['numSharedTags'] = $this->model->countSharedTags($user['id'], $tagsArr);
 			$user['rating'] = $this->_calculateUserRating($user['id']);
 			$user['distanse'] = $this->_calculateDistanse(
@@ -101,6 +105,7 @@ class UserController extends Controller
 			);
 		}
 
+		usort($users, array($this, '_searchSort'));
 		$this->ViewData['search'] = $users;
 
 
@@ -605,9 +610,26 @@ class UserController extends Controller
 
 		$distance = $earth_rad * $c;
 
-		return intval($distance);
+		//search in some radius
+		return intval($distance / 10);
 	}
 
+	private function _searchSort($a, $b)
+	{
+		if ($a['distanse'] < $b['distanse'])
+			return (-1);
+		if ($a['distanse'] > $b['distanse'])
+			return (1);
+		if ($a['numSharedTags'] < $b['numSharedTags'])
+			return (1);
+		if ($a['numSharedTags'] > $b['numSharedTags'])
+			return (-1);
+		if ($a['rating'] < $b['rating'])
+			return (1);
+		if ($a['rating'] > $b['rating'])
+			return (-1);
+		return (0);
+	}
 
 	public function chat($requests, $response, $args)
 	{
