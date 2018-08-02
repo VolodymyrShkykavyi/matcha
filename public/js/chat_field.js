@@ -30,7 +30,8 @@ function getCountUnread1(room_id)
       data: send,
       success: function(response)
       {
-          $("#count_unread_mess").html(response);
+      	var cur_unr_room = "#count_unread_mess" + room_id;
+          $(cur_unr_room).html(response);
       }
     })
 }
@@ -39,7 +40,7 @@ function getCountUnread1(room_id)
 function chat_field(room_id, start) {
 	var el1  = $("#chat-field")[0];
 	var el  = $("#input_mess")[0];
-	var count_unread =  $("#count_unread_mess")[0];
+	var cur_unr_room = "#count_unread_mess" + room_id;
 
 	if(el1){
 		let send = {
@@ -62,8 +63,8 @@ function chat_field(room_id, start) {
 					{
 						all_read(room_id);
 						getCountUnread1(room_id);
-						count_unread.classList.add('none');
-						el1.innerHTML = response;
+						$(cur_unr_room).addClass('none');
+						$("#chat-field").html(response);
 						el.classList.remove('none');
 						var mess_rumm = $("#mess_rumm")[0];
 						mess_rumm.setAttribute('value', room_id);
@@ -109,7 +110,7 @@ if (chat_id.length == 3){
 	if(chat_id[1] == "chat")
 	{
 		let send = {
-			targetId: chat_id[2],
+			roomId: chat_id[2],
 			start: 0
 		};
 			$.ajax({
@@ -117,7 +118,7 @@ if (chat_id.length == 3){
 				url: '/profile/chat',
 				data: send,
 				success: function(response){
-					if (response !== 'errorochka')
+					if (response !== 'notFriend')
 						chat_field(response, 0);
        	         }
 			});

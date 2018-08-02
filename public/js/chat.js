@@ -3,7 +3,7 @@ var socket;
 window.onload = function(){
 	var id_el = $($("#site-header a div.author-title")[0]).data().id;
 
-	var url = "ws://localhost:7777/?id=" + id_el;
+	var url = "ws://e1r3p1:7777/?id=" + id_el;
 	socket = new WebSocket(url);
 
 	var isActive = true;
@@ -26,7 +26,8 @@ window.onload = function(){
 				data: send,
 				success: function(response)
 				{
-						$("#count_unread_mess").html(response);
+            var cur_unr_room = "#count_unread_mess" + room_id;
+						$(cur_unr_room).html(response);
 				}
 			})
 	}
@@ -55,7 +56,8 @@ window.onload = function(){
 			{
 				var win = new Audio('/audio/notify.mp3');
 				win.play();
-				var count_unread =  $("#count_unread_mess")[0];
+        var cur_unr_room = "#count_unread_mess" + message['id_room'];
+				var count_unread =  $(cur_unr_room)[0];
 				if(count_unread)
 					count_unread.classList.remove('none');
 			}
