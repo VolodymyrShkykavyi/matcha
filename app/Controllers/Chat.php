@@ -88,6 +88,7 @@ class Chat extends Controller implements MessageComponentInterface {
 			}
 		}
 
+
 		if($data->type == "addFriend" || $data->type == "removeRequest")
 		{
 			$coutn_req = $this->model->getFriendRequest($data->friend_id);
@@ -103,6 +104,20 @@ class Chat extends Controller implements MessageComponentInterface {
 			
 		}
 
+		if($data->type == "ViewProfileEvent")
+		{
+			$countNotif = $this->model->countNotifications($data->view_id);
+			$data->countNotif = $countNotif;
+			foreach ($this->clients as $client) {
+					$c_user_id = $client->getId();
+					if($c_user_id == $data->view_id)
+					{
+						$client->getConn()->send(json_encode($data));
+						break;
+					}
+				}
+			
+		}
 	}
 	public function onClose(ConnectionInterface $conn)
 	{

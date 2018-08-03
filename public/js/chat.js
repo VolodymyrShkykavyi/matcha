@@ -1,6 +1,7 @@
 var socket;
 
 window.onload = function(){
+	let profile_id = window.location.pathname.split('/');
 	var id_el = $($("#site-header a div.author-title")[0]).data().id;
 
 	var url = "ws://localhost:7777/?id=" + id_el;
@@ -14,8 +15,26 @@ window.onload = function(){
 			isActive = true;
 		}
 
-	function getCountUnread(room_id)
-	{
+		socket.onopen = function() {
+			function ViewProfileEvent(user_id, view_id)
+			{
+				let send1 = {
+					user_id: user_id,
+					type: "ViewProfileEvent",
+					view_id: view_id,
+				};
+				socket.send(JSON.stringify(send1));
+			}
+			if (profile_id.length == 3){
+				var notif_user_id = $("#notif_user_id").html();
+				if(profile_id[1] == "profile")
+				{
+					ViewProfileEvent(notif_user_id, profile_id[2]);
+				}
+			}
+		};
+		function getCountUnread(room_id)
+		{
 
 		let send = {
 				room_id: room_id
@@ -60,7 +79,7 @@ window.onload = function(){
 			{
 				var win = new Audio('/audio/notify.mp3');
 				win.play();
-        var cur_unr_room = "#count_unread_mess" + message['id_room'];
+       			 var cur_unr_room = "#count_unread_mess" + message['id_room'];
 				var count_unread =  $(cur_unr_room)[0];
 				if(count_unread)
 					count_unread.classList.remove('none');
@@ -81,6 +100,7 @@ window.onload = function(){
 			var win1 = new Audio('/audio/notify1.mp3');
 			win1.play();
 		}
+
 		if(message['type'] == "removeRequest")
 		{
 			var fr_req = $("#friend_req")[0];
@@ -91,9 +111,18 @@ window.onload = function(){
 					fr_req.classList.add('none');
 			}
 		}
-
+		if(message['type'] == "ViewProfileEvent")
+		{
+			var notif_num = $("#notif_num")[0];
+			if(notif_num)
+			{
+				$("#notif_num").html(message['countNotif']);
+				notif_num.classList.remove('none');
+			}
+		}
 
 	};
+
 	var mess_form = $("form[name='messages']")[0];
 	if(mess_form)
 	{
@@ -110,16 +139,8 @@ window.onload = function(){
 			this.mess.value = "";
 		};
 	}
-}
 
-function ViewProfileEvent(user_id, view_id)
-{
-	let send = {
-		user_id: user_id,
-		type: "ViewProfileEvent",
-		view_id: view_id
-	};
-	socket.send(JSON.stringify(send));
+	
 }
 
 function removeRequest(id)
@@ -139,6 +160,7 @@ function addFriend(id)
 	};
 	socket.send(JSON.stringify(send));
 }
+
 
 $(document).keypress(function(e) {
 	var keycode = (e.keyCode ? e.keyCode : e.which);

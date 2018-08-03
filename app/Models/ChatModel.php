@@ -122,6 +122,20 @@ class ChatModel{
 				return(0);
 		return $data;
 	}
+
+	public function countNotifications($userId)
+	{
+		$res = $this->db->query("SELECT COUNT(*) FROM `notifications` WHERE `id_user` = ?i AND `viewed` = 0", $userId);
+
+		$res = $res->fetch_row();
+
+		if (!empty($res))
+			return $res[0];
+		return $res;
+	}
+
+
+
 	
 	////////////////// 						UPDATE SECTOR 				/////////////////////
 	public function updateUserIsOnline($id, $status){
