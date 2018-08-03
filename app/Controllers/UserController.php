@@ -649,7 +649,7 @@ class UserController extends Controller
 				}
 			}
 		}	
-		if ($userDetails['sexual_preferences'] != 'bi'){
+		if (!empty($userDetails['sexual_preferences']) && $userDetails['sexual_preferences'] != 'bi'){
 			$options['gender'] = ($userDetails['sexual_preferences'] == 'male') ? 'man' : 'woman';
 		}
 		$options['user_gender'] = $this->_user['gender'];

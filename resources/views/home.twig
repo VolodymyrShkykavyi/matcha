@@ -79,9 +79,10 @@
 
     <div class="row">
         {% if profile_suggestions %}
-        {{dump(profile_suggestions)}}
-        <div class="col-12">Profile sugestions:</div>
-
+        <div class="col-12">
+            <h5 class="text-center">Profile sugestions</h5>
+            <hr>
+        </div>
             {% for profile in profile_suggestions %}
                 <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <div class="ui-block" data-mh="friend-groups-item">
@@ -92,12 +93,15 @@
                                         <use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
                                     </svg>
                                     <ul class="more-dropdown">
-                                        <li>
-                                            <a href="#">Report Profile</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Block Profile</a>
-                                        </li>
+                                        {% if user.admin %}
+                                            <li>
+                                                <a href="#" data-type="block" data-id="{{ profile.id_user }}">Block Profile</a>
+                                            </li>
+                                        {% else %}
+                                            <li>
+                                                <a href="#" data-type="report" data-id="{{ profile.id_user }}">Report Profile</a>
+                                            </li>
+                                        {% endif %}
                                     </ul>
                                 </div>
                                 <div class="friend-avatar">
@@ -108,11 +112,13 @@
                                         <a href="/profile/{{ profile.id_user }}"
                                            class="h5 author-name">{{ profile.login }}</a>
                                         <div class="country">{{ profile.status }}</div>
+                                        <div class="country">age: {{ profile.age }}</div>
+                                        <div class="country">rating: {{ profile.rating }} <i class="fa fa-star" style="color: #f5c310;"></i></div>
                                     </div>
                                 </div>
 
                                 <div class="control-block-button">
-                                    <a data-type="add_friend" data-id="{{ profile.id_user }}"
+                                    <a data-type="add" data-id="{{ profile.id_user }}"
                                        title="Send request" href="#" class="btn btn-control bg-green friend"
                                        data-toggle="modal" data-target="#create-friend-group-add-friends">
                                         <svg class="olymp-happy-faces-icon">
@@ -137,5 +143,7 @@
 {% if not user.lat_lng %}
     <script src="/js/get_location.js"></script>
 {% endif %}
+<script src="/js/friend.js"></script>
+<script src="/js/block_user.js"></script>
 
 {% endblock %}
