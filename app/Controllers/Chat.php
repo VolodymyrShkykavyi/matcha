@@ -80,7 +80,9 @@ class Chat extends Controller implements MessageComponentInterface {
 					if($c_user_id == $id_to)
 					{
 						$data->type = "mess_res";
+						$AllUnreadMessage = $this->model->getAllUnreadMessage($id_to);
 						$unread_mess = $this->model->getUnreadMessage($from_id, $chat_room['id'], 0);
+						$data->all_unread = $AllUnreadMessage;
 						$data->count_unread = count($unread_mess);
 						$client->getConn()->send(json_encode($data));
 					}
