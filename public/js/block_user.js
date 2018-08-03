@@ -1,4 +1,4 @@
-$("ul.profile-menu ul.more-dropdown li a, .ui-block ul.notification-list li button").click(function(ev){
+$("ul.profile-menu ul.more-dropdown li a, .ui-block ul.notification-list li button, div.friend-item ul.more-dropdown li a").click(function(ev){
 	ev.preventDefault();
 
 	let type = $(this).data().type;
