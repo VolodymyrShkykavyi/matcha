@@ -47,9 +47,12 @@
 					<svg class="olymp-chat---messages-icon">
 						<use xlink:href="/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use>
 					</svg>
-					<div class="label-avatar bg-purple"
+					<div id="unreadMess_notif" class="label-avatar bg-purple
+					{% if not num_messages %}
+						none
+					{% endif %}"
 
-					>122</div>
+					>{{ num_messages }}</div>
 				</a>
 			</div>
 

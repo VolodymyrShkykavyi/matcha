@@ -22,6 +22,7 @@ class UserController extends Controller
 				$location = $this->model->getUserLocation($this->_user['id']);
 				$friendRequests = $this->model->getFriendRequests($this->_user['id']);
 				$notification_num = $this->model->countNotifications($this->_user['id']);
+				$num_messages = $this->model->getAllUnreadMessage($this->_user['id']);
 				$friends = $this->model->getFriends($this->_user['id']);
 				$chats = $this->model->getChatRooms($this->_user['id']);
 				
@@ -49,6 +50,7 @@ class UserController extends Controller
 				$this->ViewData['user']['location'] = $this->_formatted_location($location['lat'], $location['lng']);
 				$this->ViewData['user']['lat_lng'] = $location;
 				$this->ViewData['num_requests'] = count($friendRequests);
+				$this->ViewData['num_messages'] = $num_messages;
 				$this->ViewData['num_notifications'] = $notification_num;
 				foreach ($friends as &$friend) {
 					$id = ($friend['from_request'] == $this->_user['id']) ? $friend['to_request'] : $friend['from_request'];

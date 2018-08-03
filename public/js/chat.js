@@ -55,10 +55,14 @@ window.onload = function(){
 	socket.onmessage = function(event) {
 		let message = JSON.parse(event.data);
 
-
-
 		if(message['type'] == "mess_send" || message['type'] == "mess_res")
 		{
+			var unreadMess_notif = $("#unreadMess_notif")[0];
+			if(unreadMess_notif)
+			{
+				unreadMess_notif.innerHTML =message['all_unread'];
+				unreadMess_notif.classList.remove('none');
+			}
 			$("#his_em").css( "display", "none" );
 			if(message['type'] == "mess_res")
 			{
