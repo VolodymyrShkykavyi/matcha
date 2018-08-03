@@ -34,8 +34,12 @@ window.onload = function(){
 
 	socket.onmessage = function(event) {
 		let message = JSON.parse(event.data);
+
+
+
 		if(message['type'] == "mess_send" || message['type'] == "mess_res")
 		{
+			$("#his_em").css( "display", "none" );
 			if(message['type'] == "mess_res")
 			{
 				$("#last_mess_date").html(message['date_creation']);
@@ -64,6 +68,8 @@ window.onload = function(){
 			getCountUnread(message['id_room']);
 		}
 
+
+
 		if(message['type'] == "addFriend")
 		{
 			var fr_req = $("#friend_req")[0];
@@ -75,6 +81,18 @@ window.onload = function(){
 			var win1 = new Audio('/audio/notify1.mp3');
 			win1.play();
 		}
+		if(message['type'] == "removeRequest")
+		{
+			var fr_req = $("#friend_req")[0];
+			if(fr_req)
+			{
+				fr_req.innerHTML = message['req'];
+				if(message['req'] < 1)
+					fr_req.classList.add('none');
+			}
+		}
+
+
 	};
 	var mess_form = $("form[name='messages']")[0];
 	if(mess_form)
@@ -92,8 +110,25 @@ window.onload = function(){
 			this.mess.value = "";
 		};
 	}
+}
 
+function ViewProfileEvent(user_id, view_id)
+{
+	let send = {
+		user_id: user_id,
+		type: "ViewProfileEvent",
+		view_id: view_id
+	};
+	socket.send(JSON.stringify(send));
+}
 
+function removeRequest(id)
+{
+	let send = {
+		friend_id: id,
+		type: "removeRequest",
+	};
+	socket.send(JSON.stringify(send));
 }
 
 function addFriend(id)

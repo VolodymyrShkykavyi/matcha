@@ -13,7 +13,6 @@ function all_read(room_id){
 			data: send,
 			success: function(response)
 			{
-
 			}
 		})
 }

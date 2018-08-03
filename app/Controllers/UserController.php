@@ -457,7 +457,7 @@ class UserController extends Controller
 			}
 			else
 			{
-				$chat_field = $chat_field . '<li><div class="notification-event"><span class="chat-message-item">Messedge history is empty</span></div></li>';
+				$chat_field = $chat_field . '<li id="his_em" class="" ><div class="notification-event"><span class="chat-message-item">Messedge history is empty</span></div></li>';
 			}
 			echo $chat_field ;
 		}
