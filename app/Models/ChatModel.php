@@ -91,6 +91,14 @@ class ChatModel{
 		return $data;
 	}
 
+
+	public function getAllUnreadMessage($id_to)
+	{
+		
+		$res = $this->db->query('SELECT COUNT(`id_message`) FROM `messages` WHERE `id_user_to` = "?s" AND `read_status` = ?s', $id_to, 0);
+		return ($res->fetch_assoc_array()[0]["COUNT(`id_message`)"]);
+	}
+	
 	public function getLastMessage($id_from, $id_chat_room)
 	{
 		try{
