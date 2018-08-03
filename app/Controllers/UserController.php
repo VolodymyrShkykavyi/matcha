@@ -80,34 +80,19 @@ class UserController extends Controller
 		if (empty($this->_user['status']))
 			$this->ViewData['info'][] = "Add some status to your profile. Let another people know what in your minds now!";
 
+		$users = $this->_userSuggestions();
+		$this->ViewData['profile_suggestions'] = array_slice($users, 0, 4);
 
 		$this->render($response, 'home.twig', 'Home Page');
 	}
 
+
 	public function getSearchPage($request, $response, $args)
 	{
-		$users = $this->model->getUsers();
-		$userTags = $this->model->getTags($this->_user['id']);
-		$tagsArr = array();
+		$users = $this->_userSuggestions();
 
-		foreach ($userTags as $value) {
-				$tagsArr[] = $value['id_tag'];
-		}
-		foreach ($users as &$user) {
-			$user['age'] = DateTime::createFromFormat('Y-m-d', $user['birthDate'])
-				->diff(new DateTime('now'))
-				->y;
-			$user['numSharedTags'] = $this->model->countSharedTags($user['id'], $tagsArr);
-			$user['rating'] = $this->_calculateUserRating($user['id']);
-			$user['distanse'] = $this->_calculateDistanse(
-				$this->ViewData['user']['lat_lng']['lat'], $this->ViewData['user']['lat_lng']['lng'],
-				$user['lat'], $user['lng']
-			);
-		}
-
-		usort($users, array($this, '_searchSort'));
-		$this->ViewData['search'] = $users;
-
+		//show max 10 profiles
+		$this->ViewData['search'] = array_slice($users, 0, 10);
 
 		$this->render($response, 'search.twig', 'Find pair');
 	}
@@ -631,6 +616,52 @@ class UserController extends Controller
 		if ($a['rating'] > $b['rating'])
 			return (-1);
 		return (0);
+	}
+
+	public function _userSuggestions()
+	{
+		$userTags = $this->model->getTags($this->_user['id']);
+		$userDetails = $this->model->getUserDetails($this->_user['id']);
+		$options = array();
+		$options['exceptId'] = [$this->_user['id']];
+		$friends = $this->model->getFriends($this->_user['id']);
+		$friends = array_merge($friends, $this->model->getOutputFriendRequests($this->_user['id']));
+
+		if ($friends){
+			foreach ($friends as $friend) {
+				$id = ($friend['from_request'] == $this->_user['id']) ? $friend['to_request'] : $friend['from_request'];
+				if ($friend['from_request'] == $this->_user['id'] || $friend['status'] == 1){
+					$options['exceptId'][] = $id;
+					
+				}
+			}
+		}	
+		if ($userDetails['sexual_preferences'] != 'bi'){
+			$options['gender'] = ($userDetails['sexual_preferences'] == 'male') ? 'man' : 'woman';
+		}
+		$options['user_gender'] = $this->_user['gender'];
+		$users = $this->model->getUserSuggestions($options);
+
+		$tagsArr = array();
+
+		foreach ($userTags as $value) {
+				$tagsArr[] = $value['id_tag'];
+		}
+		foreach ($users as &$user) {
+			$user['age'] = DateTime::createFromFormat('Y-m-d', $user['birthDate'])
+				->diff(new DateTime('now'))
+				->y;
+			$user['numSharedTags'] = $this->model->countSharedTags($user['id'], $tagsArr);
+			$user['rating'] = $this->_calculateUserRating($user['id']);
+			$user['distanse'] = $this->_calculateDistanse(
+				$this->ViewData['user']['lat_lng']['lat'], $this->ViewData['user']['lat_lng']['lng'],
+				$user['lat'], $user['lng']
+			);
+		}
+
+		usort($users, array($this, '_searchSort'));
+
+		return $users;
 	}
 
 	public function chat($requests, $response, $args)
