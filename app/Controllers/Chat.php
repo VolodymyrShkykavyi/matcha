@@ -87,7 +87,8 @@ class Chat extends Controller implements MessageComponentInterface {
 				}
 			}
 		}
-		if($data->type == "addFriend")
+
+		if($data->type == "addFriend" || $data->type == "removeRequest")
 		{
 			$coutn_req = $this->model->getFriendRequest($data->friend_id);
 			$data->req = count($coutn_req);
