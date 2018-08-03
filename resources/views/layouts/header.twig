@@ -1,7 +1,9 @@
 <!-- Header-BP -->
 
 <header class="header" id="site-header">
-
+	<div id="notif_user_id" style="display:none;" class="page-title">
+		{{ user.id }}
+	</div>
 	<div class="page-title">
 		<h6>{{ title }}</h6>
 	</div>
@@ -29,10 +31,10 @@
 							<use xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use>
 						</svg>
 
-						<div class="label-avatar bg-blue"
+						<div id="friend_req" class="label-avatar bg-blue
 								{% if not num_requests %}
-									style="display: none;"
-								{% endif %}
+									none
+								{% endif %}"
 						>
 							{{ num_requests }}
 						</div>
@@ -57,10 +59,10 @@
 						<use xlink:href="/svg-icons/sprites/icons.svg#olymp-thunder-icon"></use>
 					</svg>
 
-					<div class="label-avatar bg-primary"
-						{% if not num_notifications %}
-							style="display: none;"
-						{% endif %}
+					<div id="notif_num" class="label-avatar bg-primary 
+					{% if not num_notifications %}
+							none
+						{% endif %}"
 					>{{ num_notifications }}</div>
 				</a>
 			</div>

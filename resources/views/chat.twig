@@ -39,10 +39,10 @@
 									<span id="last_mess{{ chat.id }}" class="chat-message-item">{{ chat.last_mess[0]['messadge']}}</span>
 									<span class="notification-date"><time id="last_mess_date" class="entry-date updated" datetime="2004-07-24T18:18">{{ user.lastAction }}</time></span>
 									{% if chat.count_unread > 0 %}
-										<div id="count_unread_mess" align="center" class="label-avatar bg-purple mar">{{chat.count_unread}}</div>
+										<div id="count_unread_mess{{chat.id}}" align="center" class="label-avatar bg-purple mar">{{chat.count_unread}}</div>
 									{% endif %}
 									{% if chat.count_unread == 0 %}
-										<div id="count_unread_mess" align="center" class="label-avatar bg-purple mar none">0</div>
+										<div id="count_unread_mess{{chat.id}}" align="center" class="label-avatar bg-purple mar none">0</div>
 									{% endif %}
 								</div>
 								<div class="more">
