@@ -405,9 +405,9 @@ class UserModel extends Model
 	public function updateUserPersonalInfo($userId, $data)
 	{
 		$res = $this->db->query("UPDATE users SET login='?s', email='?s', firstName='?s', lastName='?s',
- 			gender='?s', birthDate='?s' WHERE id = ?i",
+ 			gender='?s', birthDate='?s', status='?s' WHERE id = ?i",
 			$data['login'], $data['email'], $data['firstName'], $data['lastName'], $data['gender'], $data['birthday'],
-			$userId);
+			$data['status'], $userId);
 
 		if (!$res)
 			return false;

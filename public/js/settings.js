@@ -152,7 +152,6 @@ $("#personal_information_form button").click(function (ev) {
 			data: data,
 			success: function (response) {
 				response = JSON.parse(response);
-				console.log(response);
 				if (response){
 					alert('changed');
 				}
@@ -202,7 +201,6 @@ $("#form_add_tag button").click(function(){
 					showError(input, response.error);
 					return;
 				}
-				console.log($("#tag_list")[0]);
 				let new_el = $("<button type=\"button\" onclick=\"delTag(this);\" class=\"ml-1 mr-1 btn btn-secondary\" data-id=\""+ response +"\">" + tag + "</button>");
 
 				$("#tag_list").append(new_el);
