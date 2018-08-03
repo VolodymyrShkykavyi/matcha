@@ -53,6 +53,25 @@ class ChatModel{
 		return $data;
 	}
 
+	public function getFriendRequest($id)
+	{
+		if (!is_numeric($id) || $id <= 0) {
+			return false;
+		}
+		try{
+			  $res = $this->db->query('SELECT id FROM friends WHERE to_request=?i AND status=0', $id);
+		}catch (\dbException $e){
+				return $e;
+			}
+			if($res)
+			{
+				$data = $res->fetch_assoc();
+			}
+			else
+				return(0);
+		return $data;
+	}
+
 	public function getUser($id)
 	{
 		if (!is_numeric($id) || $id <= 0) {
@@ -103,6 +122,20 @@ class ChatModel{
 				return(0);
 		return $data;
 	}
+
+	public function countNotifications($userId)
+	{
+		$res = $this->db->query("SELECT COUNT(*) FROM `notifications` WHERE `id_user` = ?i AND `viewed` = 0", $userId);
+
+		$res = $res->fetch_row();
+
+		if (!empty($res))
+			return $res[0];
+		return $res;
+	}
+
+
+
 	
 	////////////////// 						UPDATE SECTOR 				/////////////////////
 	public function updateUserIsOnline($id, $status){

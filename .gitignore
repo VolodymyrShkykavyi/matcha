@@ -4,3 +4,4 @@ vendor/
 conf.conf
 .DS_Store
 config/
+config/slim.settings.php

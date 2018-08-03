@@ -449,7 +449,7 @@ class UserController extends Controller
 			}
 			else
 			{
-				$chat_field = $chat_field . '<li><div class="notification-event"><span class="chat-message-item">Messedge history is empty</span></div></li>';
+				$chat_field = $chat_field . '<li id="his_em" class="" ><div class="notification-event"><span class="chat-message-item">Messedge history is empty</span></div></li>';
 			}
 			echo $chat_field ;
 		}
@@ -478,7 +478,7 @@ class UserController extends Controller
 	public function ChatRoom1($request, $response, $args)
 	{
 		$data = $request->getParsedBody();
-		
+
 		if (!empty($data) && $data['targetId'] && $data['targetId'] != $this->_user['id']) {
 			$friends = $this->model->getFriend($this->_user['id'], $data['targetId']);
 			if($friends['id'])
@@ -508,8 +508,21 @@ class UserController extends Controller
 					}
 				}
 			} else {
-				return 0;
+				return "Not friends";
 			}
+		}
+		else if(!empty($data) && $data['roomId'])
+		{
+			$res = $this->model->getChatRoomById($data['roomId']);
+			if(!$res)
+				return "notRoom";
+			$fr = $this->model->getFriend($res[0]['id_user'], $res[0]['id_sob']);
+			if(!$fr)
+			{
+				return "notFriend";
+			}
+			return($data['roomId']);
+
 		}
 		else
 			return 0;

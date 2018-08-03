@@ -36,14 +36,19 @@ $(".control-block-button a.friend, ul.friend-requests span a").click(function(ev
 					el.setAttribute('data-type', 'remove_request');
 					data.type = 'remove_request';
 					$(el).addClass('bg-orange').removeClass('bg-green');
+					addFriend(data.id);
+
 				} else if (send.type == 'remove_request' || send.type == 'remove_friend'){
 					if($(el).siblings().length){
+						
 						location.reload();
 					}
 					el.setAttribute('data-type', 'add');
 					data.type = 'add';
 					$(el).addClass('bg-green').removeClass('bg-orange');
+					removeRequest(data.id);
 				} else if (send.type =='accept'){
+
 					location.reload();
 				}
 			}
