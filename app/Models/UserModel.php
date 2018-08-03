@@ -9,12 +9,31 @@ class UserModel extends Model
 
 
 	////////// 		SELECT SECTOR 		///////////////////
-	public function getUsers()
+	public function getUserSuggestions($options = array())
 	{
-		return $this->execute('SELECT * FROM `users` 
+		$params = [];
+		$sql = 'SELECT * FROM `users` 
 			JOIN user_details ON users.id = user_details.id_user 
 			JOIN location ON users.id = location.id_user
-			WHERE users.blocked = 0 AND users.active = 1');
+			WHERE users.blocked = 0 AND users.active = 1';
+
+		if (!empty($options['gender'])){
+			$sql .= " AND `users`.`gender` = '?s'";
+			$params[] = $options['gender'];
+		}
+
+		if (!empty($options['user_gender'])){
+			$sql .= " AND (`user_details`.`sexual_preferences` = 'bi' 
+				OR `user_details`.`sexual_preferences` = '?s')";
+			$params[] = ($options['user_gender'] == 'man' ? 'male' : 'female');
+		}
+
+		if (!empty($options['exceptId'])){
+			$sql .= " AND user_details.id_user NOT IN (?ai)";
+			$params[] = $options['exceptId'];
+		}
+
+		return $this->execute($sql, $params);
 	}
 
 	public function getUser($id)
@@ -58,6 +77,13 @@ class UserModel extends Model
 	{
 		$res = $this->execute('SELECT * FROM `friends` WHERE (`from_request` = ?i OR `to_request` = ?i)
 			AND `status` = 1', [$userId, $userId]);
+
+		return $res;
+	}
+
+	public function getOutputFriendRequests($userId)
+	{
+		$res = $this->execute('SELECT * FROM `friends` WHERE `from_request` = ?i AND `status` = 0', [$userId]);
 
 		return $res;
 	}
