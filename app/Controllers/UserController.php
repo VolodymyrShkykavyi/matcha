@@ -446,7 +446,7 @@ class UserController extends Controller
 						$who = $this->_user;
 					else
 						$who = $user_sob;
-					$chat_field = $chat_field . '<li id="' . $value['id_message'] . '" ><div class="author-thumb"><img src="/img' .$who['img'] . '" alt="author"></div><div class="notification-event" style="width:90%;"><a href="#" class="h6 notification-friend">' . $who['login'] . '</a><span class="notification-date" ><time class="entry-date updated" datetime="2004-07-24T18:18">' . $value['date_creation'] . '</time></span><br/><span class="chat-message-item" >' . $value['messadge'] . '</span></div></li>'; 
+					$chat_field = $chat_field . '<li id="' . $value['id_message'] . '" ><div class="author-thumb"><img src="/img' .$who['img'] . '" alt="author"></div><div class="notification-event" style="width:90%;"><a href="' . "/profile/" . $this->_user['id'] . '" class="h6 notification-friend">' . $who['login'] . '</a><span class="notification-date" ><time class="entry-date updated" datetime="2004-07-24T18:18">' . $value['date_creation'] . '</time></span><br/><span class="chat-message-item" >' . $value['messadge'] . '</span></div></li>'; 
 				}
 			}
 			else
@@ -466,7 +466,7 @@ class UserController extends Controller
 						$who = $this->_user;
 					else
 						$who = $user_sob;
-					$chat_field = $chat_field . '<li id="' . $value['id_message'] . '" ><div class="author-thumb"><img src="/img' .$who['img'] . '" alt="author"></div><div class="notification-event" style="width:90%;"><a href="#" class="h6 notification-friend">' . $who['login'] . '</a><span class="notification-date" ><time class="entry-date updated" datetime="2004-07-24T18:18">' . $value['date_creation'] . '</time></span><br/><span class="chat-message-item" >' . $value['messadge'] . '</span></div></li>'; 
+					$chat_field = $chat_field . '<li id="' . $value['id_message'] . '" ><div class="author-thumb"><img src="/img' .$who['img'] . '" alt="author"></div><div class="notification-event" style="width:90%;"><a href="' . "/profile/" . $this->_user['id'] . '" class="h6 notification-friend">' . $who['login'] . '</a><span class="notification-date" ><time class="entry-date updated" datetime="2004-07-24T18:18">' . $value['date_creation'] . '</time></span><br/><span class="chat-message-item" >' . $value['messadge'] . '</span></div></li>'; 
 				}
 				return($chat_field);
 			}
