@@ -13,7 +13,7 @@ function all_read(room_id){
 			data: send,
 			success: function(response)
 			{
-				console.log("a");
+
 			}
 		})
 }
@@ -52,6 +52,7 @@ function chat_field(room_id, start) {
 			url: '/chat/mess',
 			data: send,
 			success: function(response){
+
 				if(response == "END")
 				{
 					end = 1;
@@ -118,7 +119,6 @@ if (chat_id.length == 3){
 				url: '/profile/chat',
 				data: send,
 				success: function(response){
-					console.log("ab");
 					if (response !== 'notFriend')
 						chat_field(response, 0);
        	         }
