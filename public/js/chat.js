@@ -3,7 +3,7 @@ var socket;
 window.onload = function(){
 	let profile_id = window.location.pathname.split('/');
 	var id_el = $($("#site-header a div.author-title")[0]).data().id;
-	
+
 	var url = "ws://localhost:7777/?id=" + id_el;
 	socket = new WebSocket(url);
 
@@ -119,6 +119,8 @@ window.onload = function(){
 			{
 				$("#notif_num").html(message['countNotif']);
 				notif_num.classList.remove('none');
+				var win2 = new Audio('/audio/notify2.mp3');
+				win2.play();
 			}
 		}
 
