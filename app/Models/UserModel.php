@@ -71,7 +71,7 @@ class UserModel extends Model
 
 	public function getNotifications($userId)
 	{
-		$res = $this->execute('SELECT * FROM `notifications` WHERE `id_user` = ?i', [$userId]);
+		$res = $this->execute('SELECT * FROM `notifications` WHERE `id_user` = ?i ORDER BY `time` DESC', [$userId]);
 
 		return $res;
 	}
