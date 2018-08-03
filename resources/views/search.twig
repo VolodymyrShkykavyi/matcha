@@ -3,6 +3,32 @@
 {% block content %}
 
 <div class="container">
+	<div class="row">
+		<div class="col-6">
+			<div class="ui-block">
+					<div class="ui-block-title">
+						<h6 class="title">Search results</h6>
+					</div>
+
+
+					<ul class="notification-list">
+						
+						{% for result in search %}
+							<li>
+								Login: {{result.login}}<br>
+								distance: {{result.distanse}}<br>
+								rating: {{result.rating}}<br>
+								Shared tags: {{result.numSharedTags}}<br>
+								age: {{result.age}}<br>
+							</li>
+						{% endfor %}
+					</ul>
+			</div>
+		</div>
+		<div class="col-6">
+			some filters
+		</div>
+	</div>
 	{{ dump(search) }}
 </div>
 

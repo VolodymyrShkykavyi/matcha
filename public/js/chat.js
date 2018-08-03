@@ -3,9 +3,10 @@ var socket;
 window.onload = function(){
 	let profile_id = window.location.pathname.split('/');
 	var id_el = $($("#site-header a div.author-title")[0]).data().id;
-
+	
 	var url = "ws://localhost:7777/?id=" + id_el;
 	socket = new WebSocket(url);
+
 
 	var isActive = true;
 	function onBlur() { 
