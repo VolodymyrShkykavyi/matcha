@@ -125,7 +125,7 @@ if (chat_id.length == 3){
 				url: '/profile/chat',
 				data: send,
 				success: function(response){
-					if (response !== 'notFriend')
+					if (response != 'notFriend' && response != 'notRoom')
 						chat_field(response, 0);
        	         }
 			});
