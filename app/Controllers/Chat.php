@@ -30,14 +30,16 @@ class Chat extends Controller implements MessageComponentInterface {
 		$this->clients = new \SplObjectStorage;
 		$this->loadModel("chat");
 	}
+	
 	public function onOpen(ConnectionInterface $conn) {
-		// Store the new connection to send messages to later
+
 		$querystring = $conn->httpRequest->getUri()->getQuery();
 		parse_str($querystring,$queryarray);
 		$client = new Client($queryarray["id"], $conn);
 		$this->model->updateUserIsOnline($client->getId(), true);
 		$this->clients->attach($client);
 		echo "New connection! ({$conn->resourceId})\n";
+
 	}
 
 	public function onMessage(ConnectionInterface $from, $msg)

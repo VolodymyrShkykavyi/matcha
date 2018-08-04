@@ -41,6 +41,7 @@ function chat_field(room_id, start) {
 	var el  = $("#input_mess")[0];
 	var cur_unr_room = "#count_unread_mess" + room_id;
 
+
 	if(el1){
 		let send = {
 			room_id: room_id,
@@ -51,7 +52,6 @@ function chat_field(room_id, start) {
 			url: '/chat/mess',
 			data: send,
 			success: function(response){
-
 				if(response == "END")
 				{
 					end = 1;
@@ -61,6 +61,13 @@ function chat_field(room_id, start) {
 				{
 					if(start < 2)
 					{
+						var unreadMess_notif = $("#unreadMess_notif")[0];
+						if(unreadMess_notif)
+						{
+							unreadMess_notif.innerHTML = unreadMess_notif.innerHTML - $(cur_unr_room).html();
+							if(unreadMess_notif.innerHTML < 1)
+								unreadMess_notif.classList.add('none');
+						}
 						all_read(room_id);
 						getCountUnread1(room_id);
 						$(cur_unr_room).addClass('none');

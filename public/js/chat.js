@@ -4,7 +4,7 @@ window.onload = function(){
 	let profile_id = window.location.pathname.split('/');
 	var id_el = $($("#site-header a div.author-title")[0]).data().id;
 
-	var url = "ws://localhost:7777/?id=" + id_el;
+	var url = "ws://e1r3p1:7777/?id=" + id_el;
 	socket = new WebSocket(url);
 
 
@@ -60,7 +60,7 @@ window.onload = function(){
 			var unreadMess_notif = $("#unreadMess_notif")[0];
 			if(unreadMess_notif)
 			{
-				unreadMess_notif.innerHTML =message['all_unread'];
+				unreadMess_notif.innerHTML = message['all_unread'];
 				unreadMess_notif.classList.remove('none');
 			}
 			$("#his_em").css( "display", "none" );
