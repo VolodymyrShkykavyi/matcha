@@ -40,7 +40,7 @@ $(".control-block-button a.friend, ul.friend-requests span a").click(function(ev
 
 				} else if (send.type == 'remove_request' || send.type == 'remove_friend'){
 					if($(el).siblings().length){
-						
+						console.log("accept1");
 						location.reload();
 					}
 					el.setAttribute('data-type', 'add');
@@ -48,7 +48,7 @@ $(".control-block-button a.friend, ul.friend-requests span a").click(function(ev
 					$(el).addClass('bg-green').removeClass('bg-orange');
 					removeRequest(data.id);
 				} else if (send.type =='accept'){
-
+					console.log("accept");
 					location.reload();
 				}
 			}
