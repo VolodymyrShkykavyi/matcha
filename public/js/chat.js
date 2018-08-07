@@ -8,8 +8,6 @@ window.onload = function(){
 	var url = "ws://e1r3p1:7777/?id=" + id_el;
 	socket = new WebSocket(url);
 
-
-	
 	socket.onopen = function(event) {
 		var isActive = 1;
 		var notif_user_id = $("#notif_user_id").html();
@@ -50,9 +48,9 @@ window.onload = function(){
 		function ViewProfileEvent(user_id, view_id)
 		{
 			let send1 = {
-				user_id: user_id,
+				from_id: user_id,
 				type: "ViewProfileEvent",
-				view_id: view_id,
+				target_id: view_id,
 			};
 			socket.send(JSON.stringify(send1));
 		}
@@ -157,6 +155,7 @@ window.onload = function(){
 					fr_req.classList.add('none');
 			}
 		}
+		console.log(message);
 		if(message['type'] == "ViewProfileEvent" )
 		{
 			var notif_num = $("#notif_num")[0];
@@ -192,24 +191,16 @@ window.onload = function(){
 	
 }
 
-function removeRequest(id)
+function Notification(target_id, type)
 {
+	var notif_user_id = $("#notif_user_id").html();
 	let send = {
-		friend_id: id,
-		type: "removeRequest",
+		friend_id: target_id,
+		from_id: notif_user_id,
+		type: type,
 	};
 	socket.send(JSON.stringify(send));
 }
-
-function addFriend(id)
-{
-	let send = {
-		friend_id: id,
-		type: "addFriend",
-	};
-	socket.send(JSON.stringify(send));
-}
-
 
 $(document).keypress(function(e) {
 	var keycode = (e.keyCode ? e.keyCode : e.which);
