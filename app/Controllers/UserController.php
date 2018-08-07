@@ -106,6 +106,9 @@ class UserController extends Controller
 		$location = $this->model->getUserLocation($args['id']);
 
 		if (!empty($profile) && $profile['active'] && $profile['id'] != $this->_user['id']) {
+			if (!empty($this->_user) && !$this->_user['blocked'])
+				$this->model->addNotificationViewProfile($this->_user['id'], $profile['id']);
+
 			if (empty($profile['img'])) {
 				$profile['img'] = '/author-main1.jpg';
 			}
@@ -118,8 +121,6 @@ class UserController extends Controller
 		} else {
 			return $response->withRedirect('/');
 		}
-		if (!empty($this->_user))
-			$this->model->addNotificationViewProfile($this->_user['id'], $profile['id']);
 
 		$this->render($response, 'profile.twig', 'Home Page');
 	}
