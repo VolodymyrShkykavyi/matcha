@@ -9,10 +9,19 @@ class Client
 {
 	private $_id = 0;
 	private $_conn = NULL;
+	private $_IsActive = 0;
 
 	public function __construct($id, $conn){
 		$this->_id = $id;
 		$this->_conn = $conn;
+		$this->_IsActive = 1;
+	}
+
+	public function setIsActive($isActive){
+		$this->_IsActive = $isActive;
+	}
+	public function getIsActive(){
+		return $this->_IsActive;
 	}
 	public function getId(){
 		return $this->_id;
@@ -30,20 +39,51 @@ class Chat extends Controller implements MessageComponentInterface {
 		$this->clients = new \SplObjectStorage;
 		$this->loadModel("chat");
 	}
+	
 	public function onOpen(ConnectionInterface $conn) {
-		// Store the new connection to send messages to later
 		$querystring = $conn->httpRequest->getUri()->getQuery();
 		parse_str($querystring,$queryarray);
 		$client = new Client($queryarray["id"], $conn);
 		$this->model->updateUserIsOnline($client->getId(), true);
 		$this->clients->attach($client);
 		echo "New connection! ({$conn->resourceId})\n";
+		// foreach ($this->clients as $client) {
+		// 			echo "Client " . $client->getConn()->resourceId . " is " . $client->getIsActive();
+		// 			echo "\n";
+		// 		}
+			
 	}
 
 	public function onMessage(ConnectionInterface $from, $msg)
 	{
 		$data = json_decode($msg);
 
+		if($data->type == "ident")
+		{
+			foreach ($this->clients as $client) {
+				if ($from->resourceId == $client->getConn()->resourceId){
+					$data->conn_id = $client->getConn()->resourceId;
+					$client->getConn()->send(json_encode($data));
+					break;
+				}
+			}
+		}
+		if($data->type == "c_Active")
+		{
+			foreach ($this->clients as $client) {
+				if ($data->conn_id == $client->getConn()->resourceId){
+					$client->setIsActive($data->is_active);
+					break;
+				}
+			}
+
+			// foreach ($this->clients as $client) {
+			// 		echo "Client " . $client->getConn()->resourceId . " is " . $client->getIsActive();
+			// 		echo "\n";
+			// }
+			// echo "\n";echo "\n";echo "\n";
+
+		}
 		if($data->type == "private_mess")
 		{
 			$chat_room = $this->model->getChatRoomById($data->id_room);
@@ -70,6 +110,9 @@ class Chat extends Controller implements MessageComponentInterface {
 				$res = $this->model->addMessadge($chat_room['id'], $from_id, $id_to, $data->msg);
 				$last_mess = $this->model->getLastMessage($from_id, $chat_room['id']);
 				$data->date_creation = $last_mess['date_creation'];
+				$i = 0;
+				$send = 0;
+				$last_client = NULL;
 				foreach ($this->clients as $client) {
 					$c_user_id = $client->getId();
 					if($c_user_id == $from_id)
@@ -79,14 +122,32 @@ class Chat extends Controller implements MessageComponentInterface {
 					}
 					if($c_user_id == $id_to)
 					{
-						$data->type = "mess_res";
-						$AllUnreadMessage = $this->model->getAllUnreadMessage($id_to);
-						$unread_mess = $this->model->getUnreadMessage($from_id, $chat_room['id'], 0);
-						$data->all_unread = $AllUnreadMessage;
-						$data->count_unread = count($unread_mess);
-						$client->getConn()->send(json_encode($data));
+						$last_client = $client;
+						if($client->getIsActive() == 1)
+						{
+							$data->type = "mess_res";
+							$data->is_active = $client->getIsActive();
+							$AllUnreadMessage = $this->model->getAllUnreadMessage($id_to);
+							$unread_mess = $this->model->getUnreadMessage($from_id, $chat_room['id'], 0);
+							$data->all_unread = $AllUnreadMessage;
+							$data->count_unread = count($unread_mess);
+							$client->getConn()->send(json_encode($data));
+							$send = 1;
+						}
 					}
+					$i++;
 				}
+				if($send == 0 && $last_client)
+				{
+					$data->type = "mess_res";
+					$data->is_active = $last_client->getIsActive();
+					$AllUnreadMessage = $this->model->getAllUnreadMessage($id_to);
+					$unread_mess = $this->model->getUnreadMessage($from_id, $chat_room['id'], 0);
+					$data->all_unread = $AllUnreadMessage;
+					$data->count_unread = count($unread_mess);
+					$last_client->getConn()->send(json_encode($data));
+				}
+
 			}
 		}
 
@@ -95,13 +156,25 @@ class Chat extends Controller implements MessageComponentInterface {
 		{
 			$coutn_req = $this->model->getFriendRequest($data->friend_id);
 			$data->req = count($coutn_req);
+			$send = 0;
+			$last_client = NULL;
 			foreach ($this->clients as $client) {
 					$c_user_id = $client->getId();
 					if($c_user_id == $data->friend_id)
 					{
-						$client->getConn()->send(json_encode($data));
-						break;
+						$last_client = $client;
+						if($client->getIsActive() == 1)
+						{
+							$data->is_active = $client->getIsActive();
+							$client->getConn()->send(json_encode($data));
+							$send = 1;
+						}
 					}
+				}
+				if($send == 0 && $last_client)
+				{
+					$data->is_active = $last_client->getIsActive();
+					$last_client->getConn()->send(json_encode($data));
 				}
 			
 		}
@@ -110,15 +183,21 @@ class Chat extends Controller implements MessageComponentInterface {
 		{
 			$countNotif = $this->model->countNotifications($data->view_id);
 			$data->countNotif = $countNotif;
+			$last_client = NULL;
 			foreach ($this->clients as $client) {
 					$c_user_id = $client->getId();
 					if($c_user_id == $data->view_id)
 					{
-						$client->getConn()->send(json_encode($data));
-						break;
+						$last_client = $client;
+						if($client->getIsActive() == 1)
+						{
+							$last_client->getConn()->send(json_encode($data));
+							return;
+						}
 					}
 				}
-			
+			if($last_client)
+				$last_client->getConn()->send(json_encode($data));
 		}
 	}
 	public function onClose(ConnectionInterface $conn)

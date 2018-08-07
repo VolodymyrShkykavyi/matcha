@@ -35,7 +35,7 @@
 									<img src="/img/{{friend.profile.img}}" alt="author">
 								</div>
 								<div class="notification-event">
-									<a  class="h6 notification-friend">{{ friend.profile.login }}</a>	
+									<a  href="/profile/{{friend.profile.id}}" class="h6 notification-friend">{{ friend.profile.login }}</a>	
 									<span id="last_mess{{ chat.id }}" class="chat-message-item">{{ chat.last_mess[0]['messadge']}}</span>
 									<span class="notification-date"><time id="last_mess_date" class="entry-date updated" datetime="2004-07-24T18:18">{{ user.lastAction }}</time></span>
 									{% if chat.count_unread > 0 %}
