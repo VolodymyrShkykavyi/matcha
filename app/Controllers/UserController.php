@@ -88,6 +88,23 @@ class UserController extends Controller
 		$this->render($response, 'home.twig', 'Home Page');
 	}
 
+	public function Search($request, $response, $args)
+	{
+		$all_users = $this->model->getAllUsers();
+		$res = $all_users;
+		$i = 0;
+		foreach ($all_users as $user) {
+			$data[$i]['id'] = $user['id'];
+			$data[$i]['image'] = $user['img'];
+			$data[$i]['name'] = $user["firstName"] . " " . $user["lastName"] . " aka " . $user["login"];
+			$data[$i]['message'] = "1 mutual";
+			$data[$i]['icon'] = "olymp-happy-face-icon";
+			$i++;
+		}
+		return json_encode($data);
+		return json_encode($res);
+	}
+
 
 	public function getSearchPage($request, $response, $args)
 	{
