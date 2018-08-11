@@ -57,7 +57,7 @@ class Chat extends Controller implements MessageComponentInterface {
 	public function onMessage(ConnectionInterface $from, $msg)
 	{
 		$data = json_decode($msg);
-
+		
 		if($data->type == "ident")
 		{
 			foreach ($this->clients as $client) {
