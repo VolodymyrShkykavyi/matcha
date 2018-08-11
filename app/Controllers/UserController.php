@@ -90,7 +90,7 @@ class UserController extends Controller
 
 	public function Search($request, $response, $args)
 	{
-		$all_users = $this->model->getAllUsers();
+		$all_users = $this->model->get20Users();
 		$res = $all_users;
 		$i = 0;
 		foreach ($all_users as $user) {
@@ -104,6 +104,22 @@ class UserController extends Controller
 		return json_encode($data);
 	}
 
+	public function LoadSearch($request, $response, $args)
+	{
+		$data1 = $request->getParsedBody();
+		$all_users = $this->model->LoadSearchUsers($data1['query']);
+		$res = $all_users;
+		$i = 0;
+		foreach ($all_users as $user) {
+			$data[$i]['id'] = $user['id'];
+			$data[$i]['image'] = $user['img'];
+			$data[$i]['name'] = $user["firstName"] . " " . $user["lastName"] . " aka " . $user["login"];
+			$data[$i]['message'] = "1 mutual";
+			$data[$i]['icon'] = "olymp-happy-face-icon";
+			$i++;
+		}
+		return json_encode($data);
+	}
 
 	public function getSearchPage($request, $response, $args)
 	{
