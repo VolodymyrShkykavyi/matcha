@@ -5,11 +5,9 @@ window.onload = function(){
 	var id_el = $($("#site-header a div.author-title")[0]).data().id;
 	var notif_user_id = $("#notif_user_id").html();
 
-	var url = "ws://e1r3p1:7777/?id=" + id_el;
+	var url = "ws://localhost:7777/?id=" + id_el;
 	socket = new WebSocket(url);
 
-
-	
 	socket.onopen = function(event) {
 		var isActive = 1;
 		var notif_user_id = $("#notif_user_id").html();
@@ -50,9 +48,9 @@ window.onload = function(){
 		function ViewProfileEvent(user_id, view_id)
 		{
 			let send1 = {
-				user_id: user_id,
+				from_id: user_id,
 				type: "ViewProfileEvent",
-				view_id: view_id,
+				target_id: view_id,
 			};
 			socket.send(JSON.stringify(send1));
 		}
@@ -100,6 +98,13 @@ window.onload = function(){
 				}
 			}
 			$("#his_em").css( "display", "none" );
+			if(message['type'] == "mess_send")
+			{
+				$("#chat_mess_ul:last-child").append('<li><div class="author-thumb"><img src="/img' + message['img'] + '" alt="author"></div><div class="notification-event" style="width:90%;"><a href="#" class="h6 notification-friend">' + message['login'] + '</a><span class="notification-date" ><time class="entry-date updated" datetime="2004-07-24T18:18">' + message['date_creation'] + '</time></span><br/><span class="chat-message-item" >' + message['msg'] + '</span></div></li>');
+				var scroll = $("#scroll")[0];
+				if(scroll)
+					scroll.scrollTop = scroll.scrollHeight;
+			}
 			if(message['type'] == "mess_res")
 			{
 				$("#last_mess_date").html(message['date_creation']);
@@ -192,24 +197,16 @@ window.onload = function(){
 	
 }
 
-function removeRequest(id)
+function Notification(target_id, type)
 {
+	var notif_user_id = $("#notif_user_id").html();
 	let send = {
-		friend_id: id,
-		type: "removeRequest",
+		friend_id: target_id,
+		from_id: notif_user_id,
+		type: type,
 	};
 	socket.send(JSON.stringify(send));
 }
-
-function addFriend(id)
-{
-	let send = {
-		friend_id: id,
-		type: "addFriend",
-	};
-	socket.send(JSON.stringify(send));
-}
-
 
 $(document).keypress(function(e) {
 	var keycode = (e.keyCode ? e.keyCode : e.which);

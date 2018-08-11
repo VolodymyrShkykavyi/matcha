@@ -33,6 +33,23 @@ class UserModel extends Model
 		return $this->execute($sql, $params);
 	}
 
+	public function CountMutual()
+	{
+		return(1);
+		$res = $this->db->query('SELECT * 
+				FROM friends t
+				JOIN friends t1 ON (t1.from_request = t.from_request) OR (t1.to_request = t.to_request)
+				JOIN friends t2 ON (t2.from_request = t1.from_request) OR (t2.to_request = t1.to_request)
+				WHERE (t1.from_request = 15 OR t1.to_request = 15 )AND (t2.from_request = 16 OR t2.to_request = 16)');
+		return ($res->fetch_assoc_array());
+	}
+	
+	public function getAllUsers()
+	{
+		$res = $this->db->query('SELECT * FROM users');
+		return ($res->fetch_assoc_array());
+	}
+
 	public function getUser($id)
 	{
 		if (!is_numeric($id) || $id <= 0) {

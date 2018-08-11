@@ -5,6 +5,11 @@ namespace App\Models;
 
 class ApiModel extends Model
 {
+	public function getAllUsers()
+	{
+		$res = $this->db->query('SELECT * FROM users');
+		return ($res->fetch_assoc_array());
+	}
 
 	public function checkEmail($userId, $email)
 	{

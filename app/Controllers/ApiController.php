@@ -13,7 +13,6 @@ class ApiController extends Controller
 		parent::__construct($container);
 
 	}
-
 	public function checkEmail($request, $response, $args)
 	{
 		$data = $request->getParsedBody();
