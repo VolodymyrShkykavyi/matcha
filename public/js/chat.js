@@ -11,7 +11,10 @@ window.onload = function(){
 	socket.onopen = function(event) {
 		var isActive = 1;
 		var notif_user_id = $("#notif_user_id").html();
-		let ident = {user_id: notif_user_id, type: "ident"};
+		let ident = {
+			user_id: notif_user_id,
+			type: "ident"
+		};
 		socket.send(JSON.stringify(ident));
 
 		function vis(){
@@ -110,7 +113,7 @@ window.onload = function(){
 				else
 					$("#last_mess" + message['id_room']).html(message['msg']);
 			}
-			if($("#curr_chat").html() == message['id_room'] && message['is_active'] == 1)
+			if($("#curr_chat").html() == message['id_room'] && message['is_active'] == 1 && message['type'] != "mess_send")
 			{
 				$("#chat_mess_ul:last-child").append('<li><div class="author-thumb"><img src="/img' + message['img'] + '" alt="author"></div><div class="notification-event" style="width:90%;"><a href="#" class="h6 notification-friend">' + message['login'] + '</a><span class="notification-date" ><time class="entry-date updated" datetime="2004-07-24T18:18">' + message['date_creation'] + '</time></span><br/><span class="chat-message-item" >' + message['msg'] + '</span></div></li>');
 				var scroll = $("#scroll")[0];

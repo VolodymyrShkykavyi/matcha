@@ -44,10 +44,22 @@ class UserModel extends Model
 		return ($res->fetch_assoc_array());
 	}
 	
-	public function getAllUsers()
+	public function get20Users()
 	{
-		$res = $this->db->query('SELECT * FROM users');
+		$res = $this->db->query('SELECT * FROM users LIMIT 5');
 		return ($res->fetch_assoc_array());
+	}
+
+
+	public function LoadSearchUsers($q)
+	{
+		if($q)
+		{
+			$res = $this->db->query('SELECT * FROM `users` WHERE `login` LIKE "%?s%" OR `firstName` LIKE "%?s%" OR `lastName` LIKE "%?s%" LIMIT 5', $q, $q, $q);
+			return ($res->fetch_assoc_array());
+		}
+		else
+			return(0);
 	}
 
 	public function getUser($id)
