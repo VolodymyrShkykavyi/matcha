@@ -5,16 +5,13 @@ window.onload = function(){
 	var id_el = $($("#site-header a div.author-title")[0]).data().id;
 	var notif_user_id = $("#notif_user_id").html();
 
-	var url = "ws://localhost:7777/?id=" + id_el;
+	var url = "ws://e1r6p16:7777/?id=" + id_el;
 	socket = new WebSocket(url);
 
 	socket.onopen = function(event) {
 		var isActive = 1;
 		var notif_user_id = $("#notif_user_id").html();
-		let ident = {
-			user_id: notif_user_id,
-			type: "ident"
-		};
+		let ident = {user_id: notif_user_id, type: "ident"};
 		socket.send(JSON.stringify(ident));
 
 		function vis(){

@@ -27,9 +27,7 @@ $(".loupe").click(function (e){
 						}
 					},
 					onItemAdd: function (a, e){
-						console.log("111");
 						var p_url = "/profile/" + a;
-						console.log(p_url);
 						window.location = p_url;
 					}
 				});
