@@ -142,6 +142,19 @@ class ChatModel{
 		return $res;
 	}
 
+	public function getViewNotifications($userId, $id_from)
+	{
+		var_dump($userId);
+		var_dump($id_from);
+		$res = $this->db->query("SELECT COUNT(*) FROM `notifications` WHERE `type` = 'view_profile' AND `id_user` = ?i AND `id_user_from` = ?i AND `viewed` = 0", $userId, $id_from);
+
+		$res = $res->fetch_row();
+
+		if (!empty($res))
+			return $res[0];
+		return $res;
+	}
+
 
 
 	

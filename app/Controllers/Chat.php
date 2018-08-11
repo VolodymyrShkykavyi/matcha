@@ -151,7 +151,6 @@ class Chat extends Controller implements MessageComponentInterface {
 			}
 		}
 
-
 		if($data->type == "addFriend" || $data->type == "removeRequest")
 		{
 			$coutn_req = $this->model->getFriendRequest($data->friend_id);
@@ -179,14 +178,20 @@ class Chat extends Controller implements MessageComponentInterface {
 			
 		}
 
-		if($data->type == "ViewProfileEvent")
+		if($data->type == "ViewProfileEvent" || $data->type == "friend_del")
 		{
-			$countNotif = $this->model->countNotifications($data->view_id);
+			$countNotif = $this->model->countNotifications($data->target_id);
+			// $View_prof = $this->model->getViewNotifications((int)$data->target_id, (int)$data->from_id);
+			// var_dump($View_prof);
+			// if($View_prof < 1)
+			// 	$data->sound = 1;
+			// else
+			// 	$data->sound = 0;
 			$data->countNotif = $countNotif;
 			$last_client = NULL;
 			foreach ($this->clients as $client) {
 					$c_user_id = $client->getId();
-					if($c_user_id == $data->view_id)
+					if($c_user_id == $data->target_id)
 					{
 						$last_client = $client;
 						if($client->getIsActive() == 1)
