@@ -7,7 +7,6 @@ $(".loupe").click(function (e){
 		url: '/search',
 		success: function(response){
 				let ank = JSON.parse(response);
-				console.log(ank);
 				var a = $('.Search_people');
 				a.selectize({
 					closeAfterSelect: true,
