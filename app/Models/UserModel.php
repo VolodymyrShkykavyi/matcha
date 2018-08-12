@@ -305,7 +305,6 @@ class UserModel extends Model
 
 	public function getAllUnreadMessage($id_to)
 	{
-		
 		$res = $this->db->query('SELECT COUNT(`id_message`) FROM `messages` WHERE `id_user_to` = "?s" AND `read_status` = ?s', $id_to, 0);
 		return ($res->fetch_assoc_array()[0]["COUNT(`id_message`)"]);
 	}
@@ -447,6 +446,15 @@ class UserModel extends Model
 
 		$res = $this->db->query('UPDATE messages SET `read_status` = ?i WHERE id_chat_room=?i AND id_user_to=?i', 1, $room_id, $user_id);
 
+		return $res;
+	}
+
+	public function setAllMessRead1($sob_id, $user_id)
+	{
+		if (empty($sob_id) || !is_numeric($sob_id) || !is_numeric($user_id) || !is_numeric($user_id)){
+			return false;
+		}
+		$res = $this->db->query('UPDATE messages SET `read_status` = ?i WHERE (id_user_from=?i AND id_user_to=?i) OR (id_user_to=?i AND id_user_from=?i)', 1, $sob_id, $user_id ,$user_id, $sob_id );
 		return $res;
 	}
 

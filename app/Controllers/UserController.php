@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Controllers;
 
@@ -366,6 +366,8 @@ class UserController extends Controller
 				$res = $this->model->addFriend($this->_user['id'], $data['targetId']);
 			} elseif ($data['type'] == 'remove_friend' || $data['type'] == 'remove_request') {
 				$res = $this->model->removeFriend($this->_user['id'], $data['targetId']);
+				if($res)
+					$res = $this->model->setAllMessRead1($data['targetId'], $this->_user['id']);
 				if ($data['type'] == 'remove_friend'){
 					$this->model->addNotificationRemoveFriend($this->_user['id'], $data['targetId']);
 				}
