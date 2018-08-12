@@ -5,7 +5,7 @@ window.onload = function(){
 	var id_el = $($("#site-header a div.author-title")[0]).data().id;
 	var notif_user_id = $("#notif_user_id").html();
 
-	var url = "ws://e1r6p16:7777/?id=" + id_el;
+	var url = "ws://e1r3p1:7777/?id=" + id_el;
 	socket = new WebSocket(url);
 
 	socket.onopen = function(event) {
@@ -63,7 +63,7 @@ window.onload = function(){
 		}
 	};
 
-	function getCountUnread(room_id)
+	function getCountUnread(room_id) 
 	{
 		let send = {
 			room_id: room_id
@@ -88,8 +88,9 @@ window.onload = function(){
 
 		if(message['type'] == "mess_send" || message['type'] == "mess_res")
 		{
-			if(message['type'] == "mess_res")
+			if(message['type'] == "mess_res" && $("#curr_chat").html() != message['id_room'])
 			{
+				console.log(message);
 				var unreadMess_notif = $("#unreadMess_notif")[0];
 				if(unreadMess_notif)
 				{
@@ -131,7 +132,7 @@ window.onload = function(){
 					var count_unread =  $(cur_unr_room)[0];
 					if(count_unread)
 						count_unread.classList.remove('none');
-					if(message['is_active'] == 1)
+					if(message['is_active'] == 1 && $("#curr_chat").html() == message['id_room'])
 						all_read(message['id_room']);
 				}
 			}
@@ -187,6 +188,7 @@ window.onload = function(){
 				id_room: this.id_room.value,
 				type: "private_mess",
 			}
+			this.mess.value = this.mess.value.trim();
 			if(this.mess.value != ""){
 				socket.send(JSON.stringify(message));
 			}
