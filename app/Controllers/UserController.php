@@ -123,10 +123,10 @@ class UserController extends Controller
 
 	public function getSearchPage($request, $response, $args)
 	{
-		$users = $this->_userSuggestions();
-
+		// $users = $this->_userSuggestions();
+		$users = $this->model->get20Users();
 		//show max 10 profiles
-		$this->ViewData['search'] = array_slice($users, 0, 10);
+		$this->ViewData['search'] = $users;
 
 		$this->render($response, 'search.twig', 'Find pair');
 	}
@@ -628,7 +628,7 @@ class UserController extends Controller
 				$rating += 10;
 
 		}
-
+		$res = $this->model->setRating($rating, $userId);
 		return $rating;
 	}
 
@@ -710,12 +710,10 @@ class UserController extends Controller
 				$user['lat'], $user['lng']
 			);
 		}
-
 		usort($users, array($this, '_searchSort'));
 
 		return $users;
 	}
-
 	public function chat($requests, $response, $args)
 	{
 		$this->ViewData['arg'] = $args;

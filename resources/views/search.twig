@@ -6,11 +6,23 @@
 	<div class="row">
 		<div class="col-6">
 			<div class="ui-block">
-					<div class="ui-block-title">
-						<h6 class="title">Search results</h6>
-					</div>
+				<div>
+					<form id="search_form">
+						<div class="form-group with-button">
+							<input class="Search_p" placeholder="Searsch here people or pages..." type="text">
+							<button href="#" class="loupe">
+								<svg class="olymp-magnifying-glass-icon">
+									<use xlink:href="/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use>
+								</svg>
+							</button>
+						</div>
+					</form>
+				</div>
+
+				<div class="ui-block-title">
+					<h6 class="title">Search results</h6>
+				</div>
 					<ul class="notification-list">
-						
 						{% for result in search %}
 							<li>
 								Login: {{result.login}}<br>
