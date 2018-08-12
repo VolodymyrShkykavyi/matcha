@@ -43,10 +43,10 @@ class UserModel extends Model
 				WHERE (t1.from_request = 15 OR t1.to_request = 15 )AND (t2.from_request = 16 OR t2.to_request = 16)');
 		return ($res->fetch_assoc_array());
 	}
-	
+
 	public function get20Users()
 	{
-		$res = $this->db->query('SELECT * FROM users LIMIT 5');
+		$res = $this->db->query('SELECT * FROM users ORDER BY rating DESC LIMIT 5');
 		return ($res->fetch_assoc_array());
 	}
 
@@ -551,7 +551,14 @@ class UserModel extends Model
 		return $res;
 	}
 
-
+	public function setRating($rating ,$userId)
+	{
+		if (!is_numeric($userId) || !is_numeric($rating)) {
+			return false;
+		}
+		$res = $this->db->query('UPDATE `users` SET `rating` = ?i WHERE `id` = ?i', $rating, $userId);
+		return $res;
+	}
 
 
 
