@@ -38,10 +38,11 @@ class ApiModel extends Model
 			}
 		}
 		
-		$sql .= " LIMIT ?i, ?i";
-		$values[] = $from;
-		$values[] = $num;
-	
+		if ($num){
+			$sql .= " LIMIT ?i, ?i";
+			$values[] = $from;
+			$values[] = $num;
+		}
 
 		$res = $this->db->queryArguments($sql, $values);
 

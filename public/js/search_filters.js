@@ -9,17 +9,6 @@ let tags = [];
 
 $("[name='sort_by']").change(function (){
 	sort_by_value = this.options[this.options.selectedIndex].value;
-
-	//get filters
-	//ajax
-	// console.log(sort_by_value);
-	// console.log(age_min);
-	// console.log(age_max);
-	// console.log(rating_min);
-	// console.log(rating_max);
-
-	getResults();
-
 });
 
 
@@ -63,6 +52,7 @@ function getResults(){
 		data.rating_max = rating_max.value;
 	if (tags.length > 0)
 		data.tags = tags;
+	data.sort = sort_by_value;
 
 	$.ajax({
 		url: '/search/filter',
@@ -74,12 +64,16 @@ function getResults(){
 			$(search_list).empty();
 
 			for (let el in response){
-				$(search_list).append(
-					"<li>login: " + response[el].login +
+
+				let new_el = "<li>login: " + response[el].login +
 					"<br>age: " + response[el].age + 
-					"<br>rating: " + response[el].rating +
-					"<br>number of shared tags:" + response[el].num_shared_tags +
-					"</li>");
+					"<br>rating: " + response[el].rating;
+				if (response[el].num_shared_tags){
+					new_el += "<br>number of shared tags:" + response[el].num_shared_tags;	
+				}
+				new_el += "</li>";
+				$(search_list).append(new_el);
+					
 				//console.log(response[el]);
 			}
 			console.log(response);
@@ -87,5 +81,3 @@ function getResults(){
 		}
 	});
 }
-
-console.log(age_max);
