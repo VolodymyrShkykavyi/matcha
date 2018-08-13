@@ -186,6 +186,33 @@ class ApiController extends Controller
 		return json_encode($res);
 	}
 
+	public function searchFilter($request, $response, $args)
+	{
+		$data = $request->getParsedBody();
+
+		if (empty($data))
+			$data = [];
+		if (isset($data['age_min'])){
+			$date = new \DateTime();
+			$date->modify("-{$data['age_min']} year");
+			$data['age_min'] = $date->format('Y-m-d');
+		}
+		if (isset($data['age_max'])){
+			$data['age_max'] += 1;
+			$date = new \DateTime();
+			$date->modify("-{$data['age_max']} year");
+			$data['age_max'] = $date->format('Y-m-d');
+		}
+
+		$res = $this->model->getUsersFiltered($data);
+		foreach ($res as &$user) {
+			$user['age'] = \DateTime::createFromFormat('Y-m-d', $user['birthDate'])
+				->diff(new \DateTime('now'))
+				->y;
+		}
+		return json_encode($res);
+	}
+
 	/**
 	 * Moves the uploaded file to the upload directory and assigns it a unique name
 	 * to avoid overwriting an existing uploaded file.

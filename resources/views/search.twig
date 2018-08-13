@@ -52,14 +52,15 @@
 									value="rating">Rating
 							</option>
 							<option
-									value="age">Shared tags
+									value="tags">Shared tags
 							</option>
 						</select>
 					</div>
 
 				</div>
 				<div class="col-6 pt-3">
-					<button class="btn btn-primary mt-2">clear all filters</button>
+					<button id="aply_filters" class="btn btn-primary mt-2">Aply filters</button>
+					<button id="filter_clear" class="btn btn-secondary mt-2">clear all filters</button>
 				</div>
 			
 				<div class="col-12 text-center">
@@ -75,13 +76,13 @@
 						<div class="col-4">
 							<div class="form-group label-floating">
 										<label class="control-label">Minimum</label>
-										<input name="firstName" class="form-control" placeholder="" type="number">
+										<input name="filter_age_min" class="form-control" placeholder="" type="number">
 									</div>
 						</div>
 						<div class="col-4">
 							<div class="form-group label-floating">
 										<label class="control-label">Maximum</label>
-										<input name="firstName" class="form-control" placeholder="" type="number">
+										<input name="filter_age_max" class="form-control" placeholder="" type="number">
 									</div>
 						</div>
 					</div>
@@ -95,13 +96,13 @@
 						<div class="col-4">
 							<div class="form-group label-floating">
 										<label class="control-label">Minimum</label>
-										<input name="firstName" class="form-control" placeholder="" type="number">
+										<input name="filter_rating_min" class="form-control" placeholder="" type="number">
 									</div>
 						</div>
 						<div class="col-4">
 							<div class="form-group label-floating">
 										<label class="control-label">Maximum</label>
-										<input name="firstName" class="form-control" placeholder="" type="number">
+										<input name="filter_rating_max" class="form-control" placeholder="" type="number">
 									</div>
 						</div>
 					</div>
@@ -135,11 +136,11 @@
 						<div class="col-7">
 							<div class="form-group label-floating">
 										<label class="control-label">Tag name</label>
-										<input name="firstName" class="form-control" placeholder="" type="text">
+										<input name="filter_tag" class="form-control" placeholder="" type="text">
 									</div>
 						</div>
 						<div class="col-2 mt-2">
-							<button class="btn btn-primary">+</button>
+							<button id="filter_add_tag" class="btn btn-primary">+</button>
 						</div>
 						<div class="col-3"></div>
 						<div class="col-9">
@@ -151,7 +152,9 @@
 			</div>
 		</div>
 	</div>
-	{{ dump(search) }}
+	{{ dump() }}
 </div>
+
+<script src="/js/search_filters.js"></script>
 
 {% endblock %}
