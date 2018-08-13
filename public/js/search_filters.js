@@ -76,8 +76,25 @@ function getResults(){
 					
 				//console.log(response[el]);
 			}
-			console.log(response);
+			var i = 0;
 
+			console.log(response);
+			$("#Search_res").html(" ");
+			for (let user in response)
+			{
+				if(response[user].admin)
+					adm = '<li><a href="#" data-type="block" data-id="' + response[user].id + '">Block Profile</a></li>';
+				else
+					adm = '<li><a href="#" data-type="report" data-id="' +  response[user].id + '">Report Profile</a></li>';
+
+				if(response[user].status)
+					cast_status  = '<div class="country">' + response[user].status + '</div>'; 
+				else
+					cast_status = "";
+				var res = '<div class="col-xl-5 col-lg-6 col-md-6 col-sm-6 col-xs-6"><div class="ui-block" data-mh="friend-groups-item"><div class="friend-item friend-groups"><div class="friend-item-content"><div class="more"><svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>	</svg><ul class="more-dropdown">' + adm + '</ul></div><div class="friend-avatar"><div class="author-thumb"><img src="/img/' + response[user].img + '"></div><div class="author-content"><a href="/profile/' +  response[user].id + '" class="h5 author-name">' + response[user].login + '</a>' + cast_status + '<div class="country">age: ' + response[user].age + '</div><div class="country">rating: ' + response[user].rating + '<i class="fa fa-star" style="color: #f5c310;"></i></div></div></div>	<div class="control-block-button"><a data-type="add" data-id="' +  response[user].id + '" title="Send request" href="#" class="btn btn-control bg-green friend" data-toggle="modal" data-target="#create-friend-group-add-friends"><svg class="olymp-happy-faces-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-happy-faces-icon"></use>	</svg></a></div></div></div></div></div>';
+				
+				$("#Search_res").html($("#Search_res").html() + res);
+			}
 		}
 	});
 }
