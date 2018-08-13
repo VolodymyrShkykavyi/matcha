@@ -205,11 +205,30 @@ class ApiController extends Controller
 		}
 
 		$res = $this->model->getUsersFiltered($data);
-		foreach ($res as &$user) {
+		
+		$this->loadModel('user');
+		foreach ($res as $key => &$user) {
 			$user['age'] = \DateTime::createFromFormat('Y-m-d', $user['birthDate'])
 				->diff(new \DateTime('now'))
 				->y;
+			if (!empty($data['tags'])){	
+				$user_tags = $this->model->getTags($user['id']);
+				$user['shared_tags'] = [];
+				$user['num_shared_tags'] = 0;
+
+				foreach ($user_tags as $tag) {
+					if (in_array($tag['tag'], $data['tags'])){
+						$user['num_shared_tags']++;
+						$user['shared_tags'][] = $tag['tag'];
+					}
+				}
+
+				if ($user['num_shared_tags'] == 0)
+					unset($res[$key]);
+			}
 		}
+		// $res = $data;
+
 		return json_encode($res);
 	}
 
