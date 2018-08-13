@@ -13,7 +13,7 @@ class ApiModel extends Model
 
 	public function getUsersFiltered(array $data, $from = 0, $num = 20)
 	{
-		$sql = "SELECT * FROM users WHERE 1";
+		$sql = "SELECT * FROM users WHERE blocked = 0 AND active = 1";
 		$values = [];
 
 		if (!empty($data)){
