@@ -307,6 +307,8 @@ class UserController extends Controller
 		$data = $request->getParsedBody();
 
 		$res = $this->model->updateStatus($this->_user['id'], $data['status']);
+		$this->_calculateUserRating($this->_user['id']);
+		
 		return json_encode($res);
 	}
 
@@ -375,7 +377,12 @@ class UserController extends Controller
 				$res = $this->model->acceptFriend($this->_user['id'], $data['targetId']);
 				$this->model->addNotificationAcceptFriendRequest($this->_user['id'], $data['targetId']);
 			}
+
+			$this->_calculateUserRating($this->_user['id']);
+			$this->_calculateUserRating($data['targetId']);
 		}
+		
+
 
 		return json_encode($res);
 	}
@@ -400,6 +407,7 @@ class UserController extends Controller
 			$data['fb_page'] = htmlspecialchars($data['fb_page']);
 			$data['twitter_page'] = htmlspecialchars($data['twitter_page']);
 
+			$this->_calculateUserRating($this->_user['id']);
 			$res =  $this->model->updateUserPersonalInfo($this->_user['id'], $data);
 
 			return json_encode($res);
