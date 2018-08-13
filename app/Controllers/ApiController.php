@@ -204,7 +204,7 @@ class ApiController extends Controller
 			$data['age_max'] = $date->format('Y-m-d');
 		}
 
-		$res = $this->model->getUsersFiltered($data);
+		$res = $this->model->getUsersFiltered($data, 0, 0);
 		
 		$this->loadModel('user');
 		foreach ($res as $key => &$user) {
@@ -227,9 +227,47 @@ class ApiController extends Controller
 					unset($res[$key]);
 			}
 		}
-		// $res = $data;
+
+		//sorting
+		if ($data['sort'] == 'age'){
+			usort($res, array($this, '_searchSortAge'));
+		} elseif($data['sort'] == 'rating'){
+			usort($res, array($this, '_searchSortRating'));
+		} elseif ($data['sort'] == 'tags') {
+			usort($res, array($this, '_searchSortTags'));
+		}
+		
 
 		return json_encode($res);
+	}
+
+
+	private function _searchSortTags($a, $b)
+	{
+		if ($a['num_shared_tags'] < $b['num_shared_tags'])
+			return (1);
+		if ($a['num_shared_tags'] > $b['num_shared_tags'])
+			return (-1);
+
+		return (0);
+	}
+
+	private function _searchSortRating($a, $b)
+	{
+		if ($a['rating'] < $b['rating'])
+			return (1);
+		if ($a['rating'] > $b['rating'])
+			return (-1);
+		return (0);
+	}
+
+	private function _searchSortAge($a, $b)
+	{
+		if ($a['age'] < $b['age'])
+			return (-1);
+		if ($a['age'] > $b['age'])
+			return (1);
+		return (0);
 	}
 
 	/**
