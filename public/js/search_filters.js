@@ -35,11 +35,9 @@ $("#filter_add_tag").click(function(){
 	}
 	if (tag && !tags.includes(tag) && tag.length <= 20 && tag.length >= 3){
 		tags.push(tag);
-
+		$("input[name = 'filter_tag']")[0].value = '';
 		let new_el = $("<button type=\"button\" onclick=\"delTag(this);\" class=\"ml-1 mr-1 btn btn-secondary\">#" + tag + "</button>");
 		$(tag_list).append(new_el);
-
-		console.log(tags);
 	}
 });
 
@@ -80,6 +78,7 @@ function getResults(){
 					"<li>login: " + response[el].login +
 					"<br>age: " + response[el].age + 
 					"<br>rating: " + response[el].rating +
+					"<br>number of shared tags:" + response[el].num_shared_tags +
 					"</li>");
 				//console.log(response[el]);
 			}
