@@ -85,6 +85,7 @@ class ApiController extends Controller
 			}
 		}
 
+		$this->_updateRating($_SESSION['auth']['id']);
 		return json_encode($res);
 	}
 
@@ -99,6 +100,7 @@ class ApiController extends Controller
                     $res = true;
             }
         }
+		$this->_updateRating($_SESSION['auth']['id']);
 
         return json_encode($res);
     }
@@ -128,6 +130,7 @@ class ApiController extends Controller
 		} else {
 			$res = ['error' => 'Max photo per user 5. Please delete some fotos before upload.'];
 		}
+		$this->_updateRating($_SESSION['auth']['id']);
 
 		return json_encode($res);
 	}
@@ -152,6 +155,8 @@ class ApiController extends Controller
 					$res = true;
 				}
 			}
+
+			$this->_updateRating($data['id']);
 		}
 
 		return json_encode($res);
@@ -199,5 +204,43 @@ class ApiController extends Controller
 	    $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
 
 	    return $filename;
+	}
+
+	private function _updateRating($userId)
+	{
+		$rating = 0;
+
+		$this->loadModel('user');
+
+		$user = $this->model->getUser($userId);
+
+		if (!empty($user)){
+			$numFriends = $this->model->countFriends($userId);
+			$numTags = $this->model->countTags($userId);
+			$details = $this->model->getUserDetails($userId);
+			$openReports = $this->model->countOpenReports($userId);
+			$numUnicalVisits = $this->model->countUnicVisitors($userId);
+
+			$rating += $numFriends * 5;
+			$rating += $numTags;
+			$rating += $numUnicalVisits;
+			$rating -= $openReports * 2;
+
+			if (!empty($details['description']))
+				$rating += 10;
+			if (!empty($details['fb_page']))
+				$rating += 3;
+			if (!empty($details['twitter_page']))
+				$rating += 3;
+			if (!empty($user['status']))
+				$rating += 3;
+			if (!empty($user['img']))
+				$rating += 10;
+
+		}
+		$res = $this->model->setRating($rating, $userId);
+		$this->loadModel('api');
+
+		return $rating;
 	}
 }
