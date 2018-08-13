@@ -85,6 +85,7 @@ class ApiController extends Controller
 			}
 		}
 
+		$this->_updateRating($_SESSION['auth']['id']);
 		return json_encode($res);
 	}
 
@@ -99,6 +100,7 @@ class ApiController extends Controller
                     $res = true;
             }
         }
+		$this->_updateRating($_SESSION['auth']['id']);
 
         return json_encode($res);
     }
@@ -128,6 +130,7 @@ class ApiController extends Controller
 		} else {
 			$res = ['error' => 'Max photo per user 5. Please delete some fotos before upload.'];
 		}
+		$this->_updateRating($_SESSION['auth']['id']);
 
 		return json_encode($res);
 	}
@@ -152,6 +155,8 @@ class ApiController extends Controller
 					$res = true;
 				}
 			}
+
+			$this->_updateRating($data['id']);
 		}
 
 		return json_encode($res);
@@ -181,6 +186,90 @@ class ApiController extends Controller
 		return json_encode($res);
 	}
 
+	public function searchFilter($request, $response, $args)
+	{
+		$data = $request->getParsedBody();
+
+		if (empty($data))
+			$data = [];
+		if (isset($data['age_min'])){
+			$date = new \DateTime();
+			$date->modify("-{$data['age_min']} year");
+			$data['age_min'] = $date->format('Y-m-d');
+		}
+		if (isset($data['age_max'])){
+			$data['age_max'] += 1;
+			$date = new \DateTime();
+			$date->modify("-{$data['age_max']} year");
+			$data['age_max'] = $date->format('Y-m-d');
+		}
+
+		$res = $this->model->getUsersFiltered($data, 0, 0);
+		
+		$this->loadModel('user');
+		foreach ($res as $key => &$user) {
+			$user['age'] = \DateTime::createFromFormat('Y-m-d', $user['birthDate'])
+				->diff(new \DateTime('now'))
+				->y;
+			if (!empty($data['tags'])){	
+				$user_tags = $this->model->getTags($user['id']);
+				$user['shared_tags'] = [];
+				$user['num_shared_tags'] = 0;
+
+				foreach ($user_tags as $tag) {
+					if (in_array($tag['tag'], $data['tags'])){
+						$user['num_shared_tags']++;
+						$user['shared_tags'][] = $tag['tag'];
+					}
+				}
+
+				if ($user['num_shared_tags'] == 0)
+					unset($res[$key]);
+			}
+		}
+
+		//sorting
+		if ($data['sort'] == 'age'){
+			usort($res, array($this, '_searchSortAge'));
+		} elseif($data['sort'] == 'rating'){
+			usort($res, array($this, '_searchSortRating'));
+		} elseif ($data['sort'] == 'tags') {
+			usort($res, array($this, '_searchSortTags'));
+		}
+		
+
+		return json_encode($res);
+	}
+
+
+	private function _searchSortTags($a, $b)
+	{
+		if ($a['num_shared_tags'] < $b['num_shared_tags'])
+			return (1);
+		if ($a['num_shared_tags'] > $b['num_shared_tags'])
+			return (-1);
+
+		return (0);
+	}
+
+	private function _searchSortRating($a, $b)
+	{
+		if ($a['rating'] < $b['rating'])
+			return (1);
+		if ($a['rating'] > $b['rating'])
+			return (-1);
+		return (0);
+	}
+
+	private function _searchSortAge($a, $b)
+	{
+		if ($a['age'] < $b['age'])
+			return (-1);
+		if ($a['age'] > $b['age'])
+			return (1);
+		return (0);
+	}
+
 	/**
 	 * Moves the uploaded file to the upload directory and assigns it a unique name
 	 * to avoid overwriting an existing uploaded file.
@@ -199,5 +288,43 @@ class ApiController extends Controller
 	    $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
 
 	    return $filename;
+	}
+
+	private function _updateRating($userId)
+	{
+		$rating = 0;
+
+		$this->loadModel('user');
+
+		$user = $this->model->getUser($userId);
+
+		if (!empty($user)){
+			$numFriends = $this->model->countFriends($userId);
+			$numTags = $this->model->countTags($userId);
+			$details = $this->model->getUserDetails($userId);
+			$openReports = $this->model->countOpenReports($userId);
+			$numUnicalVisits = $this->model->countUnicVisitors($userId);
+
+			$rating += $numFriends * 5;
+			$rating += $numTags;
+			$rating += $numUnicalVisits;
+			$rating -= $openReports * 2;
+
+			if (!empty($details['description']))
+				$rating += 10;
+			if (!empty($details['fb_page']))
+				$rating += 3;
+			if (!empty($details['twitter_page']))
+				$rating += 3;
+			if (!empty($user['status']))
+				$rating += 3;
+			if (!empty($user['img']))
+				$rating += 10;
+
+		}
+		$res = $this->model->setRating($rating, $userId);
+		$this->loadModel('api');
+
+		return $rating;
 	}
 }

@@ -11,6 +11,45 @@ class ApiModel extends Model
 		return ($res->fetch_assoc_array());
 	}
 
+	public function getUsersFiltered(array $data, $from = 0, $num = 20)
+	{
+		$sql = "SELECT * FROM users WHERE blocked = 0 AND active = 1";
+		$values = [];
+
+		if (!empty($data)){
+			if (isset($data['age_min'])){
+				$sql .= " AND birthDate <= '?s'";
+				$values[] = $data['age_min'];
+			}
+
+			if (isset($data['age_max'])){
+				$sql .= " AND birthDate >= '?s'";
+				$values[] = $data['age_max'];
+			}
+
+			if (isset($data['rating_min'])){
+				$sql .= " AND rating >= ?i";
+				$values[] = $data['rating_min'];
+			}
+
+			if (isset($data['rating_max'])){
+				$sql .= " AND rating <= ?i";
+				$values[] = $data['rating_max'];
+			}
+		}
+		
+		if ($num){
+			$sql .= " LIMIT ?i, ?i";
+			$values[] = $from;
+			$values[] = $num;
+		}
+
+		$res = $this->db->queryArguments($sql, $values);
+
+		//$res = $this->db->getQueryString();
+		return $res->fetch_assoc_array();
+	}
+
 	public function checkEmail($userId, $email)
 	{
 		$res = $this->db->query("SELECT * FROM `users` WHERE email='?s' AND NOT id = ?i", $email, $userId);
