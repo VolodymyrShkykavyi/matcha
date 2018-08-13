@@ -43,11 +43,23 @@ class UserModel extends Model
 				WHERE (t1.from_request = 15 OR t1.to_request = 15 )AND (t2.from_request = 16 OR t2.to_request = 16)');
 		return ($res->fetch_assoc_array());
 	}
-	
-	public function getAllUsers()
+
+	public function get20Users()
 	{
-		$res = $this->db->query('SELECT * FROM users');
+		$res = $this->db->query('SELECT * FROM users ORDER BY rating DESC LIMIT 5');
 		return ($res->fetch_assoc_array());
+	}
+
+
+	public function LoadSearchUsers($q)
+	{
+		if($q)
+		{
+			$res = $this->db->query('SELECT * FROM `users` WHERE `login` LIKE "%?s%" OR `firstName` LIKE "%?s%" OR `lastName` LIKE "%?s%" LIMIT 5', $q, $q, $q);
+			return ($res->fetch_assoc_array());
+		}
+		else
+			return(0);
 	}
 
 	public function getUser($id)
@@ -293,7 +305,6 @@ class UserModel extends Model
 
 	public function getAllUnreadMessage($id_to)
 	{
-		
 		$res = $this->db->query('SELECT COUNT(`id_message`) FROM `messages` WHERE `id_user_to` = "?s" AND `read_status` = ?s', $id_to, 0);
 		return ($res->fetch_assoc_array()[0]["COUNT(`id_message`)"]);
 	}
@@ -438,6 +449,15 @@ class UserModel extends Model
 		return $res;
 	}
 
+	public function setAllMessRead1($sob_id, $user_id)
+	{
+		if (empty($sob_id) || !is_numeric($sob_id) || !is_numeric($user_id) || !is_numeric($user_id)){
+			return false;
+		}
+		$res = $this->db->query('UPDATE messages SET `read_status` = ?i WHERE (id_user_from=?i AND id_user_to=?i) OR (id_user_to=?i AND id_user_from=?i)', 1, $sob_id, $user_id ,$user_id, $sob_id );
+		return $res;
+	}
+
 	public function updateUserActive($id, $status)
 	{
 		if (empty($id) || !is_numeric($id) || !is_bool($status)){
@@ -531,7 +551,14 @@ class UserModel extends Model
 		return $res;
 	}
 
-
+	public function setRating($rating ,$userId)
+	{
+		if (!is_numeric($userId) || !is_numeric($rating)) {
+			return false;
+		}
+		$res = $this->db->query('UPDATE `users` SET `rating` = ?i WHERE `id` = ?i', $rating, $userId);
+		return $res;
+	}
 
 
 

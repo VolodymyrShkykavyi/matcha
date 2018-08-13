@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Controllers;
 
@@ -90,7 +90,7 @@ class UserController extends Controller
 
 	public function Search($request, $response, $args)
 	{
-		$all_users = $this->model->getAllUsers();
+		$all_users = $this->model->get20Users();
 		$res = $all_users;
 		$i = 0;
 		foreach ($all_users as $user) {
@@ -104,13 +104,29 @@ class UserController extends Controller
 		return json_encode($data);
 	}
 
+	public function LoadSearch($request, $response, $args)
+	{
+		$data1 = $request->getParsedBody();
+		$all_users = $this->model->LoadSearchUsers($data1['query']);
+		$res = $all_users;
+		$i = 0;
+		foreach ($all_users as $user) {
+			$data[$i]['id'] = $user['id'];
+			$data[$i]['image'] = $user['img'];
+			$data[$i]['name'] = $user["firstName"] . " " . $user["lastName"] . " aka " . $user["login"];
+			$data[$i]['message'] = "1 mutual";
+			$data[$i]['icon'] = "olymp-happy-face-icon";
+			$i++;
+		}
+		return json_encode($data);
+	}
 
 	public function getSearchPage($request, $response, $args)
 	{
-		$users = $this->_userSuggestions();
-
+		// $users = $this->_userSuggestions();
+		$users = $this->model->get20Users();
 		//show max 10 profiles
-		$this->ViewData['search'] = array_slice($users, 0, 10);
+		$this->ViewData['search'] = $users;
 
 		$this->render($response, 'search.twig', 'Find pair');
 	}
@@ -350,6 +366,8 @@ class UserController extends Controller
 				$res = $this->model->addFriend($this->_user['id'], $data['targetId']);
 			} elseif ($data['type'] == 'remove_friend' || $data['type'] == 'remove_request') {
 				$res = $this->model->removeFriend($this->_user['id'], $data['targetId']);
+				if($res)
+					$res = $this->model->setAllMessRead1($data['targetId'], $this->_user['id']);
 				if ($data['type'] == 'remove_friend'){
 					$this->model->addNotificationRemoveFriend($this->_user['id'], $data['targetId']);
 				}
@@ -610,7 +628,7 @@ class UserController extends Controller
 				$rating += 10;
 
 		}
-
+		$res = $this->model->setRating($rating, $userId);
 		return $rating;
 	}
 
@@ -692,12 +710,10 @@ class UserController extends Controller
 				$user['lat'], $user['lng']
 			);
 		}
-
 		usort($users, array($this, '_searchSort'));
 
 		return $users;
 	}
-
 	public function chat($requests, $response, $args)
 	{
 		$this->ViewData['arg'] = $args;

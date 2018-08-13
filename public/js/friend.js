@@ -24,7 +24,7 @@ $(".control-block-button a.friend, ul.friend-requests span a").click(function(ev
 			url: '/friend/change',
 			data: send,
 			success: function(response){
-				console.log(response);
+				// console.log(response + "ww");
                 if (data.action == 'remove') {
                     $(el).parent().parent().remove();
 
@@ -41,6 +41,7 @@ $(".control-block-button a.friend, ul.friend-requests span a").click(function(ev
 				} else if (send.type == 'remove_request' || send.type == 'remove_friend'){
 					if($(el).siblings().length){
 						Notification(data.id, "friend_del");
+						// console.log(response + "ww");
 						location.reload();
 					}
 					el.setAttribute('data-type', 'add');
@@ -48,8 +49,8 @@ $(".control-block-button a.friend, ul.friend-requests span a").click(function(ev
 					$(el).addClass('bg-green').removeClass('bg-orange');
 					Notification(data.id, "removeRequest");
 				} else if (send.type =='accept'){
-					console.log("accept");
-					// location.reload();
+					// console.log("accept");
+					location.reload();
 				}
 			}
 		});
