@@ -22,8 +22,61 @@
 				<div class="ui-block-title">
 					<h6 class="title">Search results</h6>
 				</div>
-					<ul class="notification-list">
-						{% for result in search %}
+
+				<div class="row">
+					{% for result in search %}
+					<div class="col-xl-5 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+						<div class="ui-block" data-mh="friend-groups-item">
+							<div class="friend-item friend-groups">
+								<div class="friend-item-content">
+									<div class="more">
+										<svg class="olymp-three-dots-icon">
+											<use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+										</svg>
+										<ul class="more-dropdown">
+											{% if user.admin %}
+												<li>
+													<a href="#" data-type="block" data-id="{{ result.id_user }}">Block Profile</a>
+												</li>
+											{% else %}
+												<li>
+													<a href="#" data-type="report" data-id="{{ result.id_user }}">Report Profile</a>
+												</li>
+											{% endif %}
+										</ul>
+									</div>
+									<div class="friend-avatar">
+										<div class="author-thumb">
+											<img src="img{{ result.img }}">
+										</div>
+										<div class="author-content">
+											<a href="/profile/{{ result.id_user }}"
+											   class="h5 author-name">{{ result.login }}</a>
+											<div class="country">{{ result.status }}</div>
+											<div class="country">age: {{ result.age }}</div>
+											<div class="country">rating: {{ result.rating }} <i class="fa fa-star" style="color: #f5c310;"></i></div>
+										</div>
+									</div>
+
+									<div class="control-block-button">
+										<a data-type="add" data-id="{{ result.id_user }}"
+										   title="Send request" href="#" class="btn btn-control bg-green friend"
+										   data-toggle="modal" data-target="#create-friend-group-add-friends">
+											<svg class="olymp-happy-faces-icon">
+												<use xlink:href="svg-icons/sprites/icons.svg#olymp-happy-faces-icon"></use>
+											</svg>
+										</a>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			{% endfor %}
+	</div>
+
+
+					<!-- 	{% for result in search %}
 							<li>
 								Login: {{result.login}}<br>
 								distance: {{result.distanse}}<br>
@@ -31,8 +84,8 @@
 								Shared tags: {{result.numSharedTags}}<br>
 								age: {{result.age}}<br>
 							</li>
-						{% endfor %}
-					</ul>
+						{% endfor %} -->
+			
 			</div>
 		</div>
 		<div class="col-6">

@@ -126,6 +126,16 @@ class UserController extends Controller
 		// $users = $this->_userSuggestions();
 		$users = $this->model->get20Users();
 		//show max 10 profiles
+		foreach ($users as &$user) {
+			$user['age'] = DateTime::createFromFormat('Y-m-d', $user['birthDate'])
+			->diff(new DateTime('now'))
+			->y;
+			$user['rating'] = $this->_calculateUserRating($user['id']);
+			$user['distanse'] = $this->_calculateDistanse(
+				$this->ViewData['user']['lat_lng']['lat'], $this->ViewData['user']['lat_lng']['lng'],
+				$user['lat'], $user['lng']
+			);
+		}
 		$this->ViewData['search'] = $users;
 
 		$this->render($response, 'search.twig', 'Find pair');
