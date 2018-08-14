@@ -208,9 +208,7 @@ class ApiController extends Controller
 		
 		$this->loadModel('user');
 		foreach ($res as $key => &$user) {
-			$user['age'] = \DateTime::createFromFormat('Y-m-d', $user['birthDate'])
-				->diff(new \DateTime('now'))
-				->y;
+			$user['age'] = \DateTime::createFromFormat('Y-m-d', $user['birthDate'])->diff(new \DateTime('now'))->y;
 			if (!empty($data['tags'])){	
 				$user_tags = $this->model->getTags($user['id']);
 				$user['shared_tags'] = [];
