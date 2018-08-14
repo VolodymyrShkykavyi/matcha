@@ -5,7 +5,7 @@ return [
 		'db' => [
 			'host' => 'localhost',
 			'user' => 'root',
-			'pass' => 'lolkek123',
+			'pass' => '1234567890',
 			'dbname' => 'db_matcha',
 			'port' => 3306,
 			'socket' => 'F:\programs\MAMP\mysql\tmp\mysql.sock'
