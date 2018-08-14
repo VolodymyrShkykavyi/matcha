@@ -179,19 +179,6 @@ class UserController extends Controller
 		$this->render($response, 'notifications.twig', "Notifications");
 	}
 
-	public function secret($request, $response, $args)
-	{
-		//$this->c->logger->addInfo('Something interesting happened');
-		//$this->ViewData['args'] = $args;
-		echo "<div class=\"container\"><pre>";
-		var_dump($this->model->getUserByLogin('admin'));
-		var_dump($this->model->getUserByEmail('admin'));
-		//var_dump($this->model->getUserByLogin('admin'));
-		echo "</pre></div>";
-
-		$this->render($response, 'home.twig', 'secret');
-	}
-
 	public function login($request, $response, $args)
 	{
 		$this->render($response, 'login.twig', 'Login Page');
@@ -243,7 +230,6 @@ class UserController extends Controller
 					'login' => $data['login'],
 					'email' => $data['email'],
 					'verify' => $data['active']
-					//TODO: token, check session array
 				];
 			}
 		}
@@ -302,12 +288,7 @@ class UserController extends Controller
 		$this->ViewData['user']['birthDate'] = $birthday;
 		$this->ViewData['user']['email'] = $this->_user['email'];
 		$this->ViewData['user']['details'] = $this->model->getUserDetails($this->_user['id']);
-
-
 		$this->ViewData['user']['tags'] = $this->model->getTags($this->_user['id']);
-
-
-
 
 		$this->render($response, 'settings.twig', 'Account settings');
 	}
@@ -392,8 +373,6 @@ class UserController extends Controller
 			$this->_calculateUserRating($data['targetId']);
 		}
 		
-
-
 		return json_encode($res);
 	}
 
@@ -409,8 +388,6 @@ class UserController extends Controller
 			$data['login'] = htmlspecialchars($data['login']);
 			$data['email'] = htmlspecialchars($data['email']);
 			$birthday = \DateTime::createFromFormat('d/m/Y', $data['datetimepicker']);
-
-			//get date in good format for Mysql
 			if ($birthday)
 				$data['birthday'] = $birthday->format('Y-m-d');
 			$data['description'] = htmlspecialchars($data['description']);
@@ -448,8 +425,6 @@ class UserController extends Controller
 		$res =  $this->model->getUnreadMessage1($this->_user['id'], $data['room_id'], 0);
 		return $res;
 	}
-
-	
 
 	public function ChatRoom($request, $response, $args)
 	{
