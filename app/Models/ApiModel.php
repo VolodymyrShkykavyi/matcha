@@ -13,7 +13,7 @@ class ApiModel extends Model
 
 	public function getUsersFiltered(array $data, $from = 0, $num = 20)
 	{
-		$sql = "SELECT * FROM users WHERE blocked = 0 AND active = 1";
+		$sql = "SELECT * FROM location RIGHT JOIN users ON location.id_user = users.id WHERE blocked = 0 AND active = 1";
 		$values = [];
 
 		if (!empty($data)){
@@ -36,6 +36,13 @@ class ApiModel extends Model
 				$sql .= " AND rating <= ?i";
 				$values[] = $data['rating_max'];
 			}
+
+			if (!empty($data['location'])){
+				foreach ($data['location'] as $value) {
+					$sql .= " AND address LIKE '%?s%'";
+					$values[] = $value;
+				}
+			}
 		}
 		
 		if ($num){
@@ -43,10 +50,8 @@ class ApiModel extends Model
 			$values[] = $from;
 			$values[] = $num;
 		}
-
 		$res = $this->db->queryArguments($sql, $values);
 
-		//$res = $this->db->getQueryString();
 		return $res->fetch_assoc_array();
 	}
 

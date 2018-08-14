@@ -480,7 +480,7 @@ class UserModel extends Model
 			return false;
 
 		//update location
-		$res = $this->updateLocation($userId, $data['lat'], $data['lng']);
+		$res = $this->updateLocation($userId, $data['lat'], $data['lng'], $data['addr']);
 		if (!$res)
 			return false;
 
@@ -495,17 +495,25 @@ class UserModel extends Model
 		return $res;
 	}
 
-	public function updateLocation($userId, $lat, $lng)
+	public function updateLocation($userId, $lat, $lng, $addr)
 	{
 		if (!is_numeric($lat) || !is_numeric($lng) || !is_numeric($userId)){
 			return false;
 		}
 		if (!empty($this->getUserLocation($userId))){
-			$res = $this->db->query('UPDATE `location` SET `lat` = "?s", `lng` = "?s" WHERE id_user=?i',
-				$lat, $lng, $userId);
+			$sql = 'UPDATE `location` SET `lat` = "?s", `lng` = "?s"';
+			if (!empty($addr)){
+				$sql .= ', `address` = "?s"';
+			}
+			$sql .= ' WHERE id_user=?i';
+			if (!empty($addr)){
+				$res = $this->db->query($sql, $lat, $lng, $addr, $userId);
+			} else {
+				$res = $this->db->query($sql, $lat, $lng, $userId);
+			}
 		} else {
-			$res = $this->db->query('INSERT INTO `location` (`lat`, `lng`, `id_user`) VALUES ("?s","?s",?i)',
-				$lat, $lng, $userId);
+			$res = $this->db->query('INSERT INTO `location` (`lat`, `lng`, `address`, `id_user`) VALUES ("?s","?s","?s",?i)',
+				$lat, $lng, $addr, $userId);
 		}
 
 		return $res;
