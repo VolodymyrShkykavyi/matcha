@@ -203,6 +203,12 @@ class ApiController extends Controller
 			$date->modify("-{$data['age_max']} year");
 			$data['age_max'] = $date->format('Y-m-d');
 		}
+		if (!empty($data['location'])){
+			$data['location'] = preg_replace('/\s\s+/', ' ', trim($data['location']));
+			$res = explode(',', $data['location']);
+			
+			$data['location'] = $res;
+		}
 
 		$res = $this->model->getUsersFiltered($data, 0, 0);
 		
@@ -211,6 +217,15 @@ class ApiController extends Controller
 			$user['age'] = \DateTime::createFromFormat('Y-m-d', $user['birthDate'])
 				->diff(new \DateTime('now'))
 				->y;
+			$userLoc = $this->model->getUserLocation($_SESSION['auth']['id']);
+			if (!empty($userLoc)){
+				$user['distanse'] = $this->_calculateDistanse(
+					$userLoc['lat'], $userLoc['lng'],
+					$user['lat'], $user['lng']
+				);
+			} else {
+				$user['distanse'] = 0;
+			}
 			if (!empty($data['tags'])){	
 				$user_tags = $this->model->getTags($user['id']);
 				$user['shared_tags'] = [];
@@ -235,8 +250,9 @@ class ApiController extends Controller
 			usort($res, array($this, '_searchSortRating'));
 		} elseif ($data['sort'] == 'tags') {
 			usort($res, array($this, '_searchSortTags'));
+		} elseif ($data['sort'] == 'location') {
+			usort($res, array($this, '_searchSortDistanse'));
 		}
-		
 
 		return json_encode($res);
 	}
@@ -248,6 +264,16 @@ class ApiController extends Controller
 			return (1);
 		if ($a['num_shared_tags'] > $b['num_shared_tags'])
 			return (-1);
+
+		return (0);
+	}
+
+	private function _searchSortDistanse($a, $b)
+	{
+		if ($a['distanse'] < $b['distanse'])
+			return (-1);
+		if ($a['distanse'] > $b['distanse'])
+			return (1);
 
 		return (0);
 	}
@@ -326,5 +352,26 @@ class ApiController extends Controller
 		$this->loadModel('api');
 
 		return $rating;
+	}
+
+	private function _calculateDistanse($lat1, $lon1, $lat2, $lon2)
+	{
+		$earth_rad = 6373.0;
+
+		$lat1 = deg2rad (($lat1));
+		$lon1 = deg2rad (($lon1));
+		$lat2 = deg2rad (($lat2));
+		$lon2 = deg2rad (($lon2));
+
+		$dlon = $lon2 - $lon1;
+		$dlat = $lat2 - $lat1;
+
+		$a = sin($dlat / 2) ** 2 + cos($lat1) * cos($lat2) * sin($dlon / 2) ** 2;
+		$c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+		$distance = $earth_rad * $c;
+
+		//search in some radius
+		return intval($distance / 5);
 	}
 }
