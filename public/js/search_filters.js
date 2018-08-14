@@ -80,9 +80,6 @@ function getResults(){
 					
 				//console.log(response[el]);
 			}
-			var i = 0;
-
-			console.log(response);
 			$("#Search_res").html(" ");
 			for (let user in response)
 			{
