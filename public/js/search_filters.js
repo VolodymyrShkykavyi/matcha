@@ -5,6 +5,7 @@ let rating_min = $("input[name = 'filter_rating_min'")[0];
 let rating_max = $("input[name = 'filter_rating_max'")[0];
 let search_list = $("ul.notification-list")[0];
 let tag_list = $("#tag_list")[0];
+let filter_location = $("input[name = 'filter_location']")[0];
 let tags = [];
 
 $("[name='sort_by']").change(function (){
@@ -52,6 +53,9 @@ function getResults(){
 		data.rating_max = rating_max.value;
 	if (tags.length > 0)
 		data.tags = tags;
+	if (filter_location.value)
+		data.location = filter_location.value;
+
 	data.sort = sort_by_value;
 
 	$.ajax({

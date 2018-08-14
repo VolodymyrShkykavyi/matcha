@@ -343,7 +343,11 @@ class UserController extends Controller
 		$data = $request->getParsedBody();
 
 		if (!empty($data) && $data['lat'] && $data['lng']) {
-			return json_encode($this->model->updateLocation($this->_user['id'], $data['lat'], $data['lng']));
+			$formatted_address = $this->_getFormattedAddressString($data['lat'], $data['lng']);
+
+			$res = $this->model->updateLocation($this->_user['id'], $data['lat'], $data['lng'], $formatted_address);
+
+			return json_encode($res);
 		}
 
 		return json_encode(false);
@@ -393,6 +397,8 @@ class UserController extends Controller
 			$data['description'] = htmlspecialchars($data['description']);
 			$data['fb_page'] = htmlspecialchars($data['fb_page']);
 			$data['twitter_page'] = htmlspecialchars($data['twitter_page']);
+			$formatted_address = $this->_getFormattedAddressString($data['lat'], $data['lng']);
+			$data['addr'] = $formatted_address;
 
 			$this->_calculateUserRating($this->_user['id']);
 			$res =  $this->model->updateUserPersonalInfo($this->_user['id'], $data);
@@ -560,9 +566,32 @@ class UserController extends Controller
 			return "notFriend";
 	}
 
+	private function _getFormattedAddressString($lat, $lng)
+	{
+		$url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' . trim($lat) . ',' . trim($lng) . '&sensor=false&language=en';
+		$json = @file_get_contents($url);
+		$data = json_decode($json);
+		$status = @$data->status;
+		$addr = "";
+
+		while ($status == "OVER_QUERY_LIMIT") {
+			sleep(0.2); // seconds
+			$json = @file_get_contents($url);
+			$status = json_decode($json)->status;
+		}
+
+		if ($status == "OK") {
+			if (!empty($data->results)) {
+				$addr = $data->results[0]->formatted_address;
+			}
+		}
+
+		return $addr;
+	}
+
 	private function _formatted_location($lat, $lng)
 	{
-		$url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' . trim($lat) . ',' . trim($lng) . '&sensor=false';
+		$url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' . trim($lat) . ',' . trim($lng) . '&sensor=false&language=en';
 		$json = @file_get_contents($url);
 		$data = json_decode($json);
 		$status = @$data->status;
