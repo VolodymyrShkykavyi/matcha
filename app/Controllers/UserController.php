@@ -204,7 +204,7 @@ class UserController extends Controller
 			];
 		}
 		//TODO: send mail and redirect(in data user id)
-
+		Mail::sendMail();
 		return $response->withRedirect('/');
 	}
 
