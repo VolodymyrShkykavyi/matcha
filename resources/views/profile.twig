@@ -112,7 +112,62 @@
 </div>
 
 
- <div class="container">
+ <div class="container p-3">
+    <div class="ml-2">
+        <div class="row">
+            <div class="col-2">
+                <h5>Rating:</h5> 
+            </div>
+            <div class="col-10">
+                {{profile.rating}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h5>Status: </h5>
+            </div>
+            <div class="col-10">
+                {{profile.status}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h5>Full Name: </h5>
+            </div>
+            <div class="col-10">
+                {{profile.firstName}} {{profile.lastName}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+               <h5> Gender:</h5>
+            </div>
+            <div class="col-10">
+                 {{profile.gender}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h5>Birthday: </h5>
+            </div>
+            <div class="col-10">
+                {{profile.birthDate}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h5>Location: </h5>
+            </div>
+            <div class="col-10">
+                <div class="google-maps">
+                    <div id="lat" class="d-none">{{ user.lat_lng.lat }}</div>
+                    <div id="lng" class="d-none">{{ user.lat_lng.lng }}</div>
+                    <div id="map_edit" class="map edit-map" style="min-height: 15rem;"></div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
     <h3>dump:</h3><br>
     <pre>
         {{ dump(profile) }}
@@ -120,4 +175,8 @@
 </div> 
 <script src="/js/friend.js"></script>
 <script src="/js/block_user.js"></script>
+<script src="/js/gmaps.js"></script>
+<script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqLNucodvPuxX_30MWoh6g1YT6hWnvzS4&callback=init_Map"
+            type="text/javascript"></script>
 {% endblock %}
