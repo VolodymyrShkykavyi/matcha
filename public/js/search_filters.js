@@ -32,12 +32,12 @@ $("#filter_add_tag").click(function(){
 });
 
 function delTag(el){
-	let index = tags.indexOf(el.innerText);
+	let index = tags.indexOf(el.innerText.substr(1));
+
 	if (index > -1) {
 	  tags.splice(index, 1);
+	  	$(el).remove();
 	}
-
-	$(el).remove();
 }
 
 function getResults(){
