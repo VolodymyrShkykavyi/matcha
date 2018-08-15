@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 
 use Interop\Container\ContainerInterface;
+use App\Library\Mail;
 use DateTime;
 
 class UserController extends Controller
@@ -192,7 +193,8 @@ class UserController extends Controller
 		//get date in good format for Mysql
 		if ($birthday)
 			$data['birthday'] = $birthday->format('Y-m-d');
-
+		$token = urlencode(hash('md5', $login . date('Y-m-d') . md5(microtime())));
+		$data['token'] = $token;
 		$id = $this->model->addUser($data);
 		if ($id) {
 			$this->_user = $this->model->getUser($id);
@@ -203,8 +205,8 @@ class UserController extends Controller
 				'verify' => $this->_user['active']
 			];
 		}
-		//TODO: send mail and redirect(in data user id)
-		Mail::sendMail();
+		$text = 'Follow this link: http://localhost:1111/verification/token=' . $token . '<br> Good luck!';
+		$responce = Mail::sendMail($this->_user['email'], "Account verification", $text);
 		return $response->withRedirect('/');
 	}
 
@@ -239,20 +241,56 @@ class UserController extends Controller
 
 	public function verify($request, $response, $args)
 	{
-		var_dump($_SERVER);
+		$data = $request->getParsedBody();
+		if($_SESSION['auth']['verify'] == 1)
+		{
+			return $response->withRedirect('/');
+		}
 		if (!empty($args) && !empty($args['token'])) {
 			$this->ViewData['args'] = $args;
-			if ($this->model->updateUserActive($this->_user['id'], true)) {
-				$_SESSION['auth']['verify'] = 1;
-				return $response->withRedirect('/');
-			} else {
-				$this->ViewData['errors'] = 'error in changing verify status';
+			$user = $this->model->getUserByToken($data['token']);
+			if($user)
+			{
+				if($user['token'] == $data['token'])
+				{
+					if ($this->model->updateUserActive($user['id'], true)) {
+						$_SESSION['auth']['verify'] = 1;
+						return $response->withRedirect('/');
+					} else {
+						$this->ViewData['errors'] = 'error in changing verify status';
+					}
+				}
 			}
 		}
-
 		$this->ViewData['session'] = $_SESSION;
 		return $this->render($response, 'verify.twig', 'Verify account');
 	}
+
+	public function verify($request, $response, $args)
+	{
+		$data = $request->getParsedBody();
+		if($_SESSION['auth']['verify'] == 1)
+		{
+			return $response->withRedirect('/');
+		}
+		if (!empty($args) && !empty($args['token'])) {
+			$user = $this->model->getUserByToken($data['token']);
+			if($user)
+			{
+				if($user['token'] == $data['token'])
+				{
+					if ($this->model->updateUserActive($user['id'], true)) {
+						$_SESSION['auth']['verify'] = 1;
+						return $response->withRedirect('/');
+					} else {
+						return $response->withRedirect('/verify');
+					}
+				}
+			}
+		}
+		return $response->withRedirect('/verify');
+	}
+
 
 	public function logout($request, $response, $args)
 	{
