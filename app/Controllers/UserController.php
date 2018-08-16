@@ -194,7 +194,7 @@ class UserController extends Controller
 				'verify' => $this->_user['active']
 			];
 		}
-		$text = 'Follow this link: http://localhost:1111/verification/token=' . $token . '<br> Good luck!';
+		$text = 'Follow this link: http://localhost:1111/verification/token=' . $token . '/' . $this->_user['login'] . '<br> Good luck!';
 		$responce = Mail::sendMail($this->_user['email'], "Account verification", $text);
 		return $response->withRedirect('/verify');
 	}
@@ -264,11 +264,12 @@ class UserController extends Controller
 		{
 			return $response->withRedirect('/');
 		}
-		if (!empty($args) && !empty($args['token'])) {
+		if (!empty($args) && !empty($args['token']) && !empty($args['login']) ) {
 			$user = $this->model->getUserByToken($args['token']);
 			if($user)
 			{
-				if($user['token'] == $args['token'])
+
+				if($user['token'] == $args['token'] && $args['login'] == $user['login'])
 				{
 					$active = $this->model->updateUserActive($user['id'], true);
 					if ($active) {

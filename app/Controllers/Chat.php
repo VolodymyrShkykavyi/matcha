@@ -175,7 +175,6 @@ class Chat extends Controller implements MessageComponentInterface {
 					$data->is_active = $last_client->getIsActive();
 					$last_client->getConn()->send(json_encode($data));
 				}
-			
 		}
 
 		if($data->type == "ViewProfileEvent" || $data->type == "friend_del" || $data->type == "acceptRequest")

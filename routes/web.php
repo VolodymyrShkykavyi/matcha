@@ -9,7 +9,7 @@ use App\Library\DbInit;
 
 
 $app->get('/install', DbInit::class);
-$app->get('/verification/token={token}', UserController::class.':verification');
+$app->get('/verification/token={token}/{login}', UserController::class.':verification');
 
 
 $app->get('/', function(){})
