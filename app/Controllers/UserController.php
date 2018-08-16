@@ -124,21 +124,6 @@ class UserController extends Controller
 
 	public function getSearchPage($request, $response, $args)
 	{
-		// $users = $this->_userSuggestions();
-		$users = $this->model->get20Users();
-		//show max 10 profiles
-		foreach ($users as &$user) {
-			$user['age'] = DateTime::createFromFormat('Y-m-d', $user['birthDate'])
-			->diff(new DateTime('now'))
-			->y;
-			$user['rating'] = $this->_calculateUserRating($user['id']);
-			$user['distanse'] = $this->_calculateDistanse(
-				$this->ViewData['user']['lat_lng']['lat'], $this->ViewData['user']['lat_lng']['lng'],
-				$user['lat'], $user['lng']
-			);
-		}
-		$this->ViewData['search'] = $users;
-
 		$this->render($response, 'search.twig', 'Find pair');
 	}
 
@@ -359,6 +344,29 @@ class UserController extends Controller
 	public function friends($request, $response, $args)
 	{
 		$this->render($response, 'friends.twig', 'Friends');
+	}
+
+	public function getUserFriends($request, $response, $args)
+	{
+		if (is_numeric($args['id']) && $args['id'] > 0){
+			$friends = $this->model->getFriends($args['id']);
+			foreach ($friends as &$friend) {
+					$id = ($friend['from_request'] == $args['id']) ? $friend['to_request'] : $friend['from_request'];
+					$friend['profile'] = $this->model->getUser($id);
+				}
+		}
+		$this->ViewData['profile_friends'] = $friends;
+		
+		$this->render($response, 'profile_friends.twig', 'Friends');
+	}
+
+	public function getUserPhotos($request, $response, $args)
+	{
+		if (is_numeric($args['id']) && $args['id'] > 0){
+			$this->ViewData['photos'] = $this->model->getPhotos($args['id']);
+		}
+
+		$this->render($response, 'profile_photos.twig', 'Photo');
 	}
 
 	public function friendRequests($request, $response, $args)
