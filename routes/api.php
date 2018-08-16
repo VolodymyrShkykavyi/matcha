@@ -27,4 +27,5 @@ $app->group('', function (){
     $this->post('/search', UserController::class.':Search');
     $this->post('/search/load', UserController::class.':LoadSearch');
     $this->post('/search/filter', ApiController::class.':searchFilter');
+    $this->post('/users/location', ApiController::class.':getAllLocations');
 })->add(new RedirectIfUnauthorized($container['router']));

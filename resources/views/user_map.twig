@@ -1,0 +1,16 @@
+{% extends 'layouts/app.twig' %}
+
+{% block content %}
+
+
+	<div class="container">
+		<div class="google-maps">
+        	<div id="map_edit" class="map edit-map w-100 h-100" style="min-height: 50rem"></div>
+        </div>
+	</div>
+
+	<script src="/js/gmaps.js"></script>
+	<script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqLNucodvPuxX_30MWoh6g1YT6hWnvzS4&callback=user_map"
+            type="text/javascript"></script>
+{% endblock %}

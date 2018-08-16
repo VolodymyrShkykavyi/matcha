@@ -108,6 +108,13 @@ class ApiModel extends Model
 		return $num; 
 	}
 
+	public function getAllLocations()
+	{
+		$res = $this->db->query("SELECT lat, lng FROM location");
+
+		return $res->fetch_assoc_array();
+	}
+
 	public function addPhoto($userId, $filename)
 	{
 		$res =  $this->db->query("INSERT INTO photos (id_user, src) VALUES (?i, '?s')", $userId, $filename);
