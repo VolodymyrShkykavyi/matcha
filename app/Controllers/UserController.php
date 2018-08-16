@@ -224,8 +224,10 @@ class UserController extends Controller
 				];
 			}
 		}
-
-		return $response->withRedirect('/');
+		if($data['active'])
+			return $response->withRedirect('/');
+		else
+			return $response->withRedirect('/verify');
 	}
 
 	public function verify($request, $response, $args)
