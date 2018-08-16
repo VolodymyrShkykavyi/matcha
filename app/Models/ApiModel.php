@@ -5,6 +5,76 @@ namespace App\Models;
 
 class ApiModel extends Model
 {
+	public function getAllUsers()
+	{
+		$res = $this->db->query('SELECT * FROM users');
+		return ($res->fetch_assoc_array());
+	}
+
+	public function getUsersFiltered(array $data, $from = 0, $num = 20)
+	{
+		$sql = "SELECT * FROM location RIGHT JOIN users ON location.id_user = users.id WHERE blocked = 0 AND active = 1";
+		$values = [];
+
+		if (!empty($data)){
+			if (isset($data['age_min'])){
+				$sql .= " AND birthDate <= '?s'";
+				$values[] = $data['age_min'];
+			}
+
+			if (isset($data['age_max'])){
+				$sql .= " AND birthDate >= '?s'";
+				$values[] = $data['age_max'];
+			}
+
+			if (isset($data['rating_min'])){
+				$sql .= " AND rating >= ?i";
+				$values[] = $data['rating_min'];
+			}
+
+			if (isset($data['rating_max'])){
+				$sql .= " AND rating <= ?i";
+				$values[] = $data['rating_max'];
+			}
+
+			if (!empty($data['location'])){
+				foreach ($data['location'] as $value) {
+					$sql .= " AND address LIKE '%?s%'";
+					$values[] = $value;
+				}
+			}
+
+			$sql .= " AND users.id NOT IN (?ai)";
+			$values[] = $data['friends'];
+		}
+		
+		if ($num){
+			$sql .= " LIMIT ?i, ?i";
+			$values[] = $from;
+			$values[] = $num;
+		}
+		$res = $this->db->queryArguments($sql, $values);
+
+		return $res->fetch_assoc_array();
+	}
+
+	/**
+	* return array with id from friends and requests for friend
+	*/
+	public function getUserFriendsId($userId)
+	{
+		$res = [];
+
+		$request = $this->db->query("SELECT * FROM friends WHERE (from_request = ?i OR to_request = ?i)", $userId, $userId);
+		$request = $request->fetch_assoc_array();
+
+		foreach ($request as $value) {
+			$id = ($value['from_request'] == $userId) ? $value['to_request'] : $value['from_request'];
+			$res[] = $id;
+		}
+
+		return $res;
+	}
 
 	public function checkEmail($userId, $email)
 	{

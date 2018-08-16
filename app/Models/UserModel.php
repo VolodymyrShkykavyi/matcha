@@ -33,6 +33,35 @@ class UserModel extends Model
 		return $this->execute($sql, $params);
 	}
 
+	public function CountMutual()
+	{
+		return(1);
+		$res = $this->db->query('SELECT * 
+				FROM friends t
+				JOIN friends t1 ON (t1.from_request = t.from_request) OR (t1.to_request = t.to_request)
+				JOIN friends t2 ON (t2.from_request = t1.from_request) OR (t2.to_request = t1.to_request)
+				WHERE (t1.from_request = 15 OR t1.to_request = 15 )AND (t2.from_request = 16 OR t2.to_request = 16)');
+		return ($res->fetch_assoc_array());
+	}
+
+	public function get20Users()
+	{
+		$res = $this->db->query('SELECT * FROM users ORDER BY rating DESC LIMIT 5');
+		return ($res->fetch_assoc_array());
+	}
+
+
+	public function LoadSearchUsers($q)
+	{
+		if($q)
+		{
+			$res = $this->db->query('SELECT * FROM `users` WHERE `login` LIKE "%?s%" OR `firstName` LIKE "%?s%" OR `lastName` LIKE "%?s%" LIMIT 5', $q, $q, $q);
+			return ($res->fetch_assoc_array());
+		}
+		else
+			return(0);
+	}
+
 	public function getUser($id)
 	{
 		if (!is_numeric($id) || $id <= 0) {
@@ -276,7 +305,6 @@ class UserModel extends Model
 
 	public function getAllUnreadMessage($id_to)
 	{
-		
 		$res = $this->db->query('SELECT COUNT(`id_message`) FROM `messages` WHERE `id_user_to` = "?s" AND `read_status` = ?s', $id_to, 0);
 		return ($res->fetch_assoc_array()[0]["COUNT(`id_message`)"]);
 	}
@@ -421,6 +449,15 @@ class UserModel extends Model
 		return $res;
 	}
 
+	public function setAllMessRead1($sob_id, $user_id)
+	{
+		if (empty($sob_id) || !is_numeric($sob_id) || !is_numeric($user_id) || !is_numeric($user_id)){
+			return false;
+		}
+		$res = $this->db->query('UPDATE messages SET `read_status` = ?i WHERE (id_user_from=?i AND id_user_to=?i) OR (id_user_to=?i AND id_user_from=?i)', 1, $sob_id, $user_id ,$user_id, $sob_id );
+		return $res;
+	}
+
 	public function updateUserActive($id, $status)
 	{
 		if (empty($id) || !is_numeric($id) || !is_bool($status)){
@@ -443,7 +480,7 @@ class UserModel extends Model
 			return false;
 
 		//update location
-		$res = $this->updateLocation($userId, $data['lat'], $data['lng']);
+		$res = $this->updateLocation($userId, $data['lat'], $data['lng'], $data['addr']);
 		if (!$res)
 			return false;
 
@@ -458,17 +495,25 @@ class UserModel extends Model
 		return $res;
 	}
 
-	public function updateLocation($userId, $lat, $lng)
+	public function updateLocation($userId, $lat, $lng, $addr)
 	{
 		if (!is_numeric($lat) || !is_numeric($lng) || !is_numeric($userId)){
 			return false;
 		}
 		if (!empty($this->getUserLocation($userId))){
-			$res = $this->db->query('UPDATE `location` SET `lat` = "?s", `lng` = "?s" WHERE id_user=?i',
-				$lat, $lng, $userId);
+			$sql = 'UPDATE `location` SET `lat` = "?s", `lng` = "?s"';
+			if (!empty($addr)){
+				$sql .= ', `address` = "?s"';
+			}
+			$sql .= ' WHERE id_user=?i';
+			if (!empty($addr)){
+				$res = $this->db->query($sql, $lat, $lng, $addr, $userId);
+			} else {
+				$res = $this->db->query($sql, $lat, $lng, $userId);
+			}
 		} else {
-			$res = $this->db->query('INSERT INTO `location` (`lat`, `lng`, `id_user`) VALUES ("?s","?s",?i)',
-				$lat, $lng, $userId);
+			$res = $this->db->query('INSERT INTO `location` (`lat`, `lng`, `address`, `id_user`) VALUES ("?s","?s","?s",?i)',
+				$lat, $lng, $addr, $userId);
 		}
 
 		return $res;
@@ -514,7 +559,14 @@ class UserModel extends Model
 		return $res;
 	}
 
-
+	public function setRating($rating ,$userId)
+	{
+		if (!is_numeric($userId) || !is_numeric($rating)) {
+			return false;
+		}
+		$res = $this->db->query('UPDATE `users` SET `rating` = ?i WHERE `id` = ?i', $rating, $userId);
+		return $res;
+	}
 
 
 

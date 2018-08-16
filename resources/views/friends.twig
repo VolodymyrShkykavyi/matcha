@@ -1,8 +1,6 @@
 {% extends 'layouts/app.twig' %}
 
 {% block content %}
-
-
 	<div class="container">
 		<div class="row">
 			{% for friend in friends %}
@@ -15,12 +13,15 @@
 										<use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
 									</svg>
 									<ul class="more-dropdown">
-										<li>
-											<a href="#">Report Profile</a>
-										</li>
-										<li>
-											<a href="#">Block Profile</a>
-										</li>
+										{% if user.admin %}
+                                            <li>
+                                                <a href="#" data-type="block" data-id="{{ friend.profile.id }}">Block Profile</a>
+                                            </li>
+                                        {% else %}
+                                            <li>
+                                                <a href="#" data-type="report" data-id="{{ friend.profile.id }}">Report Profile</a>
+                                            </li>
+                                        {% endif %}
 									</ul>
 								</div>
 								<div class="friend-avatar">
@@ -43,8 +44,8 @@
 										</svg>
 									</a>
 
-									<a title="Send message"
-									   class="btn btn-control btn-blue">
+									<a id="go_to_chat" title="Send message" href="#" data-id="{{friend.profile.id}}"
+									   class="btn btn-control bg-purple">
 										<svg class="olymp-chat---messages-icon">
 											<use xlink:href="/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use>
 										</svg>
@@ -59,4 +60,5 @@
 		</div>
 	</div>
 	<script src="/js/friend.js"></script>
+	<script src="/js/block_user.js"></script>
 {% endblock %}

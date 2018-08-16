@@ -1,0 +1,25 @@
+{% extends 'layouts/app.twig' %}
+
+{% block content %}
+
+
+	<div class="container">
+		<div class="row" id="photos_row">
+			<h2 class="col-12 mt-3 text-center">
+				<span>User photos</span>
+				<hr> 
+			</h2>
+
+			{% for photo in photos %}
+			<div class="col-6 col-md-3 photo">
+				 <div class="d-block position-relative">
+                    <div class="img-thumbnail" style="background-color: transparent;">
+                        <img src="/img/{{ photo.src }}" class=" img-fluid w-100"/>
+                    </div>
+                </div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	
+{% endblock %}

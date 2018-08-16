@@ -1,0 +1,53 @@
+{% extends 'layouts/app.twig' %}
+
+{% block content %}
+
+	<div class="container">
+		<div class="row">
+			{% for friend in profile_friends %}
+				<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<div class="ui-block" data-mh="friend-groups-item">
+						<div class="friend-item friend-groups">
+							<div class="friend-item-content">
+								<div class="more">
+									<svg class="olymp-three-dots-icon">
+										<use xlink:href="/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+									</svg>
+									<ul class="more-dropdown">
+										{% if user.admin %}
+                                            <li>
+                                                <a href="#" data-type="block" data-id="{{ friend.profile.id }}">Block Profile</a>
+                                            </li>
+                                        {% else %}
+                                            <li>
+                                                <a href="#" data-type="report" data-id="{{ friend.profile.id }}">Report Profile</a>
+                                            </li>
+                                        {% endif %}
+									</ul>
+								</div>
+								<div class="friend-avatar">
+									<div class="author-thumb">
+										<img src="/img{{ friend.profile.img }}">
+									</div>
+									<div class="author-content">
+										<a href="/profile/{{ friend.profile.id }}"
+										   class="h5 author-name">{{ friend.profile.login }}</a>
+										<div class="country">{{ friend.profile.status }}</div>
+										<div class="w-100">rating: {{ friend.profile.rating }}
+											<i class="fa fa-star" style="color: #f5c310;"></i>
+										</div>
+										<div class="w-100">
+											{{ friend.profile.gender }}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+
+	<script src="/js/block_user.js"></script>
+
+{% endblock %}

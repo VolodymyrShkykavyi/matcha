@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Controllers;
 
@@ -88,14 +88,41 @@ class UserController extends Controller
 		$this->render($response, 'home.twig', 'Home Page');
 	}
 
+	public function Search($request, $response, $args)
+	{
+		$all_users = $this->model->get20Users();
+		$res = $all_users;
+		$i = 0;
+		foreach ($all_users as $user) {
+			$data[$i]['id'] = $user['id'];
+			$data[$i]['image'] = $user['img'];
+			$data[$i]['name'] = $user["firstName"] . " " . $user["lastName"] . " aka " . $user["login"];
+			$data[$i]['message'] = "1 mutual";
+			$data[$i]['icon'] = "olymp-happy-face-icon";
+			$i++;
+		}
+		return json_encode($data);
+	}
+
+	public function LoadSearch($request, $response, $args)
+	{
+		$data1 = $request->getParsedBody();
+		$all_users = $this->model->LoadSearchUsers($data1['query']);
+		$res = $all_users;
+		$i = 0;
+		foreach ($all_users as $user) {
+			$data[$i]['id'] = $user['id'];
+			$data[$i]['image'] = $user['img'];
+			$data[$i]['name'] = $user["firstName"] . " " . $user["lastName"] . " aka " . $user["login"];
+			$data[$i]['message'] = "1 mutual";
+			$data[$i]['icon'] = "olymp-happy-face-icon";
+			$i++;
+		}
+		return json_encode($data);
+	}
 
 	public function getSearchPage($request, $response, $args)
 	{
-		$users = $this->_userSuggestions();
-
-		//show max 10 profiles
-		$this->ViewData['search'] = array_slice($users, 0, 10);
-
 		$this->render($response, 'search.twig', 'Find pair');
 	}
 
@@ -104,8 +131,13 @@ class UserController extends Controller
 		$this->ViewData['args'] = $args;
 		$profile = $this->model->getUser($args['id']);
 		$location = $this->model->getUserLocation($args['id']);
+		$details = $this->model->getUserDetails($args['id']);
+		$tags = $this->model->getTags($args['id']);
 
 		if (!empty($profile) && $profile['active'] && $profile['id'] != $this->_user['id']) {
+			if (!empty($this->_user) && !$this->_user['blocked'])
+				$this->model->addNotificationViewProfile($this->_user['id'], $profile['id']);
+
 			if (empty($profile['img'])) {
 				$profile['img'] = '/author-main1.jpg';
 			}
@@ -114,14 +146,14 @@ class UserController extends Controller
 			if (!empty($location)) {
 				$this->ViewData['profile']['location'] = $this->_formatted_location($location['lat'], $location['lng']);
 			}
-
+			$this->ViewData['profile']['lat_lng'] = $location;
+			$this->ViewData['profile']['details'] = $details;
+			$this->ViewData['profile']['tags'] = $tags;
 		} else {
 			return $response->withRedirect('/');
 		}
-		if (!empty($this->_user))
-			$this->model->addNotificationViewProfile($this->_user['id'], $profile['id']);
 
-		$this->render($response, 'profile.twig', 'Home Page');
+		$this->render($response, 'profile.twig', 'User profile');
 	}
 
 	public function getNotifications($request, $response, $args)
@@ -134,19 +166,6 @@ class UserController extends Controller
 
 		$this->model->updateNotificationsViewed($this->_user['id']);
 		$this->render($response, 'notifications.twig', "Notifications");
-	}
-
-	public function secret($request, $response, $args)
-	{
-		//$this->c->logger->addInfo('Something interesting happened');
-		//$this->ViewData['args'] = $args;
-		echo "<div class=\"container\"><pre>";
-		var_dump($this->model->getUserByLogin('admin'));
-		var_dump($this->model->getUserByEmail('admin'));
-		//var_dump($this->model->getUserByLogin('admin'));
-		echo "</pre></div>";
-
-		$this->render($response, 'home.twig', 'secret');
 	}
 
 	public function login($request, $response, $args)
@@ -200,7 +219,6 @@ class UserController extends Controller
 					'login' => $data['login'],
 					'email' => $data['email'],
 					'verify' => $data['active']
-					//TODO: token, check session array
 				];
 			}
 		}
@@ -259,12 +277,7 @@ class UserController extends Controller
 		$this->ViewData['user']['birthDate'] = $birthday;
 		$this->ViewData['user']['email'] = $this->_user['email'];
 		$this->ViewData['user']['details'] = $this->model->getUserDetails($this->_user['id']);
-
-
 		$this->ViewData['user']['tags'] = $this->model->getTags($this->_user['id']);
-
-
-
 
 		$this->render($response, 'settings.twig', 'Account settings');
 	}
@@ -274,6 +287,8 @@ class UserController extends Controller
 		$data = $request->getParsedBody();
 
 		$res = $this->model->updateStatus($this->_user['id'], $data['status']);
+		$this->_calculateUserRating($this->_user['id']);
+		
 		return json_encode($res);
 	}
 
@@ -297,6 +312,29 @@ class UserController extends Controller
 		$this->render($response, 'friends.twig', 'Friends');
 	}
 
+	public function getUserFriends($request, $response, $args)
+	{
+		if (is_numeric($args['id']) && $args['id'] > 0){
+			$friends = $this->model->getFriends($args['id']);
+			foreach ($friends as &$friend) {
+					$id = ($friend['from_request'] == $args['id']) ? $friend['to_request'] : $friend['from_request'];
+					$friend['profile'] = $this->model->getUser($id);
+				}
+		}
+		$this->ViewData['profile_friends'] = $friends;
+		
+		$this->render($response, 'profile_friends.twig', 'Friends');
+	}
+
+	public function getUserPhotos($request, $response, $args)
+	{
+		if (is_numeric($args['id']) && $args['id'] > 0){
+			$this->ViewData['photos'] = $this->model->getPhotos($args['id']);
+		}
+
+		$this->render($response, 'profile_photos.twig', 'Photo');
+	}
+
 	public function friendRequests($request, $response, $args)
 	{
 		$this->ViewData['requests'] = $this->model->getFriendRequests($this->_user['id']);
@@ -317,7 +355,11 @@ class UserController extends Controller
 		$data = $request->getParsedBody();
 
 		if (!empty($data) && $data['lat'] && $data['lng']) {
-			return json_encode($this->model->updateLocation($this->_user['id'], $data['lat'], $data['lng']));
+			$formatted_address = $this->_getFormattedAddressString($data['lat'], $data['lng']);
+
+			$res = $this->model->updateLocation($this->_user['id'], $data['lat'], $data['lng'], $formatted_address);
+
+			return json_encode($res);
 		}
 
 		return json_encode(false);
@@ -333,6 +375,8 @@ class UserController extends Controller
 				$res = $this->model->addFriend($this->_user['id'], $data['targetId']);
 			} elseif ($data['type'] == 'remove_friend' || $data['type'] == 'remove_request') {
 				$res = $this->model->removeFriend($this->_user['id'], $data['targetId']);
+				if($res)
+					$res = $this->model->setAllMessRead1($data['targetId'], $this->_user['id']);
 				if ($data['type'] == 'remove_friend'){
 					$this->model->addNotificationRemoveFriend($this->_user['id'], $data['targetId']);
 				}
@@ -340,8 +384,11 @@ class UserController extends Controller
 				$res = $this->model->acceptFriend($this->_user['id'], $data['targetId']);
 				$this->model->addNotificationAcceptFriendRequest($this->_user['id'], $data['targetId']);
 			}
-		}
 
+			$this->_calculateUserRating($this->_user['id']);
+			$this->_calculateUserRating($data['targetId']);
+		}
+		
 		return json_encode($res);
 	}
 
@@ -357,14 +404,15 @@ class UserController extends Controller
 			$data['login'] = htmlspecialchars($data['login']);
 			$data['email'] = htmlspecialchars($data['email']);
 			$birthday = \DateTime::createFromFormat('d/m/Y', $data['datetimepicker']);
-
-			//get date in good format for Mysql
 			if ($birthday)
 				$data['birthday'] = $birthday->format('Y-m-d');
 			$data['description'] = htmlspecialchars($data['description']);
 			$data['fb_page'] = htmlspecialchars($data['fb_page']);
 			$data['twitter_page'] = htmlspecialchars($data['twitter_page']);
+			$formatted_address = $this->_getFormattedAddressString($data['lat'], $data['lng']);
+			$data['addr'] = $formatted_address;
 
+			$this->_calculateUserRating($this->_user['id']);
 			$res =  $this->model->updateUserPersonalInfo($this->_user['id'], $data);
 
 			return json_encode($res);
@@ -395,8 +443,6 @@ class UserController extends Controller
 		$res =  $this->model->getUnreadMessage1($this->_user['id'], $data['room_id'], 0);
 		return $res;
 	}
-
-	
 
 	public function ChatRoom($request, $response, $args)
 	{
@@ -435,7 +481,7 @@ class UserController extends Controller
 		}
 		if($data['start'] < 2)
 		{
-			$chat_field = '<div class="ui-block-title"><h6 class="title"><h6 class="title">' . $user_sob['login'] .	 '</h6></div>';
+			$chat_field = '<div class="ui-block-title"><h6 class="title"><h6 class="title"><a href="' . "/profile/" . $user_sob['id'] . '"class="h6 notification-friend" >' . $user_sob['login'] .	 '</a></h6></div>';
 			$chat_field = $chat_field . '<div id="scroll" class="scroll" data-mcs-theme="dark"><ul 	id="chat_mess_ul" class="notification-list chat-message chat-message-field">';
 			if($all_mess != NULL)
 			{
@@ -446,7 +492,7 @@ class UserController extends Controller
 						$who = $this->_user;
 					else
 						$who = $user_sob;
-					$chat_field = $chat_field . '<li id="' . $value['id_message'] . '" ><div class="author-thumb"><img src="/img' .$who['img'] . '" alt="author"></div><div class="notification-event" style="width:90%;"><a href="#" class="h6 notification-friend">' . $who['login'] . '</a><span class="notification-date" ><time class="entry-date updated" datetime="2004-07-24T18:18">' . $value['date_creation'] . '</time></span><br/><span class="chat-message-item" >' . $value['messadge'] . '</span></div></li>'; 
+					$chat_field = $chat_field . '<li id="' . $value['id_message'] . '" ><div class="author-thumb"><img src="/img' .$who['img'] . '" alt="author"></div><div class="notification-event" style="width:90%;"><a href="' . "/profile/" . $who['id'] . '" class="h6 notification-friend">' . $who['login'] . '</a><span class="notification-date" ><time class="entry-date updated" datetime="2004-07-24T18:18">' . $value['date_creation'] . '</time></span><br/><span class="chat-message-item" >' . $value['messadge'] . '</span></div></li>'; 
 				}
 			}
 			else
@@ -466,7 +512,7 @@ class UserController extends Controller
 						$who = $this->_user;
 					else
 						$who = $user_sob;
-					$chat_field = $chat_field . '<li id="' . $value['id_message'] . '" ><div class="author-thumb"><img src="/img' .$who['img'] . '" alt="author"></div><div class="notification-event" style="width:90%;"><a href="#" class="h6 notification-friend">' . $who['login'] . '</a><span class="notification-date" ><time class="entry-date updated" datetime="2004-07-24T18:18">' . $value['date_creation'] . '</time></span><br/><span class="chat-message-item" >' . $value['messadge'] . '</span></div></li>'; 
+					$chat_field = $chat_field . '<li id="' . $value['id_message'] . '" ><div class="author-thumb"><img src="/img' .$who['img'] . '" alt="author"></div><div class="notification-event" style="width:90%;"><a href="' . "/profile/" . $who['id'] . '" class="h6 notification-friend">' . $who['login'] . '</a><span class="notification-date" ><time class="entry-date updated" datetime="2004-07-24T18:18">' . $value['date_creation'] . '</time></span><br/><span class="chat-message-item" >' . $value['messadge'] . '</span></div></li>'; 
 				}
 				return($chat_field);
 			}
@@ -518,6 +564,8 @@ class UserController extends Controller
 			$res = $this->model->getChatRoomById($data['roomId']);
 			if(!$res)
 				return "notRoom";
+			if($res[0]['id_user'] != $this->_user['id'] && $res[0]['id_sob'] != $this->_user['id'])
+				return "notFriend";
 			$fr = $this->model->getFriend($res[0]['id_user'], $res[0]['id_sob']);
 			if(!$fr)
 			{
@@ -527,12 +575,35 @@ class UserController extends Controller
 
 		}
 		else
-			return 0;
+			return "notFriend";
+	}
+
+	private function _getFormattedAddressString($lat, $lng)
+	{
+		$url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' . trim($lat) . ',' . trim($lng) . '&sensor=false&language=en';
+		$json = @file_get_contents($url);
+		$data = json_decode($json);
+		$status = @$data->status;
+		$addr = "";
+
+		while ($status == "OVER_QUERY_LIMIT") {
+			sleep(0.2); // seconds
+			$json = @file_get_contents($url);
+			$status = json_decode($json)->status;
+		}
+
+		if ($status == "OK") {
+			if (!empty($data->results)) {
+				$addr = $data->results[0]->formatted_address;
+			}
+		}
+
+		return $addr;
 	}
 
 	private function _formatted_location($lat, $lng)
 	{
-		$url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' . trim($lat) . ',' . trim($lng) . '&sensor=false';
+		$url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' . trim($lat) . ',' . trim($lng) . '&sensor=false&language=en';
 		$json = @file_get_contents($url);
 		$data = json_decode($json);
 		$status = @$data->status;
@@ -591,7 +662,7 @@ class UserController extends Controller
 				$rating += 10;
 
 		}
-
+		$res = $this->model->setRating($rating, $userId);
 		return $rating;
 	}
 
@@ -673,12 +744,10 @@ class UserController extends Controller
 				$user['lat'], $user['lng']
 			);
 		}
-
 		usort($users, array($this, '_searchSort'));
 
 		return $users;
 	}
-
 	public function chat($requests, $response, $args)
 	{
 		$this->ViewData['arg'] = $args;

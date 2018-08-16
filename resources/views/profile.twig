@@ -2,8 +2,6 @@
 
 {% block content %}
 
-<!-- Top Header-Profile -->
-
 <div class="container">
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -17,24 +15,16 @@
                             <div class="col-lg-5 col-md-5 ">
                                 <ul class="profile-menu">
                                     <li>
-                                        <a href="02-ProfilePage.html" class="active">Timeline</a>
-                                    </li>
-                                    <li>
-                                        <a href="05-ProfilePage-About.html">About</a>
-                                    </li>
-                                    <li>
-                                        <a href="06-ProfilePage.html">Friends</a>
+                                        <a href="/profile/{{ profile.id }}/friends">Friends</a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="col-lg-5 ml-auto col-md-5">
                                 <ul class="profile-menu">
                                     <li>
-                                        <a href="07-ProfilePage-Photos.html">Photos</a>
+                                        <a href="/profile/{{ profile.id }}/photos">Photos</a>
                                     </li>
-                                    <li>
-                                        <a href="09-ProfilePage-Videos.html">Videos</a>
-                                    </li>
+
                                     <li>
                                         <div class="more">
                                             <svg class="olymp-three-dots-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
@@ -119,19 +109,116 @@
     </div>
 </div>
 
-<!-- ... end Top Header-Profile -->
 
-<!-- <div class="container">
-    args:<br>
-    <pre>
-        {#{{ users }}#}
-    </pre>
+ <div class="container p-3">
+    <div class="ml-2">
+        <div class="row">
+            <div class="col-2">
+                <h5>Rating:</h5> 
+            </div>
+            <div class="col-10">
+                {{profile.rating}} <i class="fa fa-star" style="color: #f5c310;"></i>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h5>Status: </h5>
+            </div>
+            <div class="col-10">
+                {{profile.status}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h5>Full Name: </h5>
+            </div>
+            <div class="col-10">
+                {{profile.firstName}} {{profile.lastName}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+               <h5> Gender:</h5>
+            </div>
+            <div class="col-10">
+                 {{profile.gender}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h5>Birthday: </h5>
+            </div>
+            <div class="col-10">
+                {{profile.birthDate}}
+            </div>
+        </div>
 
-    <h3>dump:</h3><br>
-    <pre>
-        {{ dump() }}
-    </pre>
-</div> -->
+
+
+        <div class="row">
+            <div class="col-2">
+                <h5>Sexual preferences: </h5>
+            </div>
+            <div class="col-10">
+                {{profile.details.sexual_preferences}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h5>Facebook page: </h5>
+            </div>
+            <div class="col-10">
+                {{profile.detail.fb_page}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h5>Twitter page: </h5>
+            </div>
+            <div class="col-10">
+                {{profile.details.twitter_page}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h5>Description: </h5>
+            </div>
+            <div class="col-10">
+                {{profile.details.description}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h5>Tags: </h5>
+            </div>
+            <div class="col-10">
+                {% for tag in profile.tags %}
+                    <button class="btn btn-primary">#{{ tag.tag }}</button>
+                {% endfor %}
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-2">
+                <h5>Location: </h5>
+            </div>
+            <div class="col-10">
+                <div class="google-maps">
+                    <div id="lat" class="d-none">{{ profile.lat_lng.lat }}</div>
+                    <div id="lng" class="d-none">{{ profile.lat_lng.lng }}</div>
+                    <div id="map_edit" class="map edit-map" style="min-height: 15rem;"></div>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</div> 
 <script src="/js/friend.js"></script>
 <script src="/js/block_user.js"></script>
+<script src="/js/gmaps.js"></script>
+<script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqLNucodvPuxX_30MWoh6g1YT6hWnvzS4&callback=init_Map"
+            type="text/javascript"></script>
 {% endblock %}
