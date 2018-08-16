@@ -201,7 +201,7 @@ $("#form_add_tag button").click(function(){
 					showError(input, response.error);
 					return;
 				}
-				let new_el = $("<button type=\"button\" onclick=\"delTag(this);\" class=\"ml-1 mr-1 btn btn-secondary\" data-id=\""+ response +"\">" + tag + "</button>");
+				let new_el = $("<button type=\"button\" onclick=\"delTag(this);\" class=\"ml-1 mr-1 btn btn-secondary\" data-id=\""+ response +"\">#" + tag + "</button>");
 
 				$("#tag_list").append(new_el);
 			}

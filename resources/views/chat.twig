@@ -2,14 +2,10 @@
 
 {% block content %}
 
-
 <div class="container">
 <div id="status"></div>
 <div id="user_id" style="display: none">{{ user.id }}</div>
 <div id="curr_chat" style="display: none"></div>
-<!-- 	<pre>
-		{{ dump() }}
-	</pre> -->
 	<div class="row">
 		<div class="col-12 ml-3 mr-5">
 			<div class="ui-block">
@@ -26,7 +22,6 @@
 					<div class="col-xl-5 col-lg-6 col-md-12 col-sm-12 col-xs-12 padding-r-0">	
 						<ul class="notification-list chat-message">
 							
-
 							{% for friend in friends %}
 								{% for chat in chats %}
 									{% if (friend.from_request == chat.id_sob or friend.to_request == chat.id_sob) and (friend.status == 1) %}
@@ -53,12 +48,9 @@
 								{% endfor %}
 							{% endfor %}
 
-
-
 						</ul>
 					</div>
 					<div class="col-xl-7 col-lg-6 col-md-12 col-sm-12 col-xs-12 padding-l-0">						
-						<!-- Chat Field -->
 						<div id="chat-field" class="chat-field">
 						</div>
 						<div id="input_mess" class="none">
@@ -75,8 +67,6 @@
 								</div>
 							</form>
 						</div>
-						<!-- ... end Chat Field -->
-
 					</div>
 				</div>
 
@@ -84,7 +74,6 @@
 		</div>
 	</div>
 </div>
-
 
 <a class="back-to-top" href="#">
 	<img src="/svg-icons/back-to-top.svg" alt="arrow" class="back-icon">

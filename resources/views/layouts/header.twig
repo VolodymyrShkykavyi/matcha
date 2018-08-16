@@ -1,5 +1,3 @@
-<!-- Header-BP -->
-
 <header class="header" id="site-header">
 	<div id="notif_user_id" style="display:none;">
 		{{user.id}}
@@ -10,7 +8,6 @@
 	<div class="page-title">
 		<h6>{{title}}</h6>
 	</div>
-
 
 	<div class="header-content-wrapper">
 		<form class="search-bar w-search notification-list friend-requests">
@@ -141,11 +138,6 @@
 
 </header>
 
-<!-- ... end Header-BP -->
-
-
-<!-- Responsive Header-BP -->
-
 <header class="header header-responsive" id="site-header-responsive">
 
 	<div class="header-content-wrapper">
@@ -167,7 +159,7 @@
 						<svg class="olymp-chat---messages-icon">
 							<use xlink:href="/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use>
 						</svg>
-						<div class="label-avatar bg-purple">322</div>
+						<div class="label-avatar bg-purple">{{ num_messages }}</div>
 					</div>
 				</a>
 			</li>
@@ -184,12 +176,9 @@
 			</li>
 
 			<li class="nav-item">
-				<a class="nav-link" data-toggle="tab" href="#search" role="tab">
+				<a class="nav-link" href="/search">
 					<svg class="olymp-magnifying-glass-icon">
 						<use xlink:href="/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use>
-					</svg>
-					<svg class="olymp-close-icon">
-						<use xlink:href="/svg-icons/sprites/icons.svg#olymp-close-icon"></use>
 					</svg>
 				</a>
 			</li>
@@ -199,5 +188,4 @@
 
 </header>
 
-<!-- ... end Responsive Header-BP -->
 <div class="header-spacer"></div>

@@ -4,6 +4,64 @@
 
 	<div class="container">
 		<div class="row">
+			<div class="col-xl-3 order-xl-1 col-lg-3 order-lg-1 col-md-12 order-md-2 col-sm-12 col-xs-12 ">
+				<div class="ui-block">
+					<div class="your-profile">
+						<div class="ui-block-title ui-block-title-small">
+							<h6 class="title">Your PROFILE</h6>
+						</div>
+
+						<div id="accordion" role="tablist" aria-multiselectable="true">
+							<div class="card">
+								<div class="card-header" role="tab" id="headingOne">
+									<h6 class="mb-0">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+										   aria-expanded="true" aria-controls="collapseOne">
+											Profile Settings
+											<i class="fa fa-arrow-circle-down"></i>
+										</a>
+									</h6>
+								</div>
+
+								<div id="collapseOne" class="collapse show" role="tabpanel"
+									 aria-labelledby="headingOne">
+									<ul class="your-profile-menu">
+										<li>
+											<a class="clickable" id="personal_information" href="#">Personal
+												Information</a>
+										</li>
+										<li>
+											<a class="clickable" id="change_password" href="#">Change Password</a>
+										</li>
+										<li>
+											<a class="clickable" id="hobbies_interests" href="#">Hobbies and Interests</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+						<div class="ui-block-title">
+							<a href="/notifications" class="h6 title clickable">Notifications</a>
+							<a href="/notifications" class="items-round-little bg-primary">{{ num_notifications }}</a>
+						</div>
+						<div class="ui-block-title">
+							<a href="/chat" class="h6 title clickable">Chat / Messages</a>
+						</div>
+						<div class="ui-block-title">
+							<a href="/friends/requests" class="h6 title clickable">Friend Requests</a>
+							<a href="#" class="items-round-little bg-blue"
+									{% if not num_requests %}
+										style="display: none;"
+									{% endif %}
+							>
+								{{ num_requests }}
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<div class="settings col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-xs-12">
 				<div class="ui-block hobbies_interests" style="display: none">
 					<div class="ui-block-title">
@@ -32,17 +90,13 @@
 							{% if user.tags %}
 							{% for tag in user.tags %}
 								<button type="button" class="ml-1 mr-1 btn btn-secondary" data-id="{{ tag.id_tag }}">
-									{{tag.tag}}
+									#{{tag.tag}}
 								</button>
 							{% endfor %}
 							{% else %}
 								<div class="col-12 mb-3 text-center"> Your tag list is empty</div>
 							{% endif %}
-							
 						</div>
-
-							
-
 					</div>
 				</div>
 
@@ -53,10 +107,6 @@
 
 
 					<div class="ui-block-content">
-
-
-						<!-- Change Password Form -->
-
 						<form id="form_change_password">
 							<div class="row">
 								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -85,11 +135,8 @@
 										Now!
 									</button>
 								</div>
-
 							</div>
 						</form>
-
-						<!-- ... end Change Password Form -->
 					</div>
 				</div>
 
@@ -98,10 +145,6 @@
 						<h6 class="title">Personal Information</h6>
 					</div>
 					<div class="ui-block-content">
-
-
-						<!-- Personal Information Form  -->
-
 						<form id="personal_information_form">
 							<div class="row">
 
@@ -223,75 +266,7 @@
 
 							</div>
 						</form>
-
-						<!-- ... end Personal Information Form  -->
 					</div>
-				</div>
-			</div>
-
-			<div class="col-xl-3 order-xl-1 col-lg-3 order-lg-1 col-md-12 order-md-2 col-sm-12 col-xs-12 responsive-display-none">
-				<div class="ui-block">
-
-
-					<!-- Your Profile  -->
-
-					<div class="your-profile">
-						<div class="ui-block-title ui-block-title-small">
-							<h6 class="title">Your PROFILE</h6>
-						</div>
-
-						<div id="accordion" role="tablist" aria-multiselectable="true">
-							<div class="card">
-								<div class="card-header" role="tab" id="headingOne">
-									<h6 class="mb-0">
-										<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-										   aria-expanded="true" aria-controls="collapseOne">
-											Profile Settings
-											<i class="fa fa-arrow-circle-down"></i>
-										</a>
-									</h6>
-								</div>
-
-								<div id="collapseOne" class="collapse show" role="tabpanel"
-									 aria-labelledby="headingOne">
-									<ul class="your-profile-menu">
-										<li>
-											<a class="clickable" id="personal_information" href="#">Personal
-												Information</a>
-										</li>
-										<li>
-											<a class="clickable" id="change_password" href="#">Change Password</a>
-										</li>
-										<li>
-											<a class="clickable" id="hobbies_interests" href="#">Hobbies and Interests</a>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-
-						<div class="ui-block-title">
-							<a href="/notifications" class="h6 title clickable">Notifications</a>
-							<a href="/notifications" class="items-round-little bg-primary">{{ num_notifications }}</a>
-						</div>
-						<div class="ui-block-title">
-							<a href="/chat" class="h6 title clickable">Chat / Messages</a>
-						</div>
-						<div class="ui-block-title">
-							<a href="/friends/requests" class="h6 title clickable">Friend Requests</a>
-							<a href="#" class="items-round-little bg-blue"
-									{% if not num_requests %}
-										style="display: none;"
-									{% endif %}
-							>
-								{{ num_requests }}
-							</a>
-						</div>
-					</div>
-
-					<!-- ... end Your Profile  -->
-
-
 				</div>
 			</div>
 		</div>
