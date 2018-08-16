@@ -90,7 +90,7 @@
 							{% if user.tags %}
 							{% for tag in user.tags %}
 								<button type="button" class="ml-1 mr-1 btn btn-secondary" data-id="{{ tag.id_tag }}">
-									{{tag.tag}}
+									#{{tag.tag}}
 								</button>
 							{% endfor %}
 							{% else %}
