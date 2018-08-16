@@ -75,12 +75,12 @@ class UserModel extends Model
 		return $res;
 	}
 
-	public function getUserByToken($token)
+	public function getUserByToken($tok)
 	{
-		if (!is_numeric($token) || $token <= 0) {
-			return false;
-		}
-		$res = $this->execute('SELECT * FROM users WHERE token=?i', [$token]);
+		$res = $this->db->query('SELECT * FROM `users` WHERE `token` = "?s" ', $tok);
+
+		$res = $res->fetch_assoc_array();
+
 		if (!empty($res))
 			return $res[0];
 		return $res;
