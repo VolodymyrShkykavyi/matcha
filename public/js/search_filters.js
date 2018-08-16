@@ -68,7 +68,21 @@ function getResults(){
 		data: data,
 		success: function(response){
 			response = JSON.parse(response);
+			$(search_list).empty();
 
+			for (let el in response){
+
+				let new_el = "<li>login: " + response[el].login +
+					"<br>age: " + response[el].age + 
+					"<br>rating: " + response[el].rating;
+				if (response[el].num_shared_tags){
+					new_el += "<br>number of shared tags:" + response[el].num_shared_tags;	
+				}
+				new_el += "</li>";
+				$(search_list).append(new_el);
+					
+				//console.log(response[el]);
+			}
 			$("#Search_res").html(" ");
 			for (let user in response)
 			{

@@ -175,18 +175,11 @@ class Chat extends Controller implements MessageComponentInterface {
 					$data->is_active = $last_client->getIsActive();
 					$last_client->getConn()->send(json_encode($data));
 				}
-			
 		}
 
-		if($data->type == "ViewProfileEvent" || $data->type == "friend_del")
+		if($data->type == "ViewProfileEvent" || $data->type == "friend_del" || $data->type == "acceptRequest")
 		{
 			$countNotif = $this->model->countNotifications($data->target_id);
-			// $View_prof = $this->model->getViewNotifications((int)$data->target_id, (int)$data->from_id);
-			// var_dump($View_prof);
-			// if($View_prof < 1)
-			// 	$data->sound = 1;
-			// else
-			// 	$data->sound = 0;
 			$data->countNotif = $countNotif;
 			$last_client = NULL;
 			foreach ($this->clients as $client) {
