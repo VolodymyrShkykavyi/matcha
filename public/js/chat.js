@@ -39,12 +39,12 @@ window.onload = function(){
 			};
 			socket.send(JSON.stringify(send));
 		}
-		 Visibility.change(function (e, state) {
-		 	if(Visibility.hidden() == 1)
-		 		vis();
-		 	else
-		 		unvis();
-		 });
+		Visibility.change(function (e, state) {
+			if(Visibility.hidden() == 1)
+				vis();
+			else
+				unvis();
+		});
 		function ViewProfileEvent(user_id, view_id)
 		{
 			let send1 = {
