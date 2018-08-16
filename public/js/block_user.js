@@ -9,7 +9,7 @@ $("ul.profile-menu ul.more-dropdown li a, .ui-block ul.notification-list li butt
 	if (type == 'block'){
 		block = 1;
 	}
-
+	console.log(id);
 	$.ajax({
 		type: 'POST',
 		url: '/profile/block',
@@ -18,6 +18,9 @@ $("ul.profile-menu ul.more-dropdown li a, .ui-block ul.notification-list li butt
 			if (response === 'false'){
 				alert('Something going wrong. Please try again later')
 			} else {
+				if (type == 'report'){
+					alert('reported');
+				}
 				if ($(".ui-block ul.notification-list").length)
 					$(elem).closest("li").remove();
 			}
