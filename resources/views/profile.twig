@@ -154,19 +154,67 @@
                 {{profile.birthDate}}
             </div>
         </div>
+
+
+
+        <div class="row">
+            <div class="col-2">
+                <h5>Sexual preferences: </h5>
+            </div>
+            <div class="col-10">
+                {{profile.details.sexual_preferences}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h5>Facebook page: </h5>
+            </div>
+            <div class="col-10">
+                {{profile.detail.fb_page}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h5>Twitter page: </h5>
+            </div>
+            <div class="col-10">
+                {{profile.details.twitter_page}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h5>Description: </h5>
+            </div>
+            <div class="col-10">
+                {{profile.details.description}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h5>Tags: </h5>
+            </div>
+            <div class="col-10">
+                {% for tag in profile.tags %}
+                    <button class="btn btn-primary">#{{ tag.tag }}</button>
+                {% endfor %}
+            </div>
+        </div>
+
+
         <div class="row">
             <div class="col-2">
                 <h5>Location: </h5>
             </div>
             <div class="col-10">
                 <div class="google-maps">
-                    <div id="lat" class="d-none">{{ user.lat_lng.lat }}</div>
-                    <div id="lng" class="d-none">{{ user.lat_lng.lng }}</div>
+                    <div id="lat" class="d-none">{{ profile.lat_lng.lat }}</div>
+                    <div id="lng" class="d-none">{{ profile.lat_lng.lng }}</div>
                     <div id="map_edit" class="map edit-map" style="min-height: 15rem;"></div>
                 </div>
                 
             </div>
         </div>
+
     </div>
 </div> 
 <script src="/js/friend.js"></script>
