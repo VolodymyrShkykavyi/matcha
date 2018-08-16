@@ -205,7 +205,26 @@ window.onload = function(){
 				win2.play();
 			}
 		}
+		if(message['type'] == "friend_del" || message['type'] == "acceptRequest")
+		{
+			var notif_num = $("#notif_num")[0];
+			if(notif_num)
+			{
 
+				$("#notif_num").html(message['countNotif']);
+				notif_num.classList.remove('none');
+				var win2 = new Audio('/audio/notify2.mp3');
+				win2.play();
+			}
+			var notif_num_mob = $("#notif_num_mob")[0];
+			if(notif_num_mob)
+			{
+				$("#notif_num_mob").html(message['countNotif']);
+				notif_num_mob.classList.remove('none');
+				var win2 = new Audio('/audio/notify2.mp3');
+				win2.play();
+			}
+		}
 	};
 
 	var mess_form = $("form[name='messages']")[0];

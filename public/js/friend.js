@@ -24,7 +24,6 @@ $(".control-block-button a.friend, ul.friend-requests span a").click(function(ev
 			url: '/friend/change',
 			data: send,
 			success: function(response){
-				 console.log('res ' + response);
                 if (data.action == 'remove') {
                     $(el).parent().parent().remove();
 
@@ -49,6 +48,7 @@ $(".control-block-button a.friend, ul.friend-requests span a").click(function(ev
 					$(el).addClass('bg-green').removeClass('bg-orange');
 					Notification(data.id, "removeRequest");
 				} else if (send.type =='accept'){
+					Notification(data.id, "acceptRequest");
 					console.log("accept");
 					location.reload();
 				}
