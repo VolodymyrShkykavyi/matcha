@@ -17,14 +17,14 @@
                             <div class="col-lg-5 col-md-5 ">
                                 <ul class="profile-menu">
                                     <li>
-                                        <a href="06-ProfilePage.html">Friends</a>
+                                        <a href="/profile/{{ profile.id }}/friends">Friends</a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="col-lg-5 ml-auto col-md-5">
                                 <ul class="profile-menu">
                                     <li>
-                                        <a href="07-ProfilePage-Photos.html">Photos</a>
+                                        <a href="/profile/{{ profile.id }}/photos">Photos</a>
                                     </li>
 
                                     <li>
@@ -119,7 +119,7 @@
                 <h5>Rating:</h5> 
             </div>
             <div class="col-10">
-                {{profile.rating}}
+                {{profile.rating}} <i class="fa fa-star" style="color: #f5c310;"></i>
             </div>
         </div>
         <div class="row">
@@ -168,10 +168,6 @@
             </div>
         </div>
     </div>
-    <h3>dump:</h3><br>
-    <pre>
-        {{ dump(profile) }}
-    </pre>
 </div> 
 <script src="/js/friend.js"></script>
 <script src="/js/block_user.js"></script>

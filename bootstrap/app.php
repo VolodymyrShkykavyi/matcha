@@ -34,6 +34,14 @@ $container['view'] = function ($container) {
 	return $view;
 };
 
+//Override the default Not Found Handler
+$container['notFoundHandler'] = function ($c) {
+    return function ($request, $response) use ($c) {
+        return $c['response']
+            ->withRedirect('/');
+    };
+};
+
 // Register flash messages on container
 $container['flash'] = function (){
 	return new \Slim\Flash\Messages();
