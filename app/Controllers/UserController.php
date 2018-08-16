@@ -132,6 +132,8 @@ class UserController extends Controller
 		$this->ViewData['args'] = $args;
 		$profile = $this->model->getUser($args['id']);
 		$location = $this->model->getUserLocation($args['id']);
+		$details = $this->model->getUserDetails($args['id']);
+		$tags = $this->model->getTags($args['id']);
 
 		if (!empty($profile) && $profile['active'] && $profile['id'] != $this->_user['id']) {
 			if (!empty($this->_user) && !$this->_user['blocked'])
@@ -145,12 +147,14 @@ class UserController extends Controller
 			if (!empty($location)) {
 				$this->ViewData['profile']['location'] = $this->_formatted_location($location['lat'], $location['lng']);
 			}
-
+			$this->ViewData['profile']['lat_lng'] = $location;
+			$this->ViewData['profile']['details'] = $details;
+			$this->ViewData['profile']['tags'] = $tags;
 		} else {
 			return $response->withRedirect('/');
 		}
 
-		$this->render($response, 'profile.twig', 'Home Page');
+		$this->render($response, 'profile.twig', 'User profile');
 	}
 
 	public function getNotifications($request, $response, $args)
