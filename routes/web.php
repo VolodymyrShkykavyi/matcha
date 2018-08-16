@@ -9,6 +9,8 @@ use App\Library\DbInit;
 
 
 $app->get('/install', DbInit::class);
+$app->get('/verification/token={token}', UserController::class.':verification')->setName('user.verify');
+
 
 $app->get('/', function(){})
 	->add(new RedirectIfAuthorized($container['router']))
@@ -23,7 +25,6 @@ $app->group('', function(){
 	$this->get('/login', UserController::class.':login')->setName('user.login');
 	$this->post('/login', UserController::class.':authorize');
 	$this->post('/register', UserController::class.':register')->setName('user.register');
-	$this->get('/verification/token={token}', UserController::class.':verification')->setName('user.verify');
 })->add(new RedirectIfAuthorized($container['router']));
 
 
@@ -45,8 +46,6 @@ $app->group('', function (){
 		$this->get('/search', UserController::class.':getSearchPage');
 	})->add(new RedirectIfUnverified($this->getContainer()['router']));
 
-	
 	$this->get('/logout', UserController::class.':logout');
 	$this->get('/verify[/token={token}]', UserController::class.':verify')->setName('user.verify');
 }) ->add(new RedirectIfUnauthorized($container['router']));
-    

@@ -196,7 +196,7 @@ class UserController extends Controller
 		}
 		$text = 'Follow this link: http://localhost:1111/verification/token=' . $token . '<br> Good luck!';
 		$responce = Mail::sendMail($this->_user['email'], "Account verification", $text);
-		return $response->withRedirect('/');
+		return $response->withRedirect('/verify');
 	}
 
 	public function showPhotoPage($request, $response, $args)
@@ -255,7 +255,7 @@ class UserController extends Controller
 		return $this->render($response, 'verify.twig', 'Verify account');
 	}
 
-	public function verify($request, $response, $args)
+	public function verification($request, $response, $args)
 	{
 		$data = $request->getParsedBody();
 		if($_SESSION['auth']['verify'] == 1)
@@ -263,12 +263,13 @@ class UserController extends Controller
 			return $response->withRedirect('/');
 		}
 		if (!empty($args) && !empty($args['token'])) {
-			$user = $this->model->getUserByToken($data['token']);
+			$user = $this->model->getUserByToken($args['token']);
 			if($user)
 			{
-				if($user['token'] == $data['token'])
+				if($user['token'] == $args['token'])
 				{
-					if ($this->model->updateUserActive($user['id'], true)) {
+					$active = $this->model->updateUserActive($user['id'], true);
+					if ($active) {
 						$_SESSION['auth']['verify'] = 1;
 						return $response->withRedirect('/');
 					} else {
