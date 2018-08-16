@@ -10,19 +10,10 @@
 	</div>
 
 	<div class="header-content-wrapper">
-		<form class="search-bar w-search notification-list friend-requests none">
+		<form class="search-bar w-search notification-list friend-requests">
 			<div class="form-group with-button">
 				<input class="Search_people" placeholder="Searsch here people or pages..." type="text">
 				<button href="#" class="loupe">
-					<svg class="olymp-magnifying-glass-icon">
-						<use xlink:href="/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use>
-					</svg>
-				</button>
-			</div>
-		</form>
-		<form style="width:10px;" class="loupe search-bar w-search notification-list friend-requests">
-			<div class="form-group with-button">
-				<button>
 					<svg class="olymp-magnifying-glass-icon">
 						<use xlink:href="/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use>
 					</svg>
@@ -157,7 +148,7 @@
 						<svg class="olymp-happy-face-icon">
 							<use xlink:href="/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use>
 						</svg>
-						<div class="label-avatar bg-blue">{{ num_requests }}</div>
+						<div id="friend_req_mob" class="label-avatar bg-blue">{{ num_requests }}</div>
 					</div>
 				</a>
 			</li>
@@ -168,7 +159,7 @@
 						<svg class="olymp-chat---messages-icon">
 							<use xlink:href="/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use>
 						</svg>
-						<div class="label-avatar bg-purple">{{ num_messages }}</div>
+						<div  id="unreadMess_notif_mob" class="label-avatar bg-purple">{{ num_messages }}</div>
 					</div>
 				</a>
 			</li>
@@ -179,7 +170,7 @@
 						<svg class="olymp-thunder-icon">
 							<use xlink:href="/svg-icons/sprites/icons.svg#olymp-thunder-icon"></use>
 						</svg>
-						<div class="label-avatar bg-primary">{{ num_notifications }}</div>
+						<div id="notif_num_mob" class="label-avatar bg-primary">{{ num_notifications }}</div>
 					</div>
 				</a>
 			</li>

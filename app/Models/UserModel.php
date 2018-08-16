@@ -75,6 +75,17 @@ class UserModel extends Model
 		return $res;
 	}
 
+	public function getUserByToken($tok)
+	{
+		$res = $this->db->query('SELECT * FROM `users` WHERE `token` = "?s" ', $tok);
+
+		$res = $res->fetch_assoc_array();
+
+		if (!empty($res))
+			return $res[0];
+		return $res;
+	}
+
 	public function getLoginUser($id)
 	{
 		if (!is_numeric($id) || $id <= 0) {
@@ -347,12 +358,13 @@ class UserModel extends Model
 	{
 		if (empty($data) || empty($data['login']) || empty($data['password']) ||
 			empty($data['email']) || empty($data['fname']) || empty($data['lname']) ||
-			empty($data['gender']) || empty($data['birthday'])) {
+			empty($data['gender']) || empty($data['birthday'])|| empty($data['token'])) {
 			return false;
 		}
 		$data['login'] = htmlspecialchars($data['login']);
 		$data['fname'] = htmlspecialchars($data['fname']);
 		$data['lname'] = htmlspecialchars($data['lname']);
+		$data['token'] = htmlspecialchars($data['token']);
 		$data['password'] = $this->_getHashPassword($data['password']);
 
 		//check if user exists
@@ -361,10 +373,10 @@ class UserModel extends Model
 		}
 
 		$res = $this->db->query('INSERT INTO `users` 
-			(`login`, `password`, `email`, `firstName`, `lastName`, `gender`, `birthDate`)
-			VALUES ("?s", "?s", "?s", "?s", "?s", "?s", "?s")', 
+			(`login`, `password`, `email`, `firstName`, `lastName`, `gender`, `birthDate`, `token`)
+			VALUES ("?s", "?s", "?s", "?s", "?s", "?s", "?s", "?s")', 
 			$data['login'], $data['password'], $data['email'], $data['fname'],
-			$data['lname'], $data['gender'], $data['birthday']);
+			$data['lname'], $data['gender'], $data['birthday'], $data['token']);
 
 		if ($res){
 			return $this->db->getLastInsertId();

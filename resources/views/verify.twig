@@ -1,6 +1,3 @@
-unic template<br>
-send mail ...
-
 <style>
 
 	.coordinates {
@@ -25,22 +22,35 @@ send mail ...
 
 
 </style>
-<div class="container">
 
-	<p class="no-browser-support">Sorry, the Geolocation API isn't supported in Your browser.</p>
-	<p class="coordinates">Latitude: <b class="latitude">42</b> Longitude: <b class="longitude">32</b></p>
-
+<div class="content-bg-wrap">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="ui-block">
+					<div class="ui-block-title">
+						<h6 class="title">Verify Account</h6>
+						<ul class="notification-list friend-requests">
+							<li class="align-center no-requests">
+								<span>Don`t verify yet</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<p class="no-browser-support">Sorry, the Geolocation API isn't supported in Your browser.</p>
+	</div>
 </div>
+		<a href="/logout">
+			<span>Log Out</span>
+		</a>
 
 
-  <a href="/verify/token=123">set verify in database</a>
-
-    <h3>dump:</h3><br>
+<!--     <h3>dump:</h3><br>
     <pre>
 		{{ dump() }}
-    </pre>
-
+    </pre> -->
 
 <script src="/js/jquery-3.2.1.js"></script>
-
 <script src="/js/get_location.js"></script>
