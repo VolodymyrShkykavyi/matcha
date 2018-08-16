@@ -5,7 +5,7 @@ window.onload = function(){
 	var id_el = $($("#site-header a div.author-title")[0]).data().id;
 	var notif_user_id = $("#notif_user_id").html();
 
-	var url = "ws://e1r3p4:7777/?id=" + id_el;
+	var url = "ws://e1r3p1:7777/?id=" + id_el;
 	socket = new WebSocket(url);
 
 	socket.onopen = function(event) {
@@ -97,6 +97,12 @@ window.onload = function(){
 					unreadMess_notif.innerHTML = message['all_unread'];
 					unreadMess_notif.classList.remove('none');
 				}
+				var unreadMess_notif_mob = $("#unreadMess_notif_mob")[0];
+				if(unreadMess_notif_mob)
+				{
+					unreadMess_notif_mob.innerHTML = message['all_unread'];
+					unreadMess_notif_mob.classList.remove('none');
+				}
 			}
 			$("#his_em").css( "display", "none" );
 			if(message['type'] == "mess_send")
@@ -149,6 +155,12 @@ window.onload = function(){
 				fr_req.innerHTML = message['req'];
 				fr_req.classList.remove('none');
 			}
+			var friend_req_mob = $("#friend_req_mob")[0];
+			if(fr_req)
+			{
+				friend_req_mob.innerHTML = message['req'];
+				friend_req_mob.classList.remove('none');
+			}
 			var win1 = new Audio('/audio/notify1.mp3');
 			win1.play();
 		}
@@ -162,6 +174,15 @@ window.onload = function(){
 				if(message['req'] < 1)
 					fr_req.classList.add('none');
 			}
+
+			var friend_req_mob = $("#friend_req_mob")[0];
+			if(friend_req_mob)
+			{
+				friend_req_mob.innerHTML = message['req'];
+				if(message['req'] < 1)
+					friend_req_mob.classList.add('none');
+			}
+
 		}
 		if(message['type'] == "ViewProfileEvent" )
 		{
@@ -171,6 +192,15 @@ window.onload = function(){
 
 				$("#notif_num").html(message['countNotif']);
 				notif_num.classList.remove('none');
+				var win2 = new Audio('/audio/notify2.mp3');
+				win2.play();
+			}
+			var notif_num_mob = $("#notif_num_mob")[0];
+			if(notif_num_mob)
+			{
+
+				$("#notif_num_mob").html(message['countNotif']);
+				notif_num_mob.classList.remove('none');
 				var win2 = new Audio('/audio/notify2.mp3');
 				win2.play();
 			}

@@ -42,7 +42,7 @@ $(".control-block-button a.friend, ul.friend-requests span a").click(function(ev
 					if($(el).siblings().length){
 						Notification(data.id, "friend_del");
 						console.log(response + "ww");
-						// location.reload();
+						location.reload();
 					}
 					el.setAttribute('data-type', 'add');
 					data.type = 'add';
@@ -50,7 +50,7 @@ $(".control-block-button a.friend, ul.friend-requests span a").click(function(ev
 					Notification(data.id, "removeRequest");
 				} else if (send.type =='accept'){
 					console.log("accept");
-					// location.reload();
+					location.reload();
 				}
 			}
 		});
