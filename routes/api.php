@@ -24,5 +24,7 @@ $app->group('', function (){
 	$this->post('/tag/add', ApiController::class.':addTag');
     $this->post('/tag/delete', ApiController::class.':deleteTag');
     $this->post('/profile/block', ApiController::class.':blockUser');
-
+    $this->post('/search', UserController::class.':Search');
+    $this->post('/search/load', UserController::class.':LoadSearch');
+    $this->post('/search/filter', ApiController::class.':searchFilter');
 })->add(new RedirectIfUnauthorized($container['router']));

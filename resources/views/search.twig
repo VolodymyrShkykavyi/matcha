@@ -4,32 +4,139 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-6">
-			<div class="ui-block">
-					<div class="ui-block-title">
-						<h6 class="title">Search results</h6>
+
+		<div class="col-12 col-md-6 ui-block">
+			<div class="row">
+				<div class="col-6 pt-3 pl-3">
+					<div class="form-group label-floating is-select ">
+						<label class="control-label">Sort by</label>
+						<select name="sort_by" class="selectpicker form-control mb-0" style="background-color: white;">
+							<option
+									value="age">Age
+							</option>
+							<option
+									value="location">Location
+							</option>							
+							<option
+									selected
+									value="rating">Rating
+							</option>
+							<option
+									value="tags">Shared tags
+							</option>
+						</select>
 					</div>
 
+				</div>
+				<div class="col-6 pt-3">
+					<button id="filter_clear" class="btn btn-secondary mt-2">clear all filters</button>
+					<button id="aply_filters" class="btn btn-primary mt-2">Aply filters</button>
+				</div>
+			
+				<div class="col-12 text-center">
+					<div class="text-center">
+						<h6 class="title">Filters</h6>
+					</div>
+				</div>
+				<div class="col-12">
+					<div class="row">
+						<div class="col-3 pt-3">
+							<h5>Age range</h5>
+						</div>
+						<div class="col-4">
+							<div class="form-group label-floating">
+										<label class="control-label">Minimum</label>
+										<input name="filter_age_min" class="form-control" placeholder="" type="number">
+									</div>
+						</div>
+						<div class="col-4">
+							<div class="form-group label-floating">
+										<label class="control-label">Maximum</label>
+										<input name="filter_age_max" class="form-control" placeholder="" type="number">
+									</div>
+						</div>
+					</div>
+				</div>
 
-					<ul class="notification-list">
-						
-						{% for result in search %}
-							<li>
-								Login: {{result.login}}<br>
-								distance: {{result.distanse}}<br>
-								rating: {{result.rating}}<br>
-								Shared tags: {{result.numSharedTags}}<br>
-								age: {{result.age}}<br>
-							</li>
-						{% endfor %}
-					</ul>
+				<div class="col-12">
+					<div class="row">
+						<div class="col-3 pt-3">
+							<h5>Rating range</h5>
+						</div>
+						<div class="col-4">
+							<div class="form-group label-floating">
+										<label class="control-label">Minimum</label>
+										<input name="filter_rating_min" class="form-control" placeholder="" type="number">
+									</div>
+						</div>
+						<div class="col-4">
+							<div class="form-group label-floating">
+										<label class="control-label">Maximum</label>
+										<input name="filter_rating_max" class="form-control" placeholder="" type="number">
+									</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-12">
+					<div class="row">
+						<div class="col-3 pt-3">
+							<h5>Location</h5>
+						</div>
+						<div class="col-8">
+							<div class="form-group label-floating">
+										<label class="control-label">Country, city</label>
+										<input name="filter_location" class="form-control" placeholder="" type="text">
+									</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-12">
+					<div class="row">
+						<div class="col-3 pt-3">
+							<h5>Tags</h5>
+						</div>
+						<div class="col-7">
+							<div class="form-group label-floating">
+										<label class="control-label">Tag name</label>
+										<input name="filter_tag" class="form-control" placeholder="" type="text">
+									</div>
+						</div>
+						<div class="col-2 mt-2">
+							<button id="filter_add_tag" class="btn btn-primary">+</button>
+						</div>
+						<div class="col-3"></div>
+						<div class="col-9" id="tag_list"></div>
+					</div>
+				</div>
+
+				<div class="col-12">
+					<div class="row">
+						<div class="col-1 col-md-2"></div>
+						<div class="col-10 col-md-8">
+							<button id="aply_filters_2" class="btn btn-primary mt-2 w-100">Aply filters</button>
+						</div>
+					</div>
+				</div>
+
 			</div>
 		</div>
-		<div class="col-6">
-			some filters
+
+		<div class="col-12 col-md-6">
+			<div class="ui-block p-3">
+				<div class="ui-block-title">
+					<h6 class="title">Search results</h6>
+				</div>
+
+				<div class="row pt-3" id="Search_res">
+				</div>
+			</div>
 		</div>
 	</div>
-	{{ dump(search) }}
+
 </div>
+
+<script src="/js/search_filters.js"></script>
 
 {% endblock %}

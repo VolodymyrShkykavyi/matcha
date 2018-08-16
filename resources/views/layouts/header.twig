@@ -1,17 +1,27 @@
-<!-- Header-BP -->
-
 <header class="header" id="site-header">
-	<div id="notif_user_id" style="display:none;" class="page-title">
-		{{ user.id }}
+	<div id="notif_user_id" style="display:none;">
+		{{user.id}}
+	</div>
+	<div id="conn_id" style="display:none;">
+		
 	</div>
 	<div class="page-title">
-		<h6>{{ title }}</h6>
+		<h6>{{title}}</h6>
 	</div>
 
 	<div class="header-content-wrapper">
-		<form class="search-bar w-search notification-list friend-requests">
+		<form class="search-bar w-search notification-list friend-requests none">
 			<div class="form-group with-button">
-				<input class="form-control js-user-search" placeholder="Search here people or pages..." type="text">
+				<input class="Search_people" placeholder="Searsch here people or pages..." type="text">
+				<button href="#" class="loupe">
+					<svg class="olymp-magnifying-glass-icon">
+						<use xlink:href="/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use>
+					</svg>
+				</button>
+			</div>
+		</form>
+		<form style="width:10px;" class="loupe search-bar w-search notification-list friend-requests">
+			<div class="form-group with-button">
 				<button>
 					<svg class="olymp-magnifying-glass-icon">
 						<use xlink:href="/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use>
@@ -137,11 +147,6 @@
 
 </header>
 
-<!-- ... end Header-BP -->
-
-
-<!-- Responsive Header-BP -->
-
 <header class="header header-responsive" id="site-header-responsive">
 
 	<div class="header-content-wrapper">
@@ -163,7 +168,7 @@
 						<svg class="olymp-chat---messages-icon">
 							<use xlink:href="/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use>
 						</svg>
-						<div class="label-avatar bg-purple">322</div>
+						<div class="label-avatar bg-purple">{{ num_messages }}</div>
 					</div>
 				</a>
 			</li>
@@ -180,12 +185,9 @@
 			</li>
 
 			<li class="nav-item">
-				<a class="nav-link" data-toggle="tab" href="#search" role="tab">
+				<a class="nav-link" href="/search">
 					<svg class="olymp-magnifying-glass-icon">
 						<use xlink:href="/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use>
-					</svg>
-					<svg class="olymp-close-icon">
-						<use xlink:href="/svg-icons/sprites/icons.svg#olymp-close-icon"></use>
 					</svg>
 				</a>
 			</li>
@@ -195,5 +197,4 @@
 
 </header>
 
-<!-- ... end Responsive Header-BP -->
 <div class="header-spacer"></div>
