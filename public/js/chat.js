@@ -244,15 +244,13 @@ window.onload = function(){
 			this.mess.value = "";
 		};
 	}
-
-	
 }
 
 function Notification(target_id, type)
 {
 	var notif_user_id = $("#notif_user_id").html();
 	let send = {
-		friend_id: target_id,
+		target_id: target_id,
 		from_id: notif_user_id,
 		type: type,
 	};

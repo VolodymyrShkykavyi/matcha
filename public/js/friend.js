@@ -24,7 +24,9 @@ $(".control-block-button a.friend, ul.friend-requests span a").click(function(ev
 			url: '/friend/change',
 			data: send,
 			success: function(response){
+				console.log(response + "ww");
                 if (data.action == 'remove') {
+                	Notification(data.id, "acceptRequest");
                     $(el).parent().parent().remove();
 
                     if ($("ul.friend-requests").children().length <= 1){
@@ -40,7 +42,6 @@ $(".control-block-button a.friend, ul.friend-requests span a").click(function(ev
 				} else if (send.type == 'remove_request' || send.type == 'remove_friend'){
 					if($(el).siblings().length){
 						Notification(data.id, "friend_del");
-						console.log(response + "ww");
 						location.reload();
 					}
 					el.setAttribute('data-type', 'add');
@@ -49,7 +50,6 @@ $(".control-block-button a.friend, ul.friend-requests span a").click(function(ev
 					Notification(data.id, "removeRequest");
 				} else if (send.type =='accept'){
 					Notification(data.id, "acceptRequest");
-					console.log("accept");
 					location.reload();
 				}
 			}
