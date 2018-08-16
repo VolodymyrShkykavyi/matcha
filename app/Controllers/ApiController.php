@@ -189,7 +189,12 @@ class ApiController extends Controller
 	public function searchFilter($request, $response, $args)
 	{
 		$data = $request->getParsedBody();
-
+		//self exclude
+		$friendsId = [$_SESSION['auth']['id']];
+		$res = $this->model->getUserFriendsId($_SESSION['auth']['id']);
+		if (!empty($res)){
+			$friendsId = array_merge($friendsId, $res);
+		}
 		if (empty($data))
 			$data = [];
 		if (isset($data['age_min'])){
@@ -210,6 +215,7 @@ class ApiController extends Controller
 			$data['location'] = $res;
 		}
 
+		$data['friends'] = $friendsId;
 		$res = $this->model->getUsersFiltered($data, 0, 0);
 		
 		$this->loadModel('user');
@@ -254,7 +260,7 @@ class ApiController extends Controller
 			usort($res, array($this, '_searchSortDistanse'));
 		}
 
-		return json_encode($res);
+		return json_encode(array_slice($res, 0, 20));
 	}
 
 

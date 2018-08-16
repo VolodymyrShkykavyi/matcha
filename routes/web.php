@@ -35,6 +35,8 @@ $app->group('', function (){
 		$this->get('/profile/{id:[0-9]+}', UserController::class.':getProfile')->setName('user.profile');
 		$this->get('/settings', UserController::class.':accountSettings')->setName('user.settings');
 		$this->get('/friends', UserController::class.':friends');
+		$this->get('/profile/{id:[0-9]+}/friends', UserController::class.':getUserFriends');
+		$this->get('/profile/{id:[0-9]+}/photos', UserController::class.':getUserPhotos');
 		$this->get('/friends/requests', UserController::class.':friendRequests');
 		$this->get('/chat[/{id:[0-9]+}]', UserController::class.':chat');
 		$this->get('/photo[/{avatar:avatar}]', UserController::class.':showPhotoPage');

@@ -43,6 +43,9 @@ class ApiModel extends Model
 					$values[] = $value;
 				}
 			}
+
+			$sql .= " AND users.id NOT IN (?ai)";
+			$values[] = $data['friends'];
 		}
 		
 		if ($num){
@@ -53,6 +56,24 @@ class ApiModel extends Model
 		$res = $this->db->queryArguments($sql, $values);
 
 		return $res->fetch_assoc_array();
+	}
+
+	/**
+	* return array with id from friends and requests for friend
+	*/
+	public function getUserFriendsId($userId)
+	{
+		$res = [];
+
+		$request = $this->db->query("SELECT * FROM friends WHERE (from_request = ?i OR to_request = ?i)", $userId, $userId);
+		$request = $request->fetch_assoc_array();
+
+		foreach ($request as $value) {
+			$id = ($value['from_request'] == $userId) ? $value['to_request'] : $value['from_request'];
+			$res[] = $id;
+		}
+
+		return $res;
 	}
 
 	public function checkEmail($userId, $email)
