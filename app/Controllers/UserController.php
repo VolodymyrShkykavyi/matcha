@@ -149,7 +149,7 @@ class UserController extends Controller
 			return $response->withRedirect('/');
 		}
 
-		$this->render($response, 'profile.twig', 'Home Page');
+		$this->render($response, 'profile.twig', 'User profile');
 	}
 
 	public function getNotifications($request, $response, $args)
