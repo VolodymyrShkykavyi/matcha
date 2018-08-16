@@ -13,7 +13,7 @@ $("[name='sort_by']").change(function (){
 });
 
 
-$("#aply_filters").click(function(){
+$("#aply_filters, #aply_filters_2").click(function(){
 	getResults();
 });
 
