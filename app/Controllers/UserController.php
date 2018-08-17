@@ -420,11 +420,13 @@ class UserController extends Controller
 				if($res)
 					$res = $this->model->setAllMessRead1($data['targetId'], $this->_user['id']);
 				if ($data['type'] == 'remove_friend'){
-					$this->model->addNotificationRemoveFriend($this->_user['id'], $data['targetId']);
+					if (!$this->_user['blocked'])
+						$this->model->addNotificationRemoveFriend($this->_user['id'], $data['targetId']);
 				}
 			} elseif ($data['type'] == 'accept') {
 				$res = $this->model->acceptFriend($this->_user['id'], $data['targetId']);
-				$this->model->addNotificationAcceptFriendRequest($this->_user['id'], $data['targetId']);
+				if (!$this->_user['blocked'])
+					$this->model->addNotificationAcceptFriendRequest($this->_user['id'], $data['targetId']);
 			}
 
 			$this->_calculateUserRating($this->_user['id']);
