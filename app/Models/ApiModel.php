@@ -128,6 +128,7 @@ class ApiModel extends Model
 
 	public function addTag($userId, $tag)
 	{
+		$tag = htmlentities($tag);
 		$res = $this->db->query("SELECT * FROM tags WHERE tag = '?s'", $tag)->fetch_assoc();
 		$tagId = 0;
 

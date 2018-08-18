@@ -241,7 +241,7 @@ class ApiController extends Controller
 				foreach ($user_tags as $tag) {
 					if (in_array($tag['tag'], $data['tags'])){
 						$user['num_shared_tags']++;
-						$user['shared_tags'][] = $tag['tag'];
+						$user['shared_tags'][] = htmlentities($tag['tag']);
 					}
 				}
 
@@ -261,7 +261,13 @@ class ApiController extends Controller
 			usort($res, array($this, '_searchSortDistanse'));
 		}
 
-		return json_encode(array_slice($res, 0, 20));
+		$res = array_slice($res, 0, 20);
+		foreach ($res as &$value) {
+			$value['login'] = htmlentities($value['login']);
+			$value['status'] = htmlentities($value['status']);
+		}
+
+		return json_encode($res);
 	}
 
 	public function getAllLocations($request, $response, $args)
