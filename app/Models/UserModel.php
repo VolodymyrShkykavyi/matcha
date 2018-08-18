@@ -483,6 +483,14 @@ class UserModel extends Model
 
 	public function updateUserPersonalInfo($userId, $data)
 	{
+		$data['login'] = htmlentities($data['login']);
+		$data['firstName'] = htmlentities($data['firstName']);
+		$data['lastName'] = htmlentities($data['lastName']);
+		$data['status'] = htmlentities($data['status']);
+		$data['description'] = htmlentities($data['description']);
+		$data['fb_page'] = htmlentities($data['fb_page']);
+		$data['twitter_page'] = htmlentities($data['twitter_page']);
+
 		$res = $this->db->query("UPDATE users SET login='?s', email='?s', firstName='?s', lastName='?s',
  			gender='?s', birthDate='?s', status='?s' WHERE id = ?i",
 			$data['login'], $data['email'], $data['firstName'], $data['lastName'], $data['gender'], $data['birthday'],
@@ -533,6 +541,8 @@ class UserModel extends Model
 
 	public function updateStatus($userId, $text)
 	{
+		$text = htmlentities($text);
+		
 		$res = $this->db->query('UPDATE users SET `status` = "?s" WHERE id = ?i', $text, $userId);
 
 		return $res;
