@@ -185,6 +185,12 @@ class UserController extends Controller
 		$this->render($response, 'notifications.twig', "Notifications");
 	}
 
+	public function showUsersMap($request, $response, $args)
+	{
+		
+		$this->render($response, 'user_map.twig', 'Interactive map');
+	}
+
 	public function login($request, $response, $args)
 	{
 		$this->render($response, 'login.twig', 'Login Page');
