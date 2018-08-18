@@ -90,7 +90,6 @@ window.onload = function(){
 		{
 			if(message['type'] == "mess_res" && $("#curr_chat").html() != message['id_room'])
 			{
-				console.log(message);
 				var unreadMess_notif = $("#unreadMess_notif")[0];
 				if(unreadMess_notif)
 				{
