@@ -124,8 +124,24 @@ class UserController extends Controller
 
 	public function getSearchPage($request, $response, $args)
 	{
+		// echo "<pre>";
+		// print_r($_SERVER);
+		// // var_dump($_SERVER);
+		// echo "</pre>";
+		// die();
 		$this->render($response, 'search.twig', 'Find pair');
 	}
+
+	public function passRec($request, $response, $args)
+	{
+		$data = $request->getParsedBody();
+		$user = $this->model->getUserByEmail($data['email']);
+		$token = urlencode(hash('md5', $login . date('Y-m-d') . md5(microtime())));
+		$text = 'Follow this link to reset pass:' . $_SERVER['SERVER_NAME'] . ':' .  $_SERVER['SERVER_PORT'] .'pass_rec/token=' . $token . '/' . $$user['login'] . '<br> Good luck!';
+		$responce = Mail::sendMail($data['email'], "Password recovery", $text);
+		return $response->withRedirect('/');
+	}
+
 
 	public function getProfile($request, $response, $args)
 	{
@@ -228,6 +244,11 @@ class UserController extends Controller
 			return $response->withRedirect('/');
 		else
 			return $response->withRedirect('/verify');
+	}
+
+	public function forgotPass($request, $response, $args)
+	{
+		return $this->render($response, 'Forgot_pass.twig', 'Forgot password');
 	}
 
 	public function verify($request, $response, $args)

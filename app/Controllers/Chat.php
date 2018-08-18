@@ -46,12 +46,7 @@ class Chat extends Controller implements MessageComponentInterface {
 		$client = new Client($queryarray["id"], $conn);
 		$this->model->updateUserIsOnline($client->getId(), true);
 		$this->clients->attach($client);
-		echo "New connection! ({$conn->resourceId})\n";
-		// foreach ($this->clients as $client) {
-		// 			echo "Client " . $client->getConn()->resourceId . " is " . $client->getIsActive();
-		// 			echo "\n";
-		// 		}
-			
+		echo "New connection! ({$conn->resourceId})\n";			
 	}
 
 	public function onMessage(ConnectionInterface $from, $msg)
@@ -76,13 +71,6 @@ class Chat extends Controller implements MessageComponentInterface {
 					break;
 				}
 			}
-
-			// foreach ($this->clients as $client) {
-			// 		echo "Client " . $client->getConn()->resourceId . " is " . $client->getIsActive();
-			// 		echo "\n";
-			// }
-			// echo "\n";echo "\n";echo "\n";
-
 		}
 		if($data->type == "private_mess")
 		{
@@ -187,7 +175,8 @@ class Chat extends Controller implements MessageComponentInterface {
 					if($c_user_id == $data->target_id)
 					{
 						$last_client = $client;
-						if($client->getIsActive() == 1)
+						$user_to = $this->model->getUser($last_client->getId());
+						if($client->getIsActive() == 1 && $user_to['blocked'] == 0)
 						{
 							$last_client->getConn()->send(json_encode($data));
 							return;
@@ -195,9 +184,14 @@ class Chat extends Controller implements MessageComponentInterface {
 					}
 				}
 			if($last_client)
-				$last_client->getConn()->send(json_encode($data));
+			{
+				$user_to = $this->model->getUser($last_client->getId());
+				if($user_to['blocked'] == 0)
+					$last_client->getConn()->send(json_encode($data));
+			}
 		}
 	}
+
 	public function onClose(ConnectionInterface $conn)
 	{
 		// The connection is closed, remove it, as we can no longer send it messages
@@ -222,7 +216,6 @@ class Chat extends Controller implements MessageComponentInterface {
 
 	public function onError(ConnectionInterface $conn, \Exception $e) {
 		echo "An error has occurred: {$e->getMessage()}\n";
-
 		$conn->close();
 	}
 }

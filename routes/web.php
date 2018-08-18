@@ -25,6 +25,9 @@ $app->map(['GET', 'POST'],'/{id:[0-9]+}', UserController::class.':home')
 $app->group('', function(){
 	$this->get('/login', UserController::class.':login')->setName('user.login');
 	$this->post('/login', UserController::class.':authorize');
+	$this->get('/forgotPass', UserController::class.':forgotPass');
+	$this->post('/pass_rec', UserController::class.':passRec');
+	$this->post('/pass_rec/{token}/{login}', UserController::class.':passRecRef');
 	$this->post('/register', UserController::class.':register')->setName('user.register');
 })->add(new RedirectIfAuthorized($container['router']));
 

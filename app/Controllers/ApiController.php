@@ -162,6 +162,7 @@ class ApiController extends Controller
 		return json_encode($res);
 	}
 
+
 	public function changeAvatar($request, $response, $args)
 	{
 		$res = false;
