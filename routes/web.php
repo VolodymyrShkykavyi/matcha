@@ -48,7 +48,7 @@ $app->group('', function (){
 		$this->get('/notifications', UserController::class.':getNotifications');
 		$this->get('/reports', UserController::class.':getBlockReports');
 		$this->get('/search', UserController::class.':getSearchPage');
-		$this->get('/map', ApiController::class.':showUsersMap');
+		$this->get('/map', UserController::class.':showUsersMap');
 	})->add(new RedirectIfUnverified($this->getContainer()['router']));
 
 	$this->get('/logout', UserController::class.':logout');

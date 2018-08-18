@@ -264,12 +264,6 @@ class ApiController extends Controller
 		return json_encode(array_slice($res, 0, 20));
 	}
 
-	public function showUsersMap($request, $response, $args)
-	{
-		
-		$this->render($response, 'user_map.twig', 'Interactive map');
-	}
-
 	public function getAllLocations($request, $response, $args)
 	{
 		$res = $this->model->getAllLocations();
