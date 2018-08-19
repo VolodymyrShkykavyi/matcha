@@ -1,59 +1,58 @@
-unic template<br>
-send mail ...
+<!doctype html>
+<html lang="en">
+<head>
 
-<style>
+    <title>{{title}}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <script src="/js/webfontloader.min.js"></script>
+    <script>
+        WebFont.load({
+            google: {
+                families: ['Roboto:300,400,500,700:latin']
+            }
+        });
+    </script>
 
-	.coordinates {
-		font-size: 18px;
-		opacity: 0;
-		margin-bottom: 40px;
-	}
-
-	.no-browser-support {
-		font-size: 18px;
-		opacity: 0;
-	}
-
-	.coordinates b:first-child {
-		margin-right: 15px;
-	}
-
-	.visible {
-		opacity: 1;
-	}
-
-
-
-</style>
-
-<div class="container">
-	<div class="row">
-		<div class="col-12">
-			<div class="ui-block">
-				<div class="ui-block-title">
-					<h6 class="title">Verify Account</h6>
-					<ul class="notification-list friend-requests">
-						<li class="align-center no-requests">
-							<span>Don`t verify yet</span>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-	<p class="no-browser-support">Sorry, the Geolocation API isn't supported in Your browser.</p>
-	<p class="coordinates">Latitude: <b class="latitude">42</b> Longitude: <b class="longitude">32</b></p>
+    <link rel="stylesheet" type="text/css" href="/Bootstrap/dist/css/bootstrap-reboot.css">
+    <link rel="stylesheet" type="text/css" href="/Bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/Bootstrap/dist/css/bootstrap-grid.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/fonts.min.css">
+    <script src="/js/jquery-3.2.1.js"></script>
+    <script src="/js/Vislib/visibility.fallback.js"></script>
+    <script src="/js/Vislib/visibility.core.js"></script>
+    <script src="/js/Vislib/visibility.timers.js"></script>
+    <script src="js/pass_recovery.js"></script>
+    
+</head>
+<body>
+ <body>
+  <div class="container">
+    <div class="form-gap"></div>
+    <div class="row">
+      <div class="m-auto">
+        <div class="panel panel-default">
+              <div class="panel-body">
+                <div class="text-center">
+                  <h3><i class="fa fa-lock fa-4x"></i></h3>
+                  <h2 class="text-center">A link to your account varify has been sent to your email.</h2><br><h2 class="text-center">Check your mail.</h2>
+                  <div class="panel-body">
+                    <form id="register-form" role="form" autocomplete="off" class="form" method="post" action="/logout">
+                      <div class="form-group">
+                        <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Log Out" type="submit">
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  </div>
 </div>
-
-		<a href="/logout">
-			<span>Log Out</span>
-		</a>
-
-
-<!--     <h3>dump:</h3><br>
-    <pre>
-		{{ dump() }}
-    </pre> -->
+</body>
+</html>
 
 <script src="/js/jquery-3.2.1.js"></script>
 <script src="/js/get_location.js"></script>
