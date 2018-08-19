@@ -124,11 +124,6 @@ class UserController extends Controller
 
 	public function getSearchPage($request, $response, $args)
 	{
-		// echo "<pre>";
-		// print_r($_SERVER);
-		// // var_dump($_SERVER);
-		// echo "</pre>";
-		// die();
 		$this->render($response, 'search.twig', 'Find pair');
 	}
 
@@ -137,11 +132,24 @@ class UserController extends Controller
 		$data = $request->getParsedBody();
 		$user = $this->model->getUserByEmail($data['email']);
 		$token = urlencode(hash('md5', $login . date('Y-m-d') . md5(microtime())));
-		$text = 'Follow this link to reset pass:' . $_SERVER['SERVER_NAME'] . ':' .  $_SERVER['SERVER_PORT'] .'pass_rec/token=' . $token . '/' . $$user['login'] . '<br> Good luck!';
+		$text = 'Follow this link to reset pass: http://' . $_SERVER['SERVER_NAME'] . ':' .  $_SERVER['SERVER_PORT'] .'/pass_rec/' . $token . '/' . $user['login'] . '<br> Good luck!';
+		$res = $this->model->updateToken($user['id'],$token);
 		$responce = Mail::sendMail($data['email'], "Password recovery", $text);
 		return $response->withRedirect('/');
 	}
 
+	public function passRecRef($request, $response, $args)
+	{
+		$user = $this->model->getUserByLoginAndToken($args['login'], $args['token']);
+		
+		if($user['login'] == $args['login'])
+		{
+			$this->ViewData['rest_login'] = $user;
+			$this->render($response, 'resetPass.twig', "Reset password");
+		}
+		else
+			return $response->withRedirect('/');
+	}
 
 	public function getProfile($request, $response, $args)
 	{
@@ -201,7 +209,6 @@ class UserController extends Controller
 		$data = $request->getParsedBody();
 		$birthday = \DateTime::createFromFormat('d/m/Y', $data['datetimepicker']);
 
-		//get date in good format for Mysql
 		if ($birthday)
 			$data['birthday'] = $birthday->format('Y-m-d');
 		$token = urlencode(hash('md5', $login . date('Y-m-d') . md5(microtime())));
@@ -283,7 +290,15 @@ class UserController extends Controller
 		$this->ViewData['session'] = $_SESSION;
 		return $this->render($response, 'verify.twig', 'Verify account');
 	}
+	public function update_pass($request, $response, $args)
+	{
+		$data = $request->getParsedBody();
 
+		$res = $this->model->resetPassword($data['id'], $data['Pass']);
+			if($res)
+				$this->model->updateToken($data['id'], "successfully_changed");
+		return $response->withRedirect('/');
+	}
 	public function verification($request, $response, $args)
 	{
 		$data = $request->getParsedBody();
@@ -819,10 +834,12 @@ class UserController extends Controller
 
 		return $users;
 	}
+
 	public function chat($requests, $response, $args)
 	{
 		$this->ViewData['arg'] = $args;
 		$this->ViewData['mydata'] = ['dr' => 1];
 		$this->render($response, "chat.twig", "chat");
 	}
+
 }
