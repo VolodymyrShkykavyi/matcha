@@ -86,6 +86,16 @@ class UserModel extends Model
 		return $res;
 	}
 
+	public function getUserByLoginAndToken($log, $tok)
+	{
+		$res = $this->db->query('SELECT * FROM `users` WHERE `token` = "?s" AND `login` = "?s"', $tok, $log);
+		$res = $res->fetch_assoc_array();
+
+		if (!empty($res))
+			return $res[0];
+		return $res;
+	}
+
 	public function getLoginUser($id)
 	{
 		if (!is_numeric($id) || $id <= 0) {
@@ -444,11 +454,16 @@ class UserModel extends Model
 		return $res;
 	}
 
-
-
-
-
 	///////////// 		UPDATE SECTOR 		////////////////
+
+	public function updateToken($user_id, $token)
+	{
+		if (empty($token) || !is_numeric($user_id)){
+			return false;
+		}
+		$res = $this->db->query('UPDATE users SET `token` = "?s" WHERE `id` = ?i', $token, $user_id);
+		return $res;
+	}
 
 	public function setAllMessRead($room_id, $user_id)
 	{
@@ -546,6 +561,13 @@ class UserModel extends Model
 		$res = $this->db->query('UPDATE users SET `status` = "?s" WHERE id = ?i', $text, $userId);
 
 		return $res;
+	}
+
+	public function resetPassword($userId, $psw)
+	{
+			$res = $this->db->query('UPDATE users SET password = "?s" WHERE id = ?i', 
+				$this->_getHashPassword($psw), $userId);
+			return $res;
 	}
 
 
