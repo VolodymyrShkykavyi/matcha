@@ -19,7 +19,11 @@ class DbInit
 	public function __invoke()
 	{
 		$this->createDb();
-		$this->createTables();
+		try {
+			$this->createTables();
+		} catch (\Exception $e){
+			die("Can't create table: " . $e->getMessage());
+		}
 		$this->createUsers();
 		echo "Database installed!";
 	}
@@ -37,112 +41,231 @@ class DbInit
 
 	protected function createTables()
 	{
-		$sql = "CREATE TABLE IF NOT EXISTS `users` (
-				  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-				  `login` varchar(30) NOT NULL,
-				  `password` text NOT NULL,
-				  `email` varchar(255) NOT NULL,
-				  `status` varchar(50) DEFAULT NULL,
-				  `firstName` varchar(50) NOT NULL,
-				  `lastName` varchar(50) NOT NULL,
-				  `gender` enum('man','woman') NOT NULL,
-				  `birthDate` date NOT NULL,
-				  `registerDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				  `lastAction` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				  `IsOnline` tinyint(1) NOT NULL DEFAULT '0',
-				  `img` varchar(255) DEFAULT '/author-main1.jpg',
-				  `active` tinyint(1) NOT NULL DEFAULT '0',
-				  PRIMARY KEY (`id`)
-			) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;";
-			//TODO: fields: !isOnline!, verified, sexuality, fame(rating), blocked(isActive), location
-			try {
-				$this->db->query($sql);
-			} catch (\dbException $e){
-				die("Can't create table `users` : " . $e->getMessage());
-			}
-
-		$sql = "CREATE TABLE IF NOT EXISTS `messages` (
-				 `id_message` INTEGER PRIMARY KEY AUTO_INCREMENT,
-       			 `id_chat_room` INTEGER NOT NULL,
-       			 `id_user_from` INTEGER NOT NULL,
-       			 `id_user_to` INTEGER NOT NULL,
-				 `messadge` TEXT NOT NULL,
-				 `date_creation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				 FOREIGN KEY (id_user_from) REFERENCES users(id) ON DELETE CASCADE,
-				 FOREIGN KEY (id_user_to) REFERENCES users(id) ON DELETE CASCADE,
-				 FOREIGN KEY (id_chat_room) REFERENCES chats(id) ON DELETE CASCADE)
-			) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;";
-			try {
-				$this->db->query($sql);
-			} catch (\dbException $e){
-				die("Can't create table `messages` : " . $e->getMessage());
-			}
-
-
-		$sql = "CREATE TABLE IF NOT EXISTS `settings` (
+		$sql = "CREATE TABLE `chats` (
 				  `id` int(10) UNSIGNED NOT NULL,
-				  `notification_sound` tinyint(1) NOT NULL DEFAULT '1',
-				  `notification_email` tinyint(1) NOT NULL DEFAULT '1',
-				  `messege_sound` tinyint(1) NOT NULL DEFAULT '1',
 				  `id_user` int(10) UNSIGNED NOT NULL,
-				  KEY `id_user` (`id_user`)
-				) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-		try {
-				$this->db->query($sql);
-			} catch (\dbException $e){
-				die("Can't create table `settings` : " . $e->getMessage());
-			}
+				  `id_sob` int(10) UNSIGNED NOT NULL
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			
+			$this->db->query($sql);
+			
+		$sql = "CREATE TABLE `friends` (
+				  `id` int(10) UNSIGNED NOT NULL,
+				  `from_request` int(10) UNSIGNED NOT NULL,
+				  `to_request` int(10) UNSIGNED NOT NULL,
+				  `status` tinyint(1) NOT NULL DEFAULT '0',
+				  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+		$this->db->query($sql);
 
-		$sql = "CREATE TABLE IF NOT EXISTS `location` (
-				  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-				  `lat` varchar(25) NOT NULL,
-				  `lng` varchar(25) NOT NULL,
-				  `id_user` int(10) UNSIGNED NOT NULL,
-				  PRIMARY KEY (`id`),
-				  KEY `fk_location_id_user` (`id_user`)
-				) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;";
-		try {
-				$this->db->query($sql);
-			} catch (\dbException $e){
-				die("Can't create table `location` : " . $e->getMessage());
-			}
 
-		$sql = "CREATE TABLE IF NOT EXISTS `chats` (
-				 `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-				 `id_user` int(10) UNSIGNED NOT NULL,
-				 `id_sob` int(10) UNSIGNED NOT NULL,
-				  PRIMARY KEY (`id`),
-				  KEY `fk_location_id_user` (`id_user`)
-				) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;";
-		try {
-				$this->db->query($sql);
-			} catch (\dbException $e){
-				die("Can't create table `chats` : " . $e->getMessage());
-			}
 
-		$sql = "CREATE TABLE IF NOT EXISTS `friends` (
-				`id` int(10) UNSIGNED NOT NULL,
-  				`from_request` int(10) UNSIGNED NOT NULL,
- 				`to_request` int(10) UNSIGNED NOT NULL,
-  				`status` tinyint(1) NOT NULL DEFAULT '0',
-  				`date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-				) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;";
-		try {
-				$this->db->query($sql);
-			} catch (\dbException $e){
-				die("Can't create table `friends` : " . $e->getMessage());
-			}
+		$sql = "CREATE TABLE `location` (
+		  `id` int(10) UNSIGNED NOT NULL,
+		  `lat` varchar(25) NOT NULL,
+		  `lng` varchar(25) NOT NULL,
+		  `address` text,
+		  `id_user` int(10) UNSIGNED NOT NULL
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+		$this->db->query($sql);
+
+
+		$sql = "CREATE TABLE `messages` (
+		  `id_message` int(10) UNSIGNED NOT NULL,
+		  `id_chat_room` int(10) UNSIGNED NOT NULL,
+		  `id_user_from` int(10) UNSIGNED NOT NULL,
+		  `id_user_to` int(10) UNSIGNED NOT NULL,
+		  `messadge` text NOT NULL,
+		  `date_creation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  `read_status` tinyint(1) NOT NULL DEFAULT '0'
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+		$this->db->query($sql);
+		
+
+		$sql = "CREATE TABLE `notifications` (
+		  `id` int(10) UNSIGNED NOT NULL,
+		  `id_user_from` int(10) UNSIGNED NOT NULL,
+		  `id_user` int(10) UNSIGNED NOT NULL,
+		  `type` enum('view_profile','accept_friend_request','remove_from_friend','') NOT NULL,
+		  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		  `viewed` tinyint(1) NOT NULL DEFAULT '0'
+		) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+		$this->db->query($sql);
+			
+
+		$sql = "CREATE TABLE `photos` (
+		  `id` int(10) UNSIGNED NOT NULL,
+		  `id_user` int(10) UNSIGNED NOT NULL,
+		  `src` varchar(255) NOT NULL
+		) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+		$this->db->query($sql);
+
+		$sql = "CREATE TABLE `settings` (
+		  `id` int(10) UNSIGNED NOT NULL,
+		  `notification_sound` tinyint(1) NOT NULL DEFAULT '1',
+		  `notification_email` tinyint(1) NOT NULL DEFAULT '1',
+		  `messege_sound` tinyint(1) NOT NULL DEFAULT '1',
+		  `id_user` int(10) UNSIGNED NOT NULL
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+		$this->db->query($sql);
+
+		$sql = "CREATE TABLE `tags` (
+		  `id` int(10) UNSIGNED NOT NULL,
+		  `tag` varchar(255) NOT NULL
+		) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+		$this->db->query($sql);
+
+		$sql = "CREATE TABLE `users` (
+		  `id` int(10) UNSIGNED NOT NULL,
+		  `login` varchar(30) NOT NULL,
+		  `admin` tinyint(1) NOT NULL DEFAULT '0',
+		  `blocked` tinyint(1) NOT NULL DEFAULT '0',
+		  `password` text NOT NULL,
+		  `email` varchar(255) NOT NULL,
+		  `status` varchar(70) DEFAULT NULL,
+		  `firstName` varchar(50) NOT NULL,
+		  `lastName` varchar(50) NOT NULL,
+		  `gender` enum('man','woman') NOT NULL,
+		  `birthDate` date NOT NULL,
+		  `registerDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  `lastAction` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  `active` tinyint(1) NOT NULL DEFAULT '0',
+		  `img` varchar(255) DEFAULT '/author-main1.jpg',
+		  `IsOnline` tinyint(1) NOT NULL DEFAULT '0',
+		  `rating` int(11) NOT NULL DEFAULT '0',
+		  `token` varchar(10000) DEFAULT NULL
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+		$this->db->query($sql);
+
+		$sql = "CREATE TABLE `user_details` (
+		  `id_user` int(10) UNSIGNED NOT NULL,
+		  `description` text,
+		  `fb_page` text NOT NULL,
+		  `twitter_page` text NOT NULL,
+		  `sexual_preferences` enum('male','female','bi','') NOT NULL DEFAULT 'bi'
+		) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+		$this->db->query($sql);
+
+		$sql = "CREATE TABLE `user_reports` (
+		  `id` int(10) UNSIGNED NOT NULL,
+		  `id_user` int(10) UNSIGNED NOT NULL,
+		  `id_user_from` int(10) UNSIGNED NOT NULL,
+		  `checked` tinyint(1) NOT NULL DEFAULT '0'
+		) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+		$this->db->query($sql);
+
+
+		$sql = "CREATE TABLE `user_tags` (
+		  `id_user` int(10) UNSIGNED NOT NULL,
+		  `id_tag` int(10) UNSIGNED NOT NULL
+		) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+		$this->db->query($sql);
+
+		//index
+
+
+		$sql = "ALTER TABLE `chats`
+		  ADD PRIMARY KEY (`id`),
+		  ADD KEY `fk_location_id_user` (`id_user`);";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `friends`
+  			ADD PRIMARY KEY (`id`);";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `location`
+		  ADD PRIMARY KEY (`id`),
+		  ADD KEY `fk_location_id_user` (`id_user`);";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `messages`
+		  ADD PRIMARY KEY (`id_message`),
+		  ADD KEY `id_user_from` (`id_user_from`),
+		  ADD KEY `id_user_to` (`id_user_to`),
+		  ADD KEY `id_chat_room` (`id_chat_room`);";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `notifications`
+		  ADD PRIMARY KEY (`id`),
+		  ADD UNIQUE KEY `id_user_from` (`id_user_from`,`id_user`,`type`);";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `photos`
+  			ADD PRIMARY KEY (`id`);";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `settings`
+  			ADD KEY `id_user` (`id_user`);";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `tags`
+		  ADD PRIMARY KEY (`id`);";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `users`
+		  ADD PRIMARY KEY (`id`);";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `user_details`
+		  ADD PRIMARY KEY (`id_user`);";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `user_reports`
+		  ADD PRIMARY KEY (`id`),
+		  ADD UNIQUE KEY `id_user` (`id_user`,`id_user_from`);";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `user_tags`
+		  ADD UNIQUE KEY `id_user` (`id_user`,`id_tag`);";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `chats`
+		  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `friends`
+		  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `location`
+		  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `messages`
+		  MODIFY `id_message` int(10) UNSIGNED NOT NULL AUTO_INCREMENT";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `notifications`
+		  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `photos`
+		  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `tags`
+		  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `users`
+		  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `user_reports`
+		  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT";
+		$this->db->query($sql);
+
+		$sql = "ALTER TABLE `messages`
+		  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`id_user_from`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+		  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`id_user_to`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+		  ADD CONSTRAINT `messages_ibfk_3` FOREIGN KEY (`id_chat_room`) REFERENCES `chats` (`id`) ON DELETE CASCADE;";
+		$this->db->query($sql);
 	}
+
 
 	protected function createUsers()
 	{
-		$sql = "INSERT INTO `users` (`id`, `login`, `password`, `email`, `status`, `firstName`, `lastName`, `gender`, `birthDate`, `registerDate`, `lastAction`, `active`, `img`, `IsOnline`) VALUES
-(1, 'admin', '6a4e012bd9583858a5a6fa15f58bd86a25af266d3a4344f1ec2018b778f29ba83be86eb45e6dc204e11276f4a99eff4e2144fbe15e756c2c88e999649aae7d94', '123123@qwe', '123', '123', 'qwe', 'man', '2018-06-21', '2018-07-11 17:35:02', '2018-07-11 17:35:02', 1, '/author-main1.jpg', 0)";
-		try {
-				$this->db->query($sql);
-			} catch (\dbException $e){
-				die("Can't create table `friends` : " . $e->getMessage());
-			}
+		//TODO: users
 	}
 }
 
