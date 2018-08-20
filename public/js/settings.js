@@ -137,7 +137,7 @@ $("#personal_information_form button").click(function (ev) {
 		data.status = form.custom_status.value;
 	}
 
-	if (age < 18) {
+	if (!age || age < 18) {
 		showError(form.datetimepicker, "You are too young.");
 		errors++;
 	} else {

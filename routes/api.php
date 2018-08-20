@@ -3,6 +3,11 @@ use App\Controllers\UserController;
 use App\Controllers\ApiController;
 use App\Middleware\RedirectIfUnauthorized;
 
+$app->group('', function(){
+	$this->post('/check/email', ApiController::class.':checkEmail');
+	$this->post('/check/login', ApiController::class.':checkLogin');
+});
+
 //only for authorized users
 $app->group('', function (){
 	// $this->post('/profile/chat/login', UserController::class.':login');
@@ -16,8 +21,6 @@ $app->group('', function (){
 	$this->post('/info/get', UserController::class.':getMyInfo');
 	$this->post('/chat/mess', UserController::class.':ChatRoom');
 	$this->post('/profile/personal/change', UserController::class.':changePersonalInfo');
-	$this->post('/check/email', ApiController::class.':checkEmail');
-	$this->post('/check/login', ApiController::class.':checkLogin');
 	$this->post('/photo/upload', ApiController::class.':uploadPhoto');
 	$this->post('/photo/delete', ApiController::class.':deletePhoto');
 	$this->post('/photo/avatar', ApiController::class.':changeAvatar');
