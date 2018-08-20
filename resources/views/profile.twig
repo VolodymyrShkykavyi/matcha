@@ -96,7 +96,7 @@
                     </div>
                     <div class="top-header-author">
                         <a href="02-ProfilePage.html" class="author-thumb">
-                            <img src="/img{{ profile.img }}">
+                            <img src="{% if profile.img[0] == '/' %}/img {% endif %}{{ profile.img }}">
                         </a>
                         <div class="author-content">
                             <a href="/" class="h4 author-name">{{profile.login}}</a>
