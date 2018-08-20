@@ -72,7 +72,7 @@ function getResults(){
 		success: function(response){
 			response = JSON.parse(response);
 			$(search_list).empty();
-
+			console.log(response);
 			let no_more = response.more;
 			delete response.more;
 			if (no_more){
@@ -105,8 +105,11 @@ function getResults(){
 					cast_status  = '<div class="country">' + response[user].status + '</div>'; 
 				else
 					cast_status = "";
+				if (response[user].img[0] == '/'){
+					response[user].img = '/img' + response[user].img;
+				}
 				let res = '<div class="col-6 profile">' + 
-					'<div class="ui-block" data-mh="friend-groups-item"><div class="friend-item friend-groups"><div class="friend-item-content"><div class="more"><svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>	</svg><ul class="more-dropdown">' + adm + '</ul></div><div class="friend-avatar"><div class="author-thumb"><img src="/img/' + response[user].img + '"></div><div class="author-content"><a href="/profile/' +  response[user].id + '" class="h5 author-name">' + response[user].login + '</a>' + cast_status + '<div class="country">age: ' + response[user].age + '</div><div class="country">rating: ' + response[user].rating + '<i class="fa fa-star" style="color: #f5c310;"></i></div></div></div>	<div class="control-block-button"><a  onclick="add_friend(this);" data-type="add" data-id="' +  response[user].id + '" title="Send request" href="#" class="btn btn-control bg-green friend" data-toggle="modal"><svg class="olymp-happy-faces-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-happy-faces-icon"></use>	</svg></a></div></div></div></div></div>';
+					'<div class="ui-block" data-mh="friend-groups-item"><div class="friend-item friend-groups"><div class="friend-item-content"><div class="more"><svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>	</svg><ul class="more-dropdown">' + adm + '</ul></div><div class="friend-avatar"><div class="author-thumb"><img src="' + response[user].img + '"></div><div class="author-content"><a href="/profile/' +  response[user].id + '" class="h5 author-name">' + response[user].login + '</a>' + cast_status + '<div class="country">age: ' + response[user].age + '</div><div class="country">rating: ' + response[user].rating + '<i class="fa fa-star" style="color: #f5c310;"></i></div></div></div>	<div class="control-block-button"><a  onclick="add_friend(this);" data-type="add" data-id="' +  response[user].id + '" title="Send request" href="#" class="btn btn-control bg-green friend" data-toggle="modal"><svg class="olymp-happy-faces-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-happy-faces-icon"></use>	</svg></a></div></div></div></div></div>';
 				
 				$("#Search_res").html($("#Search_res").html() + res);
 			}
