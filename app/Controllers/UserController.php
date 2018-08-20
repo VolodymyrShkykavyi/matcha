@@ -28,7 +28,7 @@ class UserController extends Controller
 				$chats = $this->model->getChatRooms($this->_user['id']);
 				
 				$i = 0;
-				if (empty($this->_user['img'])) {
+				if (empty($this->_user['img']) || $this->_user['img'] == '/author-main1.jpg') {
 					$this->_user['img'] = '/author-main1.jpg';
 					$this->_user['no_img'] = 1;
 				}
