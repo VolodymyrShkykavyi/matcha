@@ -24,7 +24,6 @@ $(".control-block-button a.friend, ul.friend-requests span a").click(function(ev
 			url: '/friend/change',
 			data: send,
 			success: function(response){
-				console.log(response + "ww");
                 if (data.action == 'remove') {
                 	Notification(data.id, "acceptRequest");
                     $(el).parent().parent().remove();
