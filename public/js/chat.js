@@ -143,9 +143,6 @@ window.onload = function(){
 			}
 			getCountUnread(message['id_room']);
 		}
-
-
-
 		if(message['type'] == "addFriend")
 		{
 			var fr_req = $("#friend_req")[0];
@@ -263,4 +260,3 @@ $(document).keypress(function(e) {
 		$('#butt').click();
 	}
 });
-

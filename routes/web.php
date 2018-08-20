@@ -52,6 +52,7 @@ $app->group('', function (){
 		$this->get('/map', UserController::class.':showUsersMap');
 	})->add(new RedirectIfUnverified($this->getContainer()['router']));
 
+	$this->get('/resend', UserController::class.':resend');
 	$this->get('/logout', UserController::class.':logout');
 	$this->get('/verify[/token={token}]', UserController::class.':verify')->setName('user.verify');
 }) ->add(new RedirectIfUnauthorized($container['router']));

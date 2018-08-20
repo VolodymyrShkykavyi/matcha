@@ -16,10 +16,7 @@ function geo_error(){
 // Check if the browser has support for the Geolocation API
 if (!navigator.geolocation) {
 	geo_error();
-}
-
-
-
+}       
 navigator.geolocation.getCurrentPosition(function(position) {
 
 	// Get the coordinates of the current possition.
@@ -29,9 +26,6 @@ navigator.geolocation.getCurrentPosition(function(position) {
 	$('.latitude').text(lat.toFixed(3));
 	$('.longitude').text(lng.toFixed(3));
 	$('.coordinates').addClass('visible');
-
-
-	console.log(position);
 	let data = {lat: lat.toFixed(3), lng: lng.toFixed(3)};
 	$.ajax({
 		type: 'POST',
