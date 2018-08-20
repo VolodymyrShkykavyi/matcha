@@ -616,6 +616,7 @@ class UserModel extends Model
 
 
 	////////////////////		DELETE SECTOR (DANGEROUS SECTOR) ////////////////////
+	
 	public function removeFriend($userId, $friendId)
 	{
 		if (!is_numeric($userId) || !is_numeric($friendId)){
