@@ -194,6 +194,7 @@ class ApiController extends Controller
 
 	public function searchFilter($request, $response, $args)
 	{
+		$no_more_users = 0;
 		$data = $request->getParsedBody();
 		//self exclude
 		$friendsId = [$_SESSION['auth']['id']];
@@ -265,12 +266,15 @@ class ApiController extends Controller
 		} elseif ($data['sort'] == 'location') {
 			usort($res, array($this, '_searchSortDistanse'));
 		}
-
-		$res = array_slice($res, 0, 20);
+		if (count($res) < $data['max_num']){
+			$no_more_users = 1;
+		}
+		$res = array_slice($res, 0, $data['max_num']);
 		foreach ($res as &$value) {
 			$value['login'] = htmlentities($value['login']);
 			$value['status'] = htmlentities($value['status']);
 		}
+		$res['more'] = $no_more_users;
 
 		return json_encode($res);
 	}
