@@ -72,14 +72,13 @@ function getResults(){
 		success: function(response){
 			response = JSON.parse(response);
 			$(search_list).empty();
-			console.log(response);
 
 			let no_more = response.more;
 			delete response.more;
 			if (no_more){
 				$('#btn_more').hide();
 			} else {
-				$('btn_more').show();
+				$('#btn_more').show();
 			}
 
 			for (let el in response){
@@ -92,8 +91,7 @@ function getResults(){
 				}
 				new_el += "</li>";
 				$(search_list).append(new_el);
-					
-				//console.log(response[el]);
+
 			}
 			$("#Search_res").html(" ");
 			for (let user in response)
