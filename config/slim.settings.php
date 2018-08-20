@@ -1,7 +1,7 @@
 <?php
 return [
 	'settings' => [
-		'displayErrorDetails' => true,
+		'displayErrorDetails' => false,
 		'db' => [
 			'host' => 'localhost',
 			'user' => 'root',
