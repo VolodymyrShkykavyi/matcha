@@ -51,7 +51,7 @@
                 <div class="tab-content">
                     <div class="tab-pane " id="home" role="tabpanel" data-mh="log-tab">
                         <div class="title h6">Registration</div>
-                        <form class="content" action="\register" method="post">
+                        <form class="content" id="personal_information_form" action="\register" method="post">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group label-floating is-empty">
@@ -84,6 +84,7 @@
                                     <div class="form-group date-time-picker label-floating">
                                         <label class="control-label" for="birthday">Your Birthday</label>
                                         <input name="datetimepicker" value="" id="birthday" type="text" required />
+                                        <span class="material-input"></span>
                                         <span class="input-group-addon">
 														<svg class="olymp-calendar-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-calendar-icon"></use></svg>
 										</span>
@@ -96,8 +97,6 @@
                                             <option value="woman">Female</option>
                                         </select>
                                     </div>
-
-                                
 
                                     <button type="submit" class="btn btn-purple btn-lg full-width">Complete Registration!</button>
                                 </div>
@@ -127,11 +126,6 @@
 
                                     <div class="or"></div>
 
-                                    <a href="#" class="btn btn-lg bg-facebook full-width btn-icon-left"><i class="fa fa-facebook" aria-hidden="true"></i>Login with Facebook</a>
-
-                                    <a href="#" class="btn btn-lg bg-twitter full-width btn-icon-left"><i class="fa fa-twitter" aria-hidden="true"></i>Login with Twitter</a>
-
-
                                     <p>Don’t you have an account? <a href="#" id="Register_Now_s" >Register Now!</a> it’s really simple and you can start enjoing all the benefits!</p>
                                 </div>
                             </div>
@@ -157,27 +151,5 @@
 <script src="js/base-init.js"></script>
 <script src="js/bootstrap.bundle.js"></script>
 <script src="js/login.js"></script>
-
-{#<!-- jQuery first, then Other JS. -->#}
-{#<script src="/js/jquery-3.2.1.js"></script>#}
-{#<script src="js/popper.min.js"></script>#}
-
-{#<!-- Js effects for material design. + Tooltips -->#}
-{#<script src="/js/material.min.js"></script>#}
-{#<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->#}
-{#<script src="js/perfect-scrollbar.js"></script>#}
-{#<script src="/js/theme-plugins.js"></script>#}
-{#<!-- Init functions -->#}
-{#<script src="/js/main.js"></script>#}
-{#<!-- Select / Sorting script -->#}
-{#<script src="/js/selectize.js"></script>#}
-{#<!-- Swiper / Sliders -->#}
-{#<script src="/js/swiper.jquery.js"></script>#}
-{#<!-- Datepicker input field script-->#}
-{#<script src="/js/moment.js"></script>#}
-{#<script src="/js/daterangepicker.js"></script>#}
-
-{#<script src="js/bootstrap.bundle.js"></script>#}
-
 </body>
 </html>

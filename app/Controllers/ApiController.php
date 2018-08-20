@@ -15,11 +15,14 @@ class ApiController extends Controller
 	}
 	public function checkEmail($request, $response, $args)
 	{
+		$id = 0;
+
 		$data = $request->getParsedBody();
 		if (!empty($data['email'])) {
-			$id = $_SESSION['auth']['id'];
-			if (empty($id))
-				$id = 0;
+			if (!empty($_SESSION['auth'])){
+				$id = $_SESSION['auth']['id'];
+			}
+
 			return json_encode($this->model->checkEmail($id, $data['email']));
 		}
 
@@ -28,11 +31,13 @@ class ApiController extends Controller
 
 	public function checkLogin($request, $response, $args)
 	{
+		$id = 0;
+
 		$data = $request->getParsedBody();
 		if (!empty($data['login'])) {
-			$id = $_SESSION['auth']['id'];
-			if (empty($id))
-				$id = 0;
+			if (!empty($_SESSION['auth'])){
+				$id = $_SESSION['auth']['id'];
+			}
 			return json_encode($this->model->checkLogin($id, $data['login']));
 		}
 
