@@ -5,7 +5,7 @@ window.onload = function(){
 	var id_el = $($("#site-header a div.author-title")[0]).data().id;
 	var notif_user_id = $("#notif_user_id").html();
 
-	var url = "ws://e1r3p1:7777/?id=" + id_el;
+	var url = "ws://localhost:7777/?id=" + id_el;
 	socket = new WebSocket(url);
 
 	socket.onopen = function(event) {
