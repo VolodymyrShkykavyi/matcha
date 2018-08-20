@@ -39,7 +39,12 @@
                   <h3><i class="fa fa-lock fa-4x"></i></h3>
                   <h2 class="text-center">A link to your account varify has been sent to your email.</h2><br><h2 class="text-center">Check your mail.</h2>
                   <div class="panel-body">
-                    <form id="register-form" role="form" autocomplete="off" class="form" method="post" action="/logout">
+                     <form id="register-form" role="form" autocomplete="off" class="form" method="get" action="/resend">
+                      <div class="form-group">
+                        <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Resend mail" type="submit">
+                      </div>
+                    </form>
+                    <form id="register-form" role="form" autocomplete="off" class="form" method="get" action="/logout">
                       <div class="form-group">
                         <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Log Out" type="submit">
                       </div>
