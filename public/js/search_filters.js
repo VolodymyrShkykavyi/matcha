@@ -7,6 +7,7 @@ let search_list = $("ul.notification-list")[0];
 let tag_list = $("#tag_list")[0];
 let filter_location = $("input[name = 'filter_location']")[0];
 let tags = [];
+let max_num = 20;
 
 $("[name='sort_by']").change(function (){
 	sort_by_value = this.options[this.options.selectedIndex].value;
@@ -14,6 +15,7 @@ $("[name='sort_by']").change(function (){
 
 
 $("#aply_filters, #aply_filters_2").click(function(){
+	max_num = 20;
 	getResults();
 });
 
@@ -61,6 +63,7 @@ function getResults(){
 		data.location = filter_location.value;
 
 	data.sort = sort_by_value;
+	data.max_num = max_num;
 
 	$.ajax({
 		url: '/search/filter',
@@ -69,6 +72,15 @@ function getResults(){
 		success: function(response){
 			response = JSON.parse(response);
 			$(search_list).empty();
+			console.log(response);
+
+			let no_more = response.more;
+			delete response.more;
+			if (no_more){
+				$('#btn_more').hide();
+			} else {
+				$('btn_more').show();
+			}
 
 			for (let el in response){
 
@@ -125,3 +137,8 @@ function add_friend(el){
 		});
 	}
 }
+
+$('#btn_more').click(function(){
+	max_num += 20;
+	getResults();
+});
