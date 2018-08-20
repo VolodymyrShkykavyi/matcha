@@ -228,6 +228,17 @@ class UserController extends Controller
 		return $response->withRedirect('/verify');
 	}
 
+	public function resend($request, $response, $args)
+	{
+		$user = $this->model->getUser($_SESSION['auth']['id']);
+		$token = urlencode(hash('md5', $user['login'] . date('Y-m-d') . "resend69" . md5(microtime())));
+		$this->model->updateToken($user['id'],$token);
+		$text = 'Follow this link: http://localhost:1111/verification/token=' . $token . '/' . $user['login'] . '<br> Good luck!';
+		$responce = Mail::sendMail($user['email'], "Account verification", $text);
+		return $response->withRedirect('/');
+
+	}
+
 	public function showPhotoPage($request, $response, $args)
 	{
 		$this->ViewData['photos'] = $this->model->getPhotos($this->_user['id']);

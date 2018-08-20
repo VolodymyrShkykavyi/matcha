@@ -46,7 +46,7 @@ class UserModel extends Model
 
 	public function get20Users()
 	{
-		$res = $this->db->query('SELECT * FROM users ORDER BY rating DESC LIMIT 5');
+		$res = $this->db->query('SELECT * FROM users WHERE `active`=1 ORDER BY rating DESC LIMIT 5');
 		return ($res->fetch_assoc_array());
 	}
 
@@ -55,7 +55,7 @@ class UserModel extends Model
 	{
 		if($q)
 		{
-			$res = $this->db->query('SELECT * FROM `users` WHERE `login` LIKE "%?s%" OR `firstName` LIKE "%?s%" OR `lastName` LIKE "%?s%" LIMIT 5', $q, $q, $q);
+			$res = $this->db->query('SELECT * FROM `users` WHERE (`login` LIKE "%?s%" OR `firstName` LIKE "%?s%" OR `lastName` LIKE "%?s%") AND `active`=1 LIMIT 5', $q, $q, $q);
 			return ($res->fetch_assoc_array());
 		}
 		else
